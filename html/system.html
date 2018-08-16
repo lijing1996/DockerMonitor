@@ -56,7 +56,7 @@
             }
         }
 
-        function update_permission() {
+        function add_permission() {
             if (create_form.cname.value == "" || create_form.nodes.value == "") {
                 alert("name、nodes can't be blank!!");
             } else {
@@ -65,6 +65,41 @@
                 $.ajax({
                     type: "POST",
                     url: "/create",
+                    dataType: 'json',
+                    data: {
+                        'cname': create_form.cname.value,
+                        'nodes': create_form.nodes.value
+                    },
+                    success: function (data) {
+                        if (data['code'] === 101) {
+                            alert("blank input!");
+                        }
+                        else if (data['code'] == 102) {
+                            alert("username not exists!");
+                        }
+                        else if (data['code'] == 103) {
+                            alert("'nodes' has wrong format");
+                        }
+                        else if (data['code'] == 200) {
+                            alert(data['log']);
+                        }
+                        else {
+                            alert("wrong check code!!")
+                        }
+                    }
+                });
+            }
+        }
+
+        function remove_permission() {
+            if (remove_form.cname.value == "" || remove_form.nodes.value == "") {
+                alert("name、nodes can't be blank!!");
+            } else {
+                console.log(remove_form.cname.value);
+                console.log(remove_form.nodes.value);
+                $.ajax({
+                    type: "POST",
+                    url: "/remove",
                     dataType: 'json',
                     data: {
                         'cname': create_form.cname.value,
@@ -153,7 +188,10 @@
                         <a href="#panel-create" data-toggle="tab">Create Account</a>
                     </li>
                     <li>
-                        <a href="#panel-permission" data-toggle="tab">Update Permission</a>
+                        <a href="#panel-add-permission" data-toggle="tab">Add Permission</a>
+                    </li>
+                    <li>
+                        <a href="#panel-remove-permission" data-toggle="tab">Remove Permission</a>
                     </li>
                     <li>
                         <a href="#panel-delete" data-toggle="tab">Delete Account</a>
@@ -204,11 +242,11 @@
                     </div>
 
 
-                    <!--permission panel-->
-                    <div class="tab-pane" id="panel-permission">
+                    <!--add permission panel-->
+                    <div class="tab-pane" id="panel-add-permission">
                         <div class="page-header">
-                            <h2 class="text-center">Update Permission</h2>
-                            <div class="text-center">update permission won't change user's docker file, just stop and remove container in each node</div>
+                            <h2 class="text-center">Add Permission</h2>
+                            <div class="text-center">add permission won't change user's docker file, just add container in each node</div>
                         </div>
 
 
@@ -250,15 +288,58 @@
                                     <input type="text" class="form-control" id="permission_end_date" name="end" style="max-width:400px;">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="reason" class="col-sm-offset-2 col-sm-2 control-label">Reason</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="reason" name="reason" placeholder="e.g. for AAAI deadline"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+
                         </form>
 
                         <div class="form-group">
                             <div class="col-sm-offset-5 col-sm-2">
-                                <button type="button" class="btn btn-success btn-block" onclick="update_permission()">Update</button>
+                                <button type="button" class="btn btn-success btn-block" onclick="add_permission()">Add</button>
                             </div>
                         </div>
                     </div>
 
+
+                    <!--remove permission panel-->
+                    <div class="tab-pane" id="panel-remove-permission">
+                        <div class="page-header">
+                            <h2 class="text-center">Remove Permission</h2>
+                            <div class="text-center">remove permission won't change user's docker file, just close and remove container in each node</div>
+                        </div>
+
+
+                        <form class="form-horizontal" role="form" method='post' name="create_form">
+                            <input type="hidden" name="action">
+
+                            <div class="form-group">
+                                <label for="permission_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="remove_cname" name="cname" placeholder="e.g. piaozx"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="permission_nodes" class="col-sm-offset-2 col-sm-2 control-label">Nodes</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="remove_nodes" name="nodes" placeholder="e.g. 1,2,3,4,5"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-2">
+                                <button type="button" class="btn btn-success btn-block" onclick="remove_permission()">Remove</button>
+                            </div>
+                        </div>
+                    </div>
 
                     <!--delete panel-->
                     <div class="tab-pane" id="panel-delete">

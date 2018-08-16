@@ -11,9 +11,8 @@ import json
 class CreateHandler(BaseHandler):
     def post(self):
         """
-        code 101: blank input
-        code 102: username not exists
-        code 103: 'nodes' has wrong format
+        code 101: name not exists
+        code 102: wrong nodes or not exists
 
         code 200: everything is ok
         :return:
@@ -23,30 +22,19 @@ class CreateHandler(BaseHandler):
         ret_data = {'code': '', 'log': ''}
         self.log = ''
 
-        if cname == "" or nodes == "":
-            print('This user name / nodes not exists!!!')
-            ret_data['code'] = 101
-            self.write(ret_data)
-            return
-
         uid = self.get_uid_by_uname(cname)
         if uid == None:
-            print('This user name not exists!!!')
+            print('name not exists')
+            ret_data['code'] = 101
+            ret_data['log'] = 'name not exists'
+            self.write(ret_data)
+            return
+
+        node_list = self.get_node_list_by_str_nodes(nodes)
+        if node_list == None:
+            print('wrong nodes or not exists')
             ret_data['code'] = 102
-            self.write(ret_data)
-            return
-
-        try:
-            nodes = eval('[%s]' % nodes)
-        except:
-            print('wrong format!!!')
-            ret_data['code'] = 103
-            self.write(ret_data)
-            return
-
-        if not self.check_node_list(nodes):
-            print('wrong format!!!')
-            ret_data['code'] = 103
+            ret_data['log'] = 'wrong nodes or not exists'
             self.write(ret_data)
             return
 
@@ -145,20 +133,3 @@ class CreateHandler(BaseHandler):
             self.log += 'Done.\n'
 
             return True
-
-    def get_uid_by_uname(self, cname):
-        uid = os.popen("grep %s /etc/passwd | cut -f3 -d':'" % cname).read().strip()
-        if uid != "":
-            return int(uid)
-        else:
-            return None
-
-    def check_node_list(self, node_list):
-        standard_node_list = list(range(1, 18 + 1))
-        if not isinstance(node_list, list) or len(node_list) == 0:
-            return False
-
-        for node_id in node_list:
-            if node_id not in standard_node_list:
-                return False
-        return True

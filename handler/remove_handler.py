@@ -7,9 +7,16 @@ from handler.base_handler import BaseHandler
 import os
 
 
-class CloseHandler(BaseHandler):
+class RemoveHandler(BaseHandler):
     def post(self):
+        """
+        code 101: name not exists
+        code 102: wrong nodes or not exists
+        code 200: ok
+        :return:
+        """
         cname = self.get_argument('cname')
+        ret = {}
 
         for node_id in range(1, 18 + 1):
             container_name = '%s.node%.2d' % (cname, node_id)
@@ -17,3 +24,4 @@ class CloseHandler(BaseHandler):
 
             print('close', container_name, 'done')
         self.redirect('/')
+

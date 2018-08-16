@@ -14,4 +14,9 @@ class PermissionHandler(BaseHandler):
         self.render('../html/permission.html', user_info_list=user_info_list, cur_user=self.get_current_user())
 
     def post(self):
+        """
+        add permission for some user
+        :return:
+        """
+
         pass

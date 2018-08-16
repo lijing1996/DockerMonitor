@@ -51,6 +51,10 @@ class DatabaseManager:
     def add_user(self):
         pass
 
+    def check_user_exist_in_db(self, username):
+        cursor = self.get_cursor()
+        cursor.execute("select uid from docker.user where username = %s" % username)
+
     def delete_user(self):
         pass
 
