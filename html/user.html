@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>AI Server</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="static/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="static/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                class="sr-only">Toggle navigation</span><span
+                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="/system">System</a>
+            </li>
+            <li>
+                <a href="/lifecycle">LifeCycle</a>
+            </li>
+            <li>
+                <a href="/permission">User Permission</a>
+            </li>
+            <li>
+                <a href="/discuss">Discuss</a>
+            </li>
+            <li>
+                <a href="/doc">Doc</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+                <a href="/user">{{ cur_user }}</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span12">
+
+            <div class="page-header">
+                <h1 class="text-center">个人信息</h1>
+            </div>
+
+            账号: {{ cur_user }}
+            权限: 超级管理员
+
+        </div>
+    </div>
+</div>
+
+<hr>
+<p class="text-center">Copyright©2016-17 by Zhixin Piao.</p>
+</body>
+
+
+</html>

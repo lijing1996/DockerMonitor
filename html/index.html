@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Server</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="static/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/marked.min.js"></script>
+    <link rel="stylesheet" href="static/css/github-markdown.min.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+    </style>
+
+    <script>
+        $.ajax({
+            type: "GET",//请求方式
+            url: "static/markdown/index.md",//地址，就是json文件的请求路径
+            dataType: "text",//数据类型可以为 text xml json  script  jsonp
+            success: function (result) {//返回的参数就是 action里面所有的有get和set方法的参数
+                document.getElementById('content').innerHTML = marked(result);
+            }
+        });
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                class="sr-only">Toggle navigation</span><span
+                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            {% if cur_user != None%}
+            <li>
+                <a href="/system">System</a>
+            </li>
+            <li>
+                <a href="/lifecycle">LifeCycle</a>
+            </li>
+            {% end %}
+            <li>
+                <a href="/permission">User Permission</a>
+            </li>
+            <li>
+                <a href="/discuss">Discuss</a>
+            </li>
+            <li>
+                <a href="/doc">Doc</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            {% if cur_user == None%}
+            <li>
+                <a href="/login">Login</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/user">{{ cur_user }}</a>
+            </li>
+            {% end %}
+        </ul>
+    </div>
+</nav>
+
+<article class="markdown-body">
+    <div id="content"></div>
+</article>
+
+
+</body>
+</html>

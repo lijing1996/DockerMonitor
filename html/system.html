@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Server</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="static/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+    <link href="static/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet">
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="static/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="static/js/bootstrap.min.js"></script>
+
+
+    <script src="static/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+        function create_account() {
+            if (create_form.cname.value == "" || create_form.nodes.value == "") {
+                alert("name、nodes can't be blank!!");
+            } else {
+                console.log(create_form.cname.value);
+                console.log(create_form.nodes.value);
+                $.ajax({
+                    type: "POST",
+                    url: "/create",
+                    dataType: 'json',
+                    data: {
+                        'cname': create_form.cname.value,
+                        'nodes': create_form.nodes.value
+                    },
+                    success: function (data) {
+                        if (data['code'] === 101) {
+                            alert("blank input!");
+                        }
+                        else if (data['code'] == 102) {
+                            alert("username not exists!");
+                        }
+                        else if (data['code'] == 103) {
+                            alert("'nodes' has wrong format");
+                        }
+                        else if (data['code'] == 200) {
+                            alert(data['log']);
+                        }
+                        else {
+                            alert("wrong check code!!")
+                        }
+                    }
+                });
+            }
+        }
+
+        function update_permission() {
+            if (create_form.cname.value == "" || create_form.nodes.value == "") {
+                alert("name、nodes can't be blank!!");
+            } else {
+                console.log(create_form.cname.value);
+                console.log(create_form.nodes.value);
+                $.ajax({
+                    type: "POST",
+                    url: "/create",
+                    dataType: 'json',
+                    data: {
+                        'cname': create_form.cname.value,
+                        'nodes': create_form.nodes.value
+                    },
+                    success: function (data) {
+                        if (data['code'] === 101) {
+                            alert("blank input!");
+                        }
+                        else if (data['code'] == 102) {
+                            alert("username not exists!");
+                        }
+                        else if (data['code'] == 103) {
+                            alert("'nodes' has wrong format");
+                        }
+                        else if (data['code'] == 200) {
+                            alert(data['log']);
+                        }
+                        else {
+                            alert("wrong check code!!")
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                class="sr-only">Toggle navigation</span><span
+                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a href="/system">System</a>
+            </li>
+            <li>
+                <a href="/lifecycle">LifeCycle</a>
+            </li>
+            <li>
+                <a href="/permission">User Permission</a>
+            </li>
+            <li>
+                <a href="/discuss">Discuss</a>
+            </li>
+            <li>
+                <a href="/doc">Doc</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            {% if cur_user == None%}
+            <li>
+                <a href="/login">Login</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/user">{{ cur_user }}</a>
+            </li>
+            {% end %}
+        </ul>
+    </div>
+
+</nav>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <div class="page-header">
+                <h1>
+                    Docker Manager System
+                    <small>dangerous!! you must know what you are doing!</small>
+                </h1>
+            </div>
+
+            <div class="tabbable" id="tabs-338432">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#panel-create" data-toggle="tab">Create Account</a>
+                    </li>
+                    <li>
+                        <a href="#panel-permission" data-toggle="tab">Update Permission</a>
+                    </li>
+                    <li>
+                        <a href="#panel-delete" data-toggle="tab">Delete Account</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+
+                    <!--create panel-->
+                    <div class="tab-pane active" id="panel-create">
+                        <div class="page-header">
+                            <h2 class="text-center">Create Account</h2>
+                        </div>
+
+
+                        <form class="form-horizontal" role="form" method='post' name="create_form">
+                            <input type="hidden" name="action">
+
+
+                            <div class="form-group">
+                                <label for="create_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="create_cname" name="cname" placeholder="e.g. piaozx"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="create_chinese_name" class="col-sm-offset-2 col-sm-2 control-label">Chinese Name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="create_chinese_name" name="cname" placeholder="e.g. 朴智新"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="create_email" class="col-sm-offset-2 col-sm-2 control-label">Email</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="create_email" name="email" placeholder="e.g. piaozhx@shanghaitech.edu.cn"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-2">
+                                <button type="button" class="btn btn-success btn-block" onclick="create_account()">Create</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--permission panel-->
+                    <div class="tab-pane" id="panel-permission">
+                        <div class="page-header">
+                            <h2 class="text-center">Update Permission</h2>
+                            <div class="text-center">update permission won't change user's docker file, just stop and remove container in each node</div>
+                        </div>
+
+
+                        <form class="form-horizontal" role="form" method='post' name="create_form">
+                            <input type="hidden" name="action">
+
+                            <div class="form-group">
+                                <label for="permission_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="permission_cname" name="cname" placeholder="e.g. piaozx"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="permission_nodes" class="col-sm-offset-2 col-sm-2 control-label">Nodes</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="permission_nodes" name="nodes" placeholder="e.g. 1,2,3,4,5"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="permission_longtime" class="col-sm-offset-2 col-sm-2 control-label">Longtime</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="permission_longtime" name="longtime" placeholder="yes or no"
+                                           style="max-width:400px;">
+                                </div>
+                            </div>
+
+                            <br/>
+                            <h4 class="text-center">if you are not long-time user, please write:</h4>
+                            <div class="input-daterange form-group">
+                                <label for="permission_start_date" class="col-sm-offset-2 col-sm-2 control-label">Start Date</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="permission_start_date" name="start" style="max-width:400px;">
+                                </div>
+
+                                <label for="permission_end_date" class="col-sm-pull-1 col-sm-2 control-label">End Date</label>
+                                <div class="col-sm-pull-1 col-sm-2">
+                                    <input type="text" class="form-control" id="permission_end_date" name="end" style="max-width:400px;">
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-2">
+                                <button type="button" class="btn btn-success btn-block" onclick="update_permission()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--delete panel-->
+                    <div class="tab-pane" id="panel-delete">
+                        <h2><span style="color: red; ">
+                        Delete Account
+                        </span>
+                            <small>dangerous!</small>
+                        </h2>
+
+
+                        <form role="form" action="/delete" method="post">
+                            <div class="form-group">
+                                <label for="delete_cname">User Name</label><input type="text" class="form-control" id="delete_cname" name="cname"/>
+                            </div>
+                            <button type="submit" class="btn btn-default">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>$('.input-daterange').datepicker({});</script>
+
+</body>
+</html>
