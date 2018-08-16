@@ -1,7 +1,7 @@
 # DockerMonitor
 
 打造属于Deep Learning / Computer Vision Researcher 自己的Cluster
-
+![](show/show.png)
 
 ### Docker 管理相比于传统的权限管理的优势
 * 环境隔离, 不需要传统模式禁止sudo来维持环境
@@ -16,6 +16,7 @@
 * 节点权限情况可视化
 * compute节点使用代理联网
 * admin节点使用ssh -Y 打开远程窗口
+* 使用markdown维护doc与index页面
 
 
 ### 未完成功能
