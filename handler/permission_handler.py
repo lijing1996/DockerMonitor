@@ -18,5 +18,4 @@ class PermissionHandler(BaseHandler):
         add permission for some user
         :return:
         """
-
         pass

@@ -54,6 +54,10 @@ class DatabaseManager:
     def check_user_exist_in_db(self, username):
         cursor = self.get_cursor()
         cursor.execute("select uid from docker.user where username = %s" % username)
+        res = cursor.fetchall()
+        res = True if len(res) != 0 else False
+
+        return res
 
     def delete_user(self):
         pass
@@ -84,3 +88,8 @@ class DatabaseManager:
 
     def __del__(self):
         self.conn.close()
+
+
+if __name__ == '__main__':
+    db_manager = DatabaseManager()
+    print(db_manager.check_user_exist_in_db('piaozx'))

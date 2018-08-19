@@ -38,13 +38,15 @@ class CreateHandler(BaseHandler):
             self.write(ret_data)
             return
 
+        print(node_list)
+
         ret_data['code'] = 200
         container_port = uid + 21000
         each_user_port_num = 10
         port_range_str = '%d-%d' % (30000 + each_user_port_num * (uid - 1000), 30000 + each_user_port_num * (uid - 1000 + 1) - 1)
         self.create_user_docker_dir(cname, container_port, port_range_str)
 
-        for node_id in nodes:
+        for node_id in node_list:
             print('Creating user container on node%.2d...' % node_id)
             self.log += 'Creating user container on node%.2d...\n' % node_id
             container_name = '%s.node%.2d' % (cname, node_id)
@@ -66,7 +68,7 @@ class CreateHandler(BaseHandler):
                       "-p %d:22 "
                       "deepo_plus "
                       "/usr/sbin/sshd -D" % (
-                          node_id, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, container_port))
+                            node_id, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, container_port))
             print('Done.')
             self.log += 'Done.\n'
 
@@ -78,7 +80,6 @@ class CreateHandler(BaseHandler):
         self.log += 'please login by "ssh root@10.19.124.11 -p %d"\ndefault passwd: plus' % container_port
 
         self.db.add_user()
-
         ret_data['log'] = self.log
         self.write(ret_data)
 
