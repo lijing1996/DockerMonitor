@@ -19,6 +19,7 @@ from handler.permission_handler import PermissionHandler
 from handler.doc_hander import DocHandler
 from handler.discuss_handler import DiscussHandler
 from handler.lifecycle_handler import LifecycleHandler
+from handler.gpu_handler import GpuHandler
 
 from db.db_manager import DatabaseManager
 
@@ -38,7 +39,8 @@ class Application(tornado.web.Application):
             (r"/user", UserHandler),
             (r"/doc", DocHandler),
             (r"/discuss", DiscussHandler),
-            (r"/lifecycle", LifecycleHandler)
+            (r"/lifecycle", LifecycleHandler),
+            (r"/gpu", GpuHandler)
         ]
 
         settings = dict(

@@ -4,50 +4,25 @@
 # @Email   : piaozhx@shanghaitech.edu.cn
 
 import os
-import numpy as np
-import cv2
-import sqlite3
-import copy
+from multiprocessing import Pool
+import beautiful_output
 
 
-def fun(nums):
-    # down
-    in_nums = copy.deepcopy(nums)
-    down_change = 0
-    for i in range(len(nums)):
-        if i > 0 and nums[i] > nums[i - 1]:
-            down_change += (nums[i] - nums[i - 1])
-            nums[i] = nums[i - 1]
+def main():
+    p = Pool(20)
+    args_list = [(i,) for i in range(1, 18 + 1)]
 
-        if i < len(nums) - 1 and nums[i + 1] > nums[i]:
-            if i == 0 or nums[i - 1] >= nums[i + 1]:
-                down_change += (nums[i + 1] - nums[i])
-                nums[i] = nums[i + 1]
-            else:
-                down_change += (nums[i - 1] - nums[i])
-                nums[i] = nums[i - 1]
+    res_list = p.starmap(get_useful_gpu_msg, args_list)
 
-    # up
-    nums = in_nums
-    up_change = 0
-    for i in range(len(nums)):
-        if i > 0 and nums[i] < nums[i - 1]:
-            up_change += (nums[i - 1] - nums[i])
-            nums[i] = nums[i - 1]
+    for res in res_list:
+        print(repr(res))
+        exit()
 
-        if i < len(nums) - 1 and nums[i + 1] < nums[i]:
-            if i == 0 or nums[i - 1] <= nums[i + 1]:
-                up_change += (nums[i] - nums[i + 1])
-                nums[i] = nums[i + 1]
-            else:
-                up_change += (nums[i] - nums[i - 1])
-                nums[i] = nums[i - 1]
 
-    return min(down_change, up_change)
+def get_useful_gpu_msg(node_id):
+    gpu_msg = os.popen("ssh node%.2d /home/piaozx/anaconda3/bin/gpustat -p -u --color" % node_id).read()
+    return gpu_msg
 
 
 if __name__ == '__main__':
-    print(fun([1, 2, 3, 3, 4]))
-    print(fun([9, 8, 7, 2, 3, 3]))
-    print(fun([1, 2, 3, 10, 10, 2]))
-    print(fun([9, 8, 7, 2, 10, 10]))
+    main()
