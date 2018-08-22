@@ -101,6 +101,61 @@ class DatabaseManager:
 
         return node_msg_list
 
+    '''
+    for discuss
+    '''
+
+    def add_question(self, title, content, create_date):
+        cursor = self.get_cursor()
+
+        cursor.execute("INSERT INTO docker.discuss(title, content, create_date) VALUES ('%s', '%s','%s')" % (title, content, create_date))
+        self.commit()
+
+    def add_answer(self, question_id, content, create_date):
+        cursor = self.get_cursor()
+
+        cursor.execute("SELECT max(floor) from docker.answer where question_id= %d" % question_id)
+        max_floor = cursor.fetchone()[0]
+        if max_floor == None:
+            floor = 1
+        else:
+            floor = max_floor + 1
+
+        cursor.execute(
+            "INSERT INTO docker.answer(question_id, floor,content, create_date) VALUES (%d, %d, '%s','%s')" % (question_id, floor, content, create_date))
+        self.commit()
+
+    def get_all_questions(self):
+        cursor = self.get_cursor()
+
+        cursor.execute("select question_id, title, create_date  from docker.discuss")
+        question_list = cursor.fetchall()
+
+        self.commit()
+        return question_list
+
+    def get_all_answer_by_question_id(self, question_id):
+        cursor = self.get_cursor()
+
+        cursor.execute("select title, content, create_date from docker.discuss where question_id = %d" % question_id)
+        title, question_content, create_date = cursor.fetchone()
+
+        cursor.execute("select floor, content, create_date from docker.answer where question_id = %d" % question_id)
+        answer_list = cursor.fetchall()
+
+        self.commit()
+        return title, question_content, create_date, answer_list
+
+    def check_question_exist_in_db(self, question_id):
+        cursor = self.get_cursor()
+
+        cursor.execute("select question_id from docker.discuss where question_id = %d" % question_id)
+        res = cursor.fetchall()
+        res = True if len(res) != 0 else False
+
+        self.commit()
+        return res
+
     def commit(self):
         try:
             self.conn.commit()

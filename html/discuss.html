@@ -30,14 +30,36 @@
     </style>
 
     <script>
-        $.ajax({
-            type: "GET",//请求方式
-            url: "static/markdown/index.md",//地址，就是json文件的请求路径
-            dataType: "text",//数据类型可以为 text xml json  script  jsonp
-            success: function (result) {//返回的参数就是 action里面所有的有get和set方法的参数
-                document.getElementById('content').innerHTML = marked(result);
+        function issue() {
+            if (issue_form.title.value == "" || issue_form.content.value == "") {
+                alert("title、content can't be blank!!");
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/discuss",
+                    dataType: 'json',
+                    data: {
+                        'type': 'issue',
+                        'title': issue_form.title.value,
+                        'content': issue_form.content.value
+                    },
+                    success: function (data) {
+                        if (data['code'] === 101) {
+                            alert("blank input!");
+                        }
+                        else if (data['code'] === 102) {
+                            alert("has single quote!")
+                        }
+                        else if (data['code'] === 200) {
+                            window.location = "/discuss";
+                        }
+                        else {
+                            alert("wrong check code!!")
+                        }
+                    }
+                });
             }
-        });
+        }
     </script>
 </head>
 <body>
@@ -88,9 +110,73 @@
     </div>
 </nav>
 
-<article class="markdown-body">
-    <div id="content"></div>
-</article>
+<div class="container">
+    <div class="row clearfix">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Question_id
+                </th>
+
+                <th>
+                    Title
+                </th>
+                <th>
+                    Create date
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for question in question_list %}
+            <tr>
+                <td>
+                    <a href="/discuss?question_id={%raw question[0] %}"> {%raw question[0] %} </a>
+                </td>
+                <td>
+                    <a href="/discuss?question_id={%raw question[0] %}"> {%raw question[1] %} </a>
+                </td>
+                <td>
+                    {%raw question[2] %}
+                </td>
+            </tr>
+            {% end %}
+            </tbody>
+        </table>
+
+
+        <div class="page-header">
+            <h2 class="text-center">Issue</h2>
+        </div>
+
+
+        <form class="form-horizontal" role="form" method='post' name="issue_form">
+            <input type="hidden" name="action">
+            <div class="form-group">
+                <label for="issue_title" class="col-sm-offset-2 col-sm-2 control-label">Title</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="issue_title" name="title" placeholder="e.g. why AI node not work?"
+                           style="max-width:400px;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="issue_content" class="col-sm-offset-2 col-sm-2 control-label">Content</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="issue_content" name="content" placeholder="e.g. why AI node not work?"
+                           style="max-width:400px;">
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-2">
+                <button type="button" class="btn btn-success btn-block" onclick="issue()">Create</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 </body>
