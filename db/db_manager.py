@@ -5,6 +5,7 @@
 
 import pymysql
 from config import DB_HOST, DB_NAME, DB_PASSWOED, DB_USERNAME
+import json
 
 
 class DatabaseManager:
@@ -46,6 +47,7 @@ class DatabaseManager:
 
             user_info_list.append(user_info)
 
+        self.commit()
         return user_info_list
 
     def add_user(self):
@@ -57,6 +59,7 @@ class DatabaseManager:
         res = cursor.fetchall()
         res = True if len(res) != 0 else False
 
+        self.commit()
         return res
 
     def delete_user(self):
@@ -84,7 +87,25 @@ class DatabaseManager:
             return user_info
 
         user_lifecycle_list = list(map(format_user_info, user_lifecycle_list))
+
+        self.commit()
         return user_lifecycle_list
+
+    def get_node_msg_list(self):
+        cursor = self.get_cursor()
+
+        cursor.execute("select node_gpu_msg from docker.gpu")
+        node_msg_list = cursor.fetchall()
+        node_msg_list = map(lambda x: json.loads(x[0]), node_msg_list)
+        self.commit()
+
+        return node_msg_list
+
+    def commit(self):
+        try:
+            self.conn.commit()
+        except:
+            self.conn.rollback()
 
     def __del__(self):
         self.conn.close()

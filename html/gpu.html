@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>AI Cluster</title>
+    <!--<meta http-equiv="refresh" content="1">-->
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
@@ -104,6 +105,52 @@
 
 <body>
 
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                class="sr-only">Toggle navigation</span><span
+                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            {% if cur_user != None%}
+            <li>
+                <a href="/system">System</a>
+            </li>
+            <li>
+                <a href="/lifecycle">LifeCycle</a>
+            </li>
+            {% end %}
+            <li>
+                <a href="/permission">User Permission</a>
+            </li>
+            <li>
+                <a href="/discuss">Discuss</a>
+            </li>
+            <li>
+                <a href="/doc">Doc</a>
+            </li>
+            <li  class="active">
+                <a href="/gpu">GPU Status</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            {% if cur_user == None%}
+            <li>
+                <a href="/login">Login</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/user">{{ cur_user }}</a>
+            </li>
+            {% end %}
+        </ul>
+    </div>
+</nav>
+
 <div class="container">
     <div class="row clearfix">
         <h2>AI Cluster (node01 ~ node18)</h2>
@@ -147,9 +194,10 @@
                 </td>
                 <td>
                     {% for process in gpu_msg['processes'] %}
-                <span class="hidden-xs process-content">
+                    <span class="hidden-xs process-content">
                                                         <span class="process label label-primary" data-toggle="tooltip" data-placement="top"
-                                                              title="{% raw '(%s Mem: %d Mib)'%(process['command'], process['gpu_memory_usage']) %}">{%raw process['pid'] %}@<span class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
+                                                              title="{% raw '(%s) Mem: %d Mib run time: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
+                                                                class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
                                 </span>
                     <span class="visible-xs-inline">
                     <a type="button" tabindex="0" role="button" class="btn btn-default btn-xs btn-process"><i

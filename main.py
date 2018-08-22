@@ -7,6 +7,7 @@ from tornado.options import define, options
 import tornado.ioloop
 import tornado.web
 import os
+import subprocess
 
 from handler.create_handler import CreateHandler
 from handler.delete_handler import DeleteHandler
@@ -50,6 +51,7 @@ class Application(tornado.web.Application):
             login_url="/login",
             debug=True
         )
+
         self.db = DatabaseManager()
         tornado.web.Application.__init__(self, handlers, **settings)
 
