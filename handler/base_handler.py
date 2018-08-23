@@ -15,15 +15,15 @@ class BaseHandler(tornado.web.RequestHandler):
     def db(self):
         return self.application.db
 
-    def get_uid_by_uname(self, cname):
-        if cname == "":
-            return None
-
-        uid = os.popen("grep %s /etc/passwd | cut -f3 -d':'" % cname).read().strip()
-        if uid != "":
-            return int(uid)
-        else:
-            return None
+    # def get_uid_by_uname(self, cname):
+    #     if cname == "":
+    #         return None
+    #
+    #     uid = os.popen("grep %s /etc/passwd | cut -f3 -d':'" % cname).read().strip()
+    #     if uid != "":
+    #         return int(uid)
+    #     else:
+    #         return None
 
     def get_node_list_by_str_nodes(self, nodes):
         try:

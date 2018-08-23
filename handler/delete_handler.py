@@ -6,29 +6,43 @@
 from handler.base_handler import BaseHandler
 import os
 
+
 class DeleteHandler(BaseHandler):
     def post(self):
+        '''
+        code 101: blank input
+        code 102: name not exists
+        code 200: success
+        :return:
+        '''
         cname = self.get_argument('cname')
+
+        ret = {'code': None}
         if cname == "":
-            print('This user name / nodes not exists!!!')
-            self.write("wrong format")
+            ret['code'] = 101
+            self.write(ret)
             return
 
-        uid = self.get_uid_by_uname(cname)
+        uid = self.db.get_uid_by_username(cname)
         if uid == None:
-            print('This user name not exists!!!')
-            self.write("wrong format")
+            ret['code'] = 102
+            self.write(ret)
             return
 
-        self.close_all_container(cname)
+        self.close_all_container(cname, uid)
+
         print('rm -rf /public/docker/%s...' % cname)
         os.system('rm -rf /public/docker/%s' % cname)
         print('delete account successfully!!!')
 
-        self.write('ok!')
+        self.db.delete_user(uid)
+        ret['code'] = 200
+        self.write(ret)
 
-    def close_all_container(self, cname):
-        for node_id in range(1, 18 + 1):
+    def close_all_container(self, cname, uid):
+        node_list = list(range(1, 18 + 1))
+
+        for node_id in node_list:
             container_name = '%s.node%.2d' % (cname, node_id)
             os.system('ssh node%.2d "docker stop %s && docker rm %s"' % (node_id, container_name, container_name))
 
@@ -38,9 +52,4 @@ class DeleteHandler(BaseHandler):
         os.system('docker stop %s && docker rm %s' % (container_name, container_name))
         print('close', container_name, 'done')
 
-    def get_uid_by_uname(self, cname):
-        uid = os.popen("grep %s /etc/passwd | cut -f3 -d':'" % cname).read().strip()
-        if uid != "":
-            return int(uid)
-        else:
-            return None
+        self.db.remove_user_permission(uid, [0] + node_list)

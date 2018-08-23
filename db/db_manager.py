@@ -104,8 +104,11 @@ class DatabaseManager:
         self.commit()
         return uid
 
-    def delete_user(self):
-        pass
+    def delete_user(self, uid):
+        cursor = self.get_cursor()
+        cursor.execute("delete from docker.user where uid = %s" % uid)
+
+        self.commit()
 
     def remove_user_permission(self, uid, node_list):
         cursor = self.get_cursor()
