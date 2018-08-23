@@ -243,9 +243,6 @@
 
 
                         <form class="form-horizontal" role="form" method='post' name="create_form">
-                            <input type="hidden" name="action">
-
-
                             <div class="form-group">
                                 <label for="create_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
                                 <div class="col-sm-5">
@@ -286,8 +283,6 @@
 
 
                         <form class="form-horizontal" role="form" method='post' name="permission_form">
-                            <input type="hidden" name="action">
-
                             <div class="form-group">
                                 <label for="permission_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
                                 <div class="col-sm-5">
@@ -298,7 +293,7 @@
                             <div class="form-group">
                                 <label for="permission_nodes" class="col-sm-offset-2 col-sm-2 control-label">Nodes</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="permission_nodes" name="nodes" placeholder="e.g. 1,2,3,4,5"
+                                    <input type="text" class="form-control" autocomplete="on" id="permission_nodes" name="nodes" placeholder="e.g. 1,2,3,4,5"
                                            style="max-width:400px;">
                                 </div>
                             </div>
@@ -332,13 +327,14 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="col-sm-offset-5 col-sm-2">
+                                    <input type="button" value="Add" class="btn btn-success btn-block" onclick="add_permission()">
+                                </div>
+                            </div>
                         </form>
 
-                        <div class="form-group">
-                            <div class="col-sm-offset-5 col-sm-2">
-                                <button type="button" class="btn btn-success btn-block" onclick="add_permission()">Add</button>
-                            </div>
-                        </div>
+
                     </div>
 
 
@@ -351,17 +347,15 @@
 
 
                         <form class="form-horizontal" role="form" method='post' name="remove_form">
-                            <input type="hidden" name="action">
-
                             <div class="form-group">
-                                <label for="permission_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
+                                <label for="remove_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="remove_cname" name="cname" placeholder="e.g. piaozx"
                                            style="max-width:400px;">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="permission_nodes" class="col-sm-offset-2 col-sm-2 control-label">Nodes</label>
+                                <label for="remove_nodes" class="col-sm-offset-2 col-sm-2 control-label">Nodes</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="remove_nodes" name="nodes" placeholder="e.g. 1,2,3,4,5"
                                            style="max-width:400px;">
@@ -380,15 +374,15 @@
                     <div class="tab-pane" id="panel-delete-account">
                         <div class="page-header">
                             <h2 class="text-center" style="color: red; ">Delete Account</h2>
-                            <div class="text-center">delete account will remove all file of this account and can not recover, you must know what you are doing!</div>
+                            <div class="text-center">delete account will remove all file of this account and can not recover, you must know what you are
+                                doing!
+                            </div>
                         </div>
 
 
                         <form class="form-horizontal" role="form" method='post' name="delete_form">
-                            <input type="hidden" name="action">
-
                             <div class="form-group">
-                                <label for="permission_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
+                                <label for="delete_cname" class="col-sm-offset-2 col-sm-2 control-label">User Name</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="delete_cname" name="cname" placeholder="e.g. piaozx"
                                            style="max-width:400px;">
