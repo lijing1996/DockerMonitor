@@ -21,7 +21,8 @@ class PermissionHandler(BaseHandler):
         code 102 : invalid input longtime
         code 103 : invalid input nodes
         code 104 : user not exists
-        code 105 : not long time but don't has start_date and end_date
+        code 105 : not long time but doesn't have start_date and end_date
+        code 106 : not long time but doesn't have reason
         code 200 : success
         :return:
         """
@@ -61,6 +62,11 @@ class PermissionHandler(BaseHandler):
                 ret['code'] = 105
                 self.write(ret)
                 return
+            elif reason == '':
+                ret['code'] = 106
+                self.write(ret)
+                return
+
             else:
                 start_date = datetime.datetime.strptime(start_date, '%m/%d/%Y').strftime('%Y-%m-%d') + ' 00:00:00'
                 end_date = datetime.datetime.strptime(end_date, '%m/%d/%Y').strftime('%Y-%m-%d') + ' 23:59:59'

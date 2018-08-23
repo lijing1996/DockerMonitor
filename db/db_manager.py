@@ -6,6 +6,7 @@
 import pymysql
 from config import DB_HOST, DB_NAME, DB_PASSWOED, DB_USERNAME
 import json
+import datetime
 
 
 class DatabaseManager:
@@ -41,15 +42,20 @@ class DatabaseManager:
                          }
 
             # query user permission
-            cursor.execute("select node_id,longtime,start_date,end_date from docker.permission where uid = %s" % user_info['uid'])
+            cursor.execute("select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info['uid'])
             user_permission_list = cursor.fetchall()
 
             for user_permission in user_permission_list:
-                node_id, longtime, start_date, end_date = user_permission
+                node_id, longtime, start_date, end_date, reason = user_permission
+                if longtime == 0:
+                    start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
+                    end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
+
                 node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
                              'longtime': longtime,
                              'start_date': start_date,
-                             'end_date': end_date
+                             'end_date': end_date,
+                             'reason': reason
                              }
                 user_info['permission'].append(node_info)
 
@@ -67,6 +73,9 @@ class DatabaseManager:
         return user_info
 
     def try_to_add_user(self, username):
+        '''
+        before add user, we try to add user for uid
+        '''
         cursor = self.get_cursor()
         cursor.execute("INSERT INTO docker.user(username) VALUES ('%s')" % username)
         cursor.execute("SELECT uid from docker.user where username = '%s'" % username)
@@ -97,6 +106,13 @@ class DatabaseManager:
 
     def delete_user(self):
         pass
+
+    def remove_user_permission(self, uid, node_list):
+        cursor = self.get_cursor()
+        node_list = tuple(node_list + [100])
+        cursor.execute("delete from docker.permission where uid = %s and node_id in %s" % (uid, node_list))
+
+        self.commit()
 
     def add_user_permission(self, uid, node_list, long_time, start_date, end_date, reason):
         """

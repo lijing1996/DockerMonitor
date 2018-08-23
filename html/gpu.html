@@ -119,9 +119,6 @@
             <li>
                 <a href="/system">System</a>
             </li>
-            <li>
-                <a href="/lifecycle">LifeCycle</a>
-            </li>
             {% end %}
             <li>
                 <a href="/permission">User Permission</a>
@@ -132,7 +129,7 @@
             <li>
                 <a href="/doc">Doc</a>
             </li>
-            <li  class="active">
+            <li class="active">
                 <a href="/gpu">GPU Status</a>
             </li>
         </ul>
@@ -195,9 +192,9 @@
                 <td>
                     {% for process in gpu_msg['processes'] %}
                     <span class="hidden-xs process-content">
-                                                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top"
-                                                              title="{% raw '(%s) Mem: %d Mib run time: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
-                                                                class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
+                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top"
+                              title="{% raw '(%s) Mem: %d Mib run time: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
+                                class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
                                 </span>
                     <span class="visible-xs-inline">
                     <a type="button" tabindex="0" role="button" class="btn btn-default btn-xs btn-process"><i

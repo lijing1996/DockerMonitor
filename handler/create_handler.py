@@ -40,7 +40,7 @@ class CreateHandler(BaseHandler):
         port_range_str = '%d-%d' % (30000 + each_user_port_num * (uid - 1000), 30000 + each_user_port_num * (uid - 1000 + 1) - 1)
         self.create_user_docker_dir(cname, container_port, port_range_str)
         self.db.add_user(cname, container_port, port_range_str, email, chs_name)
-        self.db.add_user_permission(uid, [0], 1, '', '', '')
+        self.db.add_user_permission(uid, [0], 'yes', '', '', '')
 
         ret_data['code'] = 200
         ret_data['log'] = self.log

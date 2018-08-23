@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>AI Server</title>
@@ -11,6 +11,7 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="static/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -27,9 +28,6 @@
             {% if cur_user != None%}
             <li>
                 <a href="/system">System</a>
-            </li>
-            <li>
-                <a href="/lifecycle">LifeCycle</a>
             </li>
             {% end %}
             <li class="active">
@@ -111,11 +109,18 @@
         <td>
             {%for node_info in user['permission']%}
             {% if node_info['name'] == 'admin' %}
-            <button type="button" class="btn btn-danger btn-xs">{%raw node_info['name']%}</button>
+            <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip"
+                    title="long time"> {%raw node_info['name']%}
+            </button>
             {% elif node_info['longtime'] == 1 %}
-            <button type="button" class="btn btn-success btn-xs">{%raw node_info['name']%}</button>
+            <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip"
+                    title="long time">{%raw node_info['name']%}
+            </button>
             {% else %}
-            <button type="button" class="btn btn-warning btn-xs">{%raw node_info['name']%}</button>
+            <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-html="true"
+                    title="{% raw 'from %s <br/>to %s <br/> reason: %s'%(node_info['start_date'], node_info['end_date'], node_info['reason']) %}">
+                {%raw node_info['name']%}
+            </button>
             {% end %}
             {% end %}
         </td>
@@ -124,6 +129,12 @@
     </tbody>
 </table>
 
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
+    })
+</script>
 
 </body>
 </html>
