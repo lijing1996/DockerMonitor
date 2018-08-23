@@ -11,75 +11,38 @@ import json
 class CreateHandler(BaseHandler):
     def post(self):
         """
-        code 101: name not exists
-        code 102: wrong nodes or not exists
-
+        code 101: blank input!
+        code 102: name exists
         code 200: everything is ok
         :return:
         """
         cname = self.get_argument('cname')
-        nodes = self.get_argument('nodes')
+        chs_name = self.get_argument('chs_name')
+        email = self.get_argument('email')
         ret_data = {'code': '', 'log': ''}
         self.log = ''
 
-        uid = self.get_uid_by_uname(cname)
-        if uid == None:
-            print('name not exists')
+        if cname == '' or chs_name == '' or email == '':
             ret_data['code'] = 101
-            ret_data['log'] = 'name not exists'
             self.write(ret_data)
             return
 
-        node_list = self.get_node_list_by_str_nodes(nodes)
-        if node_list == None:
-            print('wrong nodes or not exists')
+        uid = self.db.get_uid_by_username(cname)
+        if uid != None:
             ret_data['code'] = 102
-            ret_data['log'] = 'wrong nodes or not exists'
             self.write(ret_data)
             return
 
-        print(node_list)
+        uid = self.db.try_to_add_user(cname)
 
-        ret_data['code'] = 200
         container_port = uid + 21000
         each_user_port_num = 10
         port_range_str = '%d-%d' % (30000 + each_user_port_num * (uid - 1000), 30000 + each_user_port_num * (uid - 1000 + 1) - 1)
         self.create_user_docker_dir(cname, container_port, port_range_str)
+        self.db.add_user(cname, container_port, port_range_str, email, chs_name)
+        self.db.add_user_permission(uid, [0], 1, '', '', '')
 
-        for node_id in node_list:
-            print('Creating user container on node%.2d...' % node_id)
-            self.log += 'Creating user container on node%.2d...\n' % node_id
-            container_name = '%s.node%.2d' % (cname, node_id)
-            os.system("ssh node%.2d "
-                      "nvidia-docker run "
-                      "--name %s "
-                      "--pid=host "
-                      "-v /home/%s:/home/%s "
-                      "-v /public/docker/%s/bin:/bin "
-                      "-v /public/docker/%s/etc:/etc "
-                      "-v /public/docker/%s/lib:/lib "
-                      "-v /public/docker/%s/lib64:/lib64 "
-                      "-v /public/docker/%s/opt:/opt "
-                      "-v /public/docker/%s/root:/root "
-                      "-v /public/docker/%s/sbin:/sbin "
-                      "-v /public/docker/%s/usr:/usr "
-                      "-h %s "
-                      "-d "
-                      "-p %d:22 "
-                      "deepo_plus "
-                      "/usr/sbin/sshd -D" % (
-                            node_id, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, container_port))
-            print('Done.')
-            self.log += 'Done.\n'
-
-        print('create', cname, 'done!', 'port: ', container_port)
-        self.log += 'Create %s done! port: %d\n' % (cname, container_port)
-        print('add nodes permission successfully')
-        self.log += 'add nodes permission on %s successfully\n' % str(nodes)
-        print('please login by "ssh root@10.19.124.11 -p %d"\ndefault passwd: plus' % container_port)
-        self.log += 'please login by "ssh root@10.19.124.11 -p %d"\ndefault passwd: plus' % container_port
-
-        self.db.add_user()
+        ret_data['code'] = 200
         ret_data['log'] = self.log
         self.write(ret_data)
 

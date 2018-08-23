@@ -41,32 +41,89 @@ class DatabaseManager:
                          }
 
             # query user permission
-            cursor.execute("select node_id from docker.permission where uid = %s" % user_info['uid'])
+            cursor.execute("select node_id,longtime,start_date,end_date from docker.permission where uid = %s" % user_info['uid'])
             user_permission_list = cursor.fetchall()
-            user_info['permission'] = list(map(lambda x: 'admin' if x[0] == 0 else 'node%.2d' % x[0], user_permission_list))
+
+            for user_permission in user_permission_list:
+                node_id, longtime, start_date, end_date = user_permission
+                node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
+                             'longtime': longtime,
+                             'start_date': start_date,
+                             'end_date': end_date
+                             }
+                user_info['permission'].append(node_info)
 
             user_info_list.append(user_info)
 
         self.commit()
         return user_info_list
 
-    def add_user(self):
-        pass
-
-    def check_user_exist_in_db(self, username):
+    def get_user_info_by_uid(self, uid):
         cursor = self.get_cursor()
-        cursor.execute("select uid from docker.user where username = %s" % username)
-        res = cursor.fetchall()
-        res = True if len(res) != 0 else False
+        cursor.execute("select uid, username, container_port, open_port_range from docker.user where uid=%s" % uid)
+        user_info = cursor.fetchone()
 
         self.commit()
-        return res
+        return user_info
+
+    def try_to_add_user(self, username):
+        cursor = self.get_cursor()
+        cursor.execute("INSERT INTO docker.user(username) VALUES ('%s')" % username)
+        cursor.execute("SELECT uid from docker.user where username = '%s'" % username)
+        uid = cursor.fetchone()
+        uid = uid[0] if uid else None
+
+        self.commit()
+        return uid
+
+    def add_user(self, username, container_port, open_port_range, email, chinese_name):
+        '''
+        add_user actually is update operator
+        '''
+        cursor = self.get_cursor()
+        cursor.execute("UPDATE docker.user SET container_port = %s, open_port_range = '%s', email = '%s', chinese_name = '%s' WHERE username = '%s'"
+                       % (container_port, open_port_range, email, chinese_name, username))
+
+        self.commit()
+
+    def get_uid_by_username(self, username):
+        cursor = self.get_cursor()
+        cursor.execute("select uid from docker.user where username = '%s'" % username)
+        uid = cursor.fetchone()
+        uid = uid[0] if uid else None
+
+        self.commit()
+        return uid
 
     def delete_user(self):
         pass
 
-    def update_user_permission(self):
-        pass
+    def add_user_permission(self, uid, node_list, long_time, start_date, end_date, reason):
+        """
+        :param uid: int
+        :param node_list: list
+        :param long_time: 'yes' or 'no'
+        :return:
+        """
+        cursor = self.get_cursor()
+
+        cursor.execute("SELECT node_id from docker.permission where uid=%s" % uid)
+        exist_node_list = cursor.fetchall()
+
+        exist_node_list = list(map(lambda x: x[0], exist_node_list))
+        node_list = filter(lambda x: x not in exist_node_list, node_list)
+
+        if long_time == 'yes':
+            for node_id in node_list:
+                cursor.execute("INSERT INTO docker.permission(uid, node_id, reason) "
+                               "VALUES (%s, %s, '%s')" % (uid, node_id, reason))
+        else:
+            for node_id in node_list:
+                cursor.execute("INSERT INTO docker.permission(uid, node_id, longtime, start_date, end_date, reason) "
+                               "VALUES (%s, %s, 0, '%s', '%s', '%s')" % (uid, node_id, start_date, end_date, reason))
+
+        self.commit()
+        return node_list
 
     def get_all_user_lifecycle(self):
         cursor = self.get_cursor()
@@ -97,8 +154,8 @@ class DatabaseManager:
         cursor.execute("select node_gpu_msg from docker.gpu")
         node_msg_list = cursor.fetchall()
         node_msg_list = map(lambda x: json.loads(x[0]), node_msg_list)
-        self.commit()
 
+        self.commit()
         return node_msg_list
 
     '''

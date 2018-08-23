@@ -22,28 +22,24 @@
 
     <script type="text/javascript">
         function create_account() {
-            if (create_form.cname.value == "" || create_form.nodes.value == "") {
-                alert("name、nodes can't be blank!!");
+            if (create_form.cname.value == "" || create_form.chs_name.value == "" || create_form.email.value == "") {
+                alert("name, chs_name, email can't be blank!!");
             } else {
-                console.log(create_form.cname.value);
-                console.log(create_form.nodes.value);
                 $.ajax({
                     type: "POST",
                     url: "/create",
                     dataType: 'json',
                     data: {
                         'cname': create_form.cname.value,
-                        'nodes': create_form.nodes.value
+                        'chs_name': create_form.chs_name.value,
+                        'email': create_form.email.value
                     },
                     success: function (data) {
                         if (data['code'] === 101) {
                             alert("blank input!");
                         }
                         else if (data['code'] == 102) {
-                            alert("username not exists!");
-                        }
-                        else if (data['code'] == 103) {
-                            alert("'nodes' has wrong format");
+                            alert("username exists!");
                         }
                         else if (data['code'] == 200) {
                             alert(data['log']);
@@ -57,28 +53,36 @@
         }
 
         function add_permission() {
-            if (create_form.cname.value == "" || create_form.nodes.value == "") {
+            if (permission_form.cname.value == "" || permission_form.nodes.value == "") {
                 alert("name、nodes can't be blank!!");
             } else {
-                console.log(create_form.cname.value);
-                console.log(create_form.nodes.value);
                 $.ajax({
                     type: "POST",
-                    url: "/create",
+                    url: "/permission",
                     dataType: 'json',
                     data: {
-                        'cname': create_form.cname.value,
-                        'nodes': create_form.nodes.value
+                        'cname': permission_form.cname.value,
+                        'nodes': permission_form.nodes.value,
+                        'longtime': permission_form.longtime.value,
+                        'start': permission_form.start.value,
+                        'end': permission_form.end.value,
+                        'reason': permission_form.reason.value
                     },
                     success: function (data) {
                         if (data['code'] === 101) {
                             alert("blank input!");
                         }
                         else if (data['code'] == 102) {
-                            alert("username not exists!");
+                            alert("invalid input longtime!");
                         }
                         else if (data['code'] == 103) {
-                            alert("'nodes' has wrong format");
+                            alert("invalid input nodes");
+                        }
+                        else if (data['code'] == 104) {
+                            alert('user not exists!');
+                        }
+                        else if (data['code'] == 105) {
+                            alert("not long time but don't has start_date and end_date!");
                         }
                         else if (data['code'] == 200) {
                             alert(data['log']);
@@ -224,7 +228,7 @@
                             <div class="form-group">
                                 <label for="create_chinese_name" class="col-sm-offset-2 col-sm-2 control-label">Chinese Name</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="create_chinese_name" name="cname" placeholder="e.g. 朴智新"
+                                    <input type="text" class="form-control" id="create_chinese_name" name="chs_name" placeholder="e.g. 朴智新"
                                            style="max-width:400px;">
                                 </div>
                             </div>
@@ -253,7 +257,7 @@
                         </div>
 
 
-                        <form class="form-horizontal" role="form" method='post' name="create_form">
+                        <form class="form-horizontal" role="form" method='post' name="permission_form">
                             <input type="hidden" name="action">
 
                             <div class="form-group">
@@ -318,7 +322,7 @@
                         </div>
 
 
-                        <form class="form-horizontal" role="form" method='post' name="create_form">
+                        <form class="form-horizontal" role="form" method='post' name="remove_form">
                             <input type="hidden" name="action">
 
                             <div class="form-group">

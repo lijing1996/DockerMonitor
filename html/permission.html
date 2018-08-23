@@ -109,11 +109,13 @@
             {%raw user['open_port_range']%}
         </td>
         <td>
-            {%for node in user['permission']%}
-            {% if node == 'admin' %}
-            <button type="button" class="btn btn-danger btn-xs">{%raw node%}</button>
-            {%else%}
-            <button type="button" class="btn btn-success btn-xs">{%raw node%}</button>
+            {%for node_info in user['permission']%}
+            {% if node_info['name'] == 'admin' %}
+            <button type="button" class="btn btn-danger btn-xs">{%raw node_info['name']%}</button>
+            {% elif node_info['longtime'] == 1 %}
+            <button type="button" class="btn btn-success btn-xs">{%raw node_info['name']%}</button>
+            {% else %}
+            <button type="button" class="btn btn-warning btn-xs">{%raw node_info['name']%}</button>
             {% end %}
             {% end %}
         </td>

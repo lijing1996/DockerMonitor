@@ -13,14 +13,10 @@ from config import *
 
 
 def main():
-    conn = pymysql.connect(DB_HOST, DB_USERNAME, DB_PASSWOED, DB_NAME)
-    cursor = conn.cursor()
+    start_date = '09/26/2018'
+    start_date = datetime.datetime.strptime(start_date, '%m/%d/%Y').strftime('%Y-%m-%d') + ' 00:00:00'
 
-    question_id = 1
-    cursor.execute("SELECT max(floor) from docker.answer where question_id= %d" % question_id)
-    max_floor = cursor.fetchone()
-
-    print(max_floor)
+    print(start_date)
 
 if __name__ == '__main__':
     main()
