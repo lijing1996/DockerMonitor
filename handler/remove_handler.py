@@ -38,8 +38,9 @@ class RemoveHandler(BaseHandler):
             return
 
         for node_id in node_list:
-            container_name = '%s.node%.2d' % (username, node_id)
-            os.system('ssh node%.2d "docker stop %s && docker rm %s"' % (node_id, container_name, container_name))
+            node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
+            container_name = '%s.%s' % (username, node_name)
+            os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
 
             print('close', container_name, 'done')
 

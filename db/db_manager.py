@@ -17,11 +17,8 @@ class DatabaseManager:
         self.conn = pymysql.connect(DB_HOST, DB_USERNAME, DB_PASSWOED, DB_NAME)
 
     def get_cursor(self):
-        try:
-            cursor = self.conn.cursor()
-        except:
-            self.connect()
-            cursor = self.conn.cursor()
+        self.conn.ping(reconnect=True)
+        cursor = self.conn.cursor()
 
         return cursor
 

@@ -1,0 +1,8 @@
+site_name: AI集群官方文档
+nav:
+    - Home: index.md
+    - Start: start.md
+    - About: details.md
+theme: readthedocs
+
+dev_addr: 0.0.0.0:8898

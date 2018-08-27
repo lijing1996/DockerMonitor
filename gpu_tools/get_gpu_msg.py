@@ -14,6 +14,15 @@ def get_user_name_and_run_time(pid):
         user_name, run_time = 'dead', 'dead'
     else:
         user_name, run_time = stdout.split()
+        run_time = list(run_time)
+
+        run_time[-3] = '分钟'
+
+        if len(run_time) > 5:
+            run_time[-6] = '小时'
+        run_time = ''.join(run_time)
+        run_time = run_time.replace('-', '天')
+        run_time += '秒'
 
     if user_name == 'root':
         user_name = os.popen(''' docker inspect --format '{{.Name}}' "$(cat /proc/%d/cgroup |head -n 1 |cut -d / -f 3)" | sed 's/^\///' ''' % pid).read()
@@ -34,7 +43,7 @@ def main():
             process['username'] = user_name
             process['runtime'] = run_time
 
-    print(json.dumps(gpu_msg_list))
+    print(json.dumps(gpu_msg_list, ensure_ascii=False))
 
 
 if __name__ == '__main__':

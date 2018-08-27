@@ -192,8 +192,8 @@
                 <td>
                     {% for process in gpu_msg['processes'] %}
                     <span class="hidden-xs process-content">
-                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top"
-                              title="{% raw '(%s) Mem: %d Mib run time: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
+                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top" data-html="true"
+                              title="{% raw '(%s) Mem: %d Mib <br/> 运行时间: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
                                 class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
                                 </span>
                     <span class="visible-xs-inline">

@@ -83,11 +83,15 @@ class PermissionHandler(BaseHandler):
         uid, cname, container_port, open_port_range = self.db.get_user_info_by_uid(uid)
 
         for node_id in node_list:
-            print('Creating user container on node%.2d...' % node_id)
-            self.log += 'Creating user container on node%.2d...\n' % node_id
-            container_name = '%s.node%.2d' % (cname, node_id)
-            os.system("ssh node%.2d "
-                      "nvidia-docker run "
+            docker_type = 'docker' if node_id == 0 else 'nvidia-docker'
+            node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
+            add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_id == 0 else ''
+
+            container_name = '%s.%s' % (cname, node_name)
+            print('Creating user container on %s...' % node_name)
+            self.log += 'Creating user container on node%s...\n' % node_name
+            os.system("ssh %s "
+                      "%s run "
                       "--name %s "
                       "--pid=host "
                       "-v /home/%s:/home/%s "
@@ -99,12 +103,33 @@ class PermissionHandler(BaseHandler):
                       "-v /public/docker/%s/root:/root "
                       "-v /public/docker/%s/sbin:/sbin "
                       "-v /public/docker/%s/usr:/usr "
+                      "--add-host node01:10.10.10.101 "
+                      "--add-host node02:10.10.10.102 "
+                      "--add-host node03:10.10.10.103 "
+                      "--add-host node04:10.10.10.104 "
+                      "--add-host node05:10.10.10.105 "
+                      "--add-host node06:10.10.10.106 "
+                      "--add-host node07:10.10.10.107 "
+                      "--add-host node08:10.10.10.108 "
+                      "--add-host node09:10.10.10.109 "
+                      "--add-host node10:10.10.10.110 "
+                      "--add-host node11:10.10.10.111 "
+                      "--add-host node12:10.10.10.112 "
+                      "--add-host node13:10.10.10.113 "
+                      "--add-host node14:10.10.10.114 "
+                      "--add-host node15:10.10.10.115 "
+                      "--add-host node16:10.10.10.116 "
+                      "--add-host node17:10.10.10.117 "
+                      "--add-host node18:10.10.10.118 "
+                      "--add-host admin:10.10.10.100 "
                       "-h %s "
                       "-d "
                       "-p %d:22 "
+                      "%s "
                       "deepo_plus "
                       "/usr/sbin/sshd -D" % (
-                          node_id, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, container_port))
+                          node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name,
+                          container_port, add_open_port_str))
             print('Done.')
             self.log += 'Done.\n'
 
