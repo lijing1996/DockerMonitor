@@ -4,6 +4,7 @@ nav:
     - Start: start.md
     - QA:
       - '集群管理相关': 'QA_cluster.md'
+      - 'Linux基础知识': 'QA_linux.md'
       - '容器配置相关': 'QA_container.md'
     - 道德准则: moral.md
     - About: about.md
@@ -15,3 +16,6 @@ theme:
       - rust
       - bash
 dev_addr: 0.0.0.0:8898
+
+extra:
+    version: 1.0
