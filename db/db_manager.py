@@ -174,6 +174,16 @@ class DatabaseManager:
         self.commit()
         return node_msg_list
 
+    def get_p40_node_msg_list(self):
+        cursor = self.get_cursor()
+
+        cursor.execute('''select node_gpu_msg from docker.p40_gpu where node_gpu_msg <> "" ''')
+        node_msg_list = cursor.fetchall()
+        node_msg_list = map(lambda x: json.loads(x[0]), node_msg_list)
+
+        self.commit()
+        return node_msg_list
+
     '''
     for discuss
     '''
