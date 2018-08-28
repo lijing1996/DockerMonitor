@@ -53,44 +53,63 @@ Mon Aug 27 12:10:25 2018
 ### c
 
 
-## 如何查看python版本? / pytorch版本? / tensorflow版本?
-**检查python版本** 
+## 如何查看python版本?
+**查看运行的Python路径** 
 ```
 $ which python
 /usr/local/bin/python
 ```
-**安装Anaconda**
+
+**查看Python版本**
+```
+$ python --version
+Python 3.6.6
+```
+
+## 如何安装Anaconda?
 
 如果觉得平时安装python的包太麻烦，可考虑安装Anaconda, Anaconda集成了巨大部分的python包。具体步骤如下所示(这里以Anaconda-python3.6为例):
-```
-1. Download Anaconda-python3.6.
-$ wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
 
+1. Download Anaconda-python3.6.
+```
+$ wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+```
 2. 安装Anaconda
+```
 $ mkdir Anacondas
 $ sh Anaconda3-5.2.0-Linux-x86_64.sh
+```
 
 3. 在安装过程中，会让你选择Anaconda的安装路径，可以将路径改为
+```
 $ /root/Anacondas/anaconda3
+```
+
 
 4. 在 zshrc 里面添加Anaconda-python路径
+```
 $ vim ~/.zshrc
 $ export PATH="/root/Anacondas/anaconda3/bin:$PATH"  ## 在zshrc添加路径，然后保存退出
 $ source ~/.zshrc
 
+```
+
 5. 检查是否安装成功
+```
 $ python
 
 Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
-
+```
 6. 可以再次查看python版本
+```
 $ which python
 /root/Anacondas/anacondas/bin/python
 ```
 
+## 如何查看pytorch版本? / tensorflow版本?
 
 **查看pytorch版本以及安装指定版本的pytorch**  
 [pytorch 官方网址](https://pytorch.org/previous-versions/)
