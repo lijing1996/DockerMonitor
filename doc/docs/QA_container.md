@@ -54,7 +54,7 @@ Mon Aug 27 12:10:25 2018
 
 
 ## 如何查看python版本?
-**查看运行的Python路径** 
+**查看默认Python路径** 
 ```
 $ which python
 /usr/local/bin/python
