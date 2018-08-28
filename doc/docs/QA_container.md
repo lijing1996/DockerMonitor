@@ -50,9 +50,47 @@ Mon Aug 27 12:10:25 2018
 
 
 ## 如何查看nvidia-driver版本? / cuda版本? / cudnn版本?
+### c
 
 
 ## 如何查看python版本? / pytorch版本? / tensorflow版本?
+**检查python 版本** 
+```
+$ which python
+
+/usr/local/bin/python
+```
+**安装Anaconda**
+
+如果觉得平时安装python的包太麻烦，可考虑安装Anaconda, Anaconda集成了巨大部分的python包。具体步骤如下所示(这里以Anaconda-python3.6为例):
+```
+1. Download Anaconda-python3.6.
+$ wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+
+2. 安装Anaconda
+$ mkdir Anacondas
+$ sh Anaconda3-5.2.0-Linux-x86_64.sh
+
+3. 在安装过程中，会让你选择Anaconda的安装路径，可以将路径改为
+$ /root/Anacondas/
+
+4. 在 zshrc 里面添加Anaconda-python路径
+$ vim ~/.zshrc
+$ export PATH="/root/Anacondas/anaconda3/bin:$PATH"  ## 在zshrc添加路径，然后保存退出
+$ source ~/.zshrc
+
+5. 检查是否安装成功
+$ python
+
+Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
+[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+
+## 怎么安装指定版本的pytorch
+
 
 ## 显存被看不见的进程占据怎么办?
 ```
