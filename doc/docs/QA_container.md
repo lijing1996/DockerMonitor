@@ -86,6 +86,10 @@ Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
+
+6. 可以再次查看python版本
+$ which python
+/root/Anacondas/anacondas/bin/python
 ```
 
 
