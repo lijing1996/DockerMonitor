@@ -40,9 +40,12 @@
                         dataType: 'json',
                         data: {
                             'type': 'answer',
-                            'question_id': {% raw question_id %},
-                            'content': answer_form.content.value
-                        },
+                            'question_id': { % raw question_id %
+                    },
+                    'content'
+            :
+                answer_form.content.value
+            },
                 success: function (data) {
                     if (data['code'] === 101) {
                         alert("blank input!");
@@ -91,6 +94,9 @@
             </li>
             <li>
                 <a href="/gpu">GPU Status</a>
+            </li>
+            <li>
+                <a href="/p40_gpu">P40 GPU Status</a>
             </li>
         </ul>
 
