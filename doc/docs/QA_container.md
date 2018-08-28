@@ -54,10 +54,9 @@ Mon Aug 27 12:10:25 2018
 
 
 ## 如何查看python版本? / pytorch版本? / tensorflow版本?
-**检查python 版本** 
+**检查python版本** 
 ```
 $ which python
-
 /usr/local/bin/python
 ```
 **安装Anaconda**
@@ -93,7 +92,27 @@ $ which python
 ```
 
 
-## 怎么安装指定版本的pytorch
+**查看pytorch版本以及安装指定版本的pytorch**  
+[pytorch 官方网址](https://pytorch.org/previous-versions/)
+```
+1. 查看pytorch版本
+$ python
+
+Python 3.6.6 (default, Jun 28 2018, 04:42:43)
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> print(torch.__version__)
+0.3.1
+
+2. 安装指定版本的pytorch
+选择pytorch版本要注意当前环境下的cuda版本以及python版本。如何查询环境cuda以及python版本在本文档中查找对应指令。例如现在的pytorch版本是0.3.1，想升级到0.4.0, 环境是cuda-90，python3.6, 具体步骤如下所示:
+$ pip uninstall torch
+$ wget http://download.pytorch.org/whl/cu90/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
+
+
+
+```
 
 
 ## 显存被看不见的进程占据怎么办?
