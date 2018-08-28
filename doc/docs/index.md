@@ -1,17 +1,14 @@
-# Welcome to MkDocs
+# Welcome to SIST AI Cluster
+这是一份简单的官方文档
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+## 如果你是个新手
+包括但不限于:  
+1. 第一次使用linux系统, 只懂得简单的cd, ls指令  
+2. 不知道GPU和CPU, 内存和硬盘的区别  
+3. 不知道如何安装所需要的软件
 
-## Commands
+请
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## 如果你是个老手
+如果你对AI集群的现有配置不满意, 移步[讨论区](http://10.19.124.11:8899/discuss)

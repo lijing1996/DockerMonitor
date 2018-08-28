@@ -37,7 +37,7 @@ class Application(tornado.web.Application):
             (r"/delete", DeleteHandler),
             (r"/permission", PermissionHandler),
             (r"/user", UserHandler),
-            (r"/doc", DocHandler),
+            # (r"/doc", DocHandler),
             (r"/discuss", DiscussHandler),
             (r"/gpu", GpuHandler)
         ]

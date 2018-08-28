@@ -2,7 +2,16 @@ site_name: AI集群官方文档
 nav:
     - Home: index.md
     - Start: start.md
-    - About: details.md
-theme: readthedocs
-
+    - QA:
+      - '集群管理相关': 'QA_cluster.md'
+      - '容器配置相关': 'QA_container.md'
+    - 道德准则: moral.md
+    - About: about.md
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+      - yaml
+      - rust
+      - bash
 dev_addr: 0.0.0.0:8898

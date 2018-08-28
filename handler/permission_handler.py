@@ -93,7 +93,6 @@ class PermissionHandler(BaseHandler):
             os.system("ssh %s "
                       "%s run "
                       "--name %s "
-                      "--pid=host "
                       "-v /home/%s:/home/%s "
                       "-v /public/docker/%s/bin:/bin "
                       "-v /public/docker/%s/etc:/etc "

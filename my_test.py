@@ -11,12 +11,28 @@ import datetime
 import pymysql
 from config import *
 
+from tornado.options import define, options
+import tornado.ioloop
+import tornado.web
+import os
+import subprocess
 
-def main():
-    start_date = '09/26/2018'
-    start_date = datetime.datetime.strptime(start_date, '%m/%d/%Y').strftime('%Y-%m-%d') + ' 00:00:00'
+define('port', default=8877, help='run on the port', type=int)
 
-    print(start_date)
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+        ]
+
+        settings = dict(
+            static_path='doc/site',
+            debug=True
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
+
 
 if __name__ == '__main__':
-    main()
+    tornado.options.parse_command_line()
+    Application().listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()

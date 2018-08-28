@@ -1,30 +1,55 @@
-### Request for Computing Resource in AI Cluster
-All students should send an [requst email to Wang Jinlei](mailto:wangjinlei@shanghaitech.edu.cn) and CC your advisor. Requests MUST contain the following:
+Title:   My Document
+Summary: A brief description of my document.
+Authors: Waylan Limberg
+         Tom Christie
+Date:    January 23, 2018
+blank-value:
+some_url: https://example.com
 
-1. Your Name
-2. Your Shanghaitech Email Address
-3. Resource You Need (CPU/GPU)
-4. Number of CPU/GPU Cores You Need
-5. Storage Space You Need
-6. How Long You Need to Use (At Most 2 Weeks in Principle)
-7. For What Purpose You Apply for Above Resources
+### 申请集群账号及权限
+所有申请AI集群节点权限的学生需要[发邮件给王金磊老师](mailto:wangjinlei@shanghaitech.edu.cn)并抄送你的导师, 邮件内容包括:
 
-### Access AI Cluster
+1. 你的名字
+2. 上科大邮箱
+3. 资源需求情况
+4. 需要多长时间
+5. 原因
 
-After your request is comfirmed, you'll receive a letter containing `username` and initial `password` you need to login AI cluster. 
-To access AI cluster, just type the following command in your favorate terminal:
-
-```sh
-ssh username@10.19.124.11
+### 登录AI集群
+申请成功后, 你会收到类似如下信息:
 ```
-For Windows users, [MobaXterm](http://mobaxterm.mobatek.net/) is the recommanded terminal.
+username: piaozx
+password: 123456
+port: 22100
+admin_open_port: 31000-31009
+```
+其中`username`为你的用户名(但是在登录时不会用到), `password`是你的初始登录密码, `port`是你登录用的端口号, `admin_open_port`是为开启网络服务预留的端口号(如`visdom`, `jupyter`)
 
-You will be asked for your password to continue.
+接下来我们用ssh登录即可(注意, 登录时用户名为`root`):
 ```
-username@10.19.124.11's password:
-# Enter your initial password here
-(AI)username@admin:~$
+ssh root@10.19.124.11 -p 22100
 ```
+windows上的cmd默认没有ssh, 在这里推荐使用`WSL`(Windows Subsystem for Linux), 具体网上教程用很多, 不再赘述.
+```
+# piaozhx @ pzx-mbp in ~ [18:43:17]
+$ ssh root@10.19.124.11 -p 22100
+root@10.19.124.11's password:
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 3.10.0-514.16.1.el7.x86_64 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+  If you have any problem, go to AI server website
+  ADMIN OPEN PORT: 31000-31009
+ .............................................
+Last login: Mon Aug 27 10:30:35 2018 from 10.20.194.83
+
+# root @ piaozx.admin in ~ [12:01:43]
+$
+```
+
+
+
 Alternatively, you can [configure public key authentication](https://help.ubuntu.com/community/SSH/OpenSSH/Keys) for fast login without password.
 
 {{< admonition title="Note" type="note" >}}
@@ -40,18 +65,8 @@ to access node01 in the cluster.
 Users MUST NOT execute any compute-intensive applications directly on admin node.
 {{< /admonition >}}
 
-### For Linux Fresh New Users How to
-This part introduce some basics for fresh new users of linux based system.
 
-#### How to Upload/Download your file to/from The Cluster
-Users can use `scp` or `rsync` to upload files to AI clusters. Here are some examples using `scp`:
-```sh
-# Copy local folder "/home/username/local-dir" to AI cluster directory "/home/username/" 
-scp -r /home/username/local-dir username@10.19.124.11:/home/username/
 
-# Copy file "/home/username/project1/result.txt" from AI cluster to path "/home/username/results" on local PC
-scp -r username@10.19.124.11:/home/username/project1/result.txt /home/username/results/
-```
 #### How to Find Out GPU Usage
 NVIDIA provides command line tools `nvidia-smi` for users to monitor GPU usage. Just enter
 ```sh

@@ -53,7 +53,6 @@ class CreateHandler(BaseHandler):
         print('Creating user container on admin...')
         os.system("docker run "
                   "--name %s "
-                  "--pid=host "
                   "-v /home/%s:/home/%s "
                   "-v /public/docker/%s/bin:/bin "
                   "-v /public/docker/%s/etc:/etc "
