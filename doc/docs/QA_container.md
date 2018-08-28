@@ -113,30 +113,36 @@ $ which python
 
 **查看pytorch版本以及安装指定版本的pytorch**  
 [pytorch 官方网址](https://pytorch.org/previous-versions/)
-```
+
 1. 查看pytorch版本
+```
 $ python
 
 Python 3.6.6 (default, Jun 28 2018, 04:42:43)
 [GCC 5.4.0 20160609] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> import torch
->>> print(torch.__version__)
+$ import torch
+$ print(torch.__version__)
 0.3.1
+```
 
 2. 安装指定版本的pytorch
 选择pytorch版本要注意当前环境下的cuda版本以及python版本。如何查询环境cuda以及python版本在本文档中查找对应指令。例如现在的pytorch版本是0.3.1，想升级到0.4.0, 环境是cuda-90，python3.6, 具体步骤如下所示:
+```
 $ pip uninstall torch
 $ wget http://download.pytorch.org/whl/cu90/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
 $ pip install torch-0.4.0-cp36-cp36m-linux_x86_64.whl
+```
 
 3. 再次查看pytorch版本
+
+```
 $ python3
 Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
->>> import torch
->>> print(torch.__version__)
+$ import torch
+$ print(torch.__version__)
 0.4.0a0+200fb22
 ```
 
