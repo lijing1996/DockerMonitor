@@ -71,7 +71,7 @@ $ mkdir Anacondas
 $ sh Anaconda3-5.2.0-Linux-x86_64.sh
 
 3. 在安装过程中，会让你选择Anaconda的安装路径，可以将路径改为
-$ /root/Anacondas/
+$ /root/Anacondas/anaconda3
 
 4. 在 zshrc 里面添加Anaconda-python路径
 $ vim ~/.zshrc
@@ -109,9 +109,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 选择pytorch版本要注意当前环境下的cuda版本以及python版本。如何查询环境cuda以及python版本在本文档中查找对应指令。例如现在的pytorch版本是0.3.1，想升级到0.4.0, 环境是cuda-90，python3.6, 具体步骤如下所示:
 $ pip uninstall torch
 $ wget http://download.pytorch.org/whl/cu90/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
+$ pip install torch-0.4.0-cp36-cp36m-linux_x86_64.whl
 
-
-
+3. 再次查看pytorch版本
+$ python3
+Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
+[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> print(torch.__version__)
+0.4.0a0+200fb22
 ```
 
 
