@@ -17,7 +17,7 @@ DB_HOST = '10.19.124.11'
 DB_USERNAME = 'root'
 DB_PASSWOED = 'piaozx123'
 DB_NAME = 'docker'
-node_range = [9, 10, 11, 12]
+node_range = [9, 10, 11, 12, 13,14,15, 16, 17, 18, 28]
 
 
 def get_useful_gpu_msg(node_id):
@@ -42,7 +42,6 @@ def main():
     while True:
         node_gpu_msg_list = get_node_msg_list()
         # node_range = [7, 8, 9, 10, 11, 12]
-
 
         try:
             print('-' * 20 + 'start' + '-' * 20)

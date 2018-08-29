@@ -48,7 +48,28 @@ Mon Aug 27 12:10:25 2018
 
 
 ## 如何查看nvidia-driver版本? / cuda版本? / cudnn版本?
+目前nvidia-driver, cuda, cudnn都集成到cuda-toolkit中了, 装机时直接到[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载想要的版本即可
 
+* 查看nvidia-driver版本
+```
+$ nvidia-smi | grep Version
+| NVIDIA-SMI 387.26                 Driver Version: 387.26                    |
+```
+
+* 查看cuda版本
+```
+$ cat /usr/local/cuda/version.txt
+CUDA Version 9.0.176
+```
+
+* 查看cudnn版本
+```
+$ cat /usr/include/cudnn.h | grep "define CUDNN_MAJOR" -A 2
+#define CUDNN_MAJOR 7
+#define CUDNN_MINOR 1
+#define CUDNN_PATCHLEVEL 4
+```
+即7.1.4版
 
 ## 如何查看python版本?
 **查看默认Python路径** 
