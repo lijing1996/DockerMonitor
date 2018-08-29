@@ -99,7 +99,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 * 可以再次查看python路径
 ```
 $ which python
-/root/Anacondas/anacondas/bin/python
+/root/Anacondas/anaconda3/bin/python
 ```
 
 ## 如何查看pytorch版本? / tensorflow版本?
