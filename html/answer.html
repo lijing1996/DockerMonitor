@@ -35,34 +35,32 @@
                 alert("content can't be blank!!");
             } else {
                 $.ajax({
-                        type: "POST",
-                        url: "/discuss",
-                        dataType: 'json',
-                        data: {
-                            'type': 'answer',
-                            'question_id': { % raw question_id %
+                    type: "POST",
+                    url: "/discuss",
+                    dataType: 'json',
+                    data: {
+                        'type': 'answer',
+                        'question_id': "{% raw question_id %}",
+                        'content': answer_form.content.value
                     },
-                    'content'
-            :
-                answer_form.content.value
-            },
-                success: function (data) {
-                    if (data['code'] === 101) {
-                        alert("blank input!");
+                    success: function (data) {
+                        if (data['code'] === 101) {
+                            alert("blank input!");
+                        }
+                        else if (data['code'] === 102) {
+                            alert("has single quote!")
+                        }
+                        else if (data['code'] === 200) {
+                            location.reload();
+                        }
+                        else {
+                            alert("wrong check code!!");
+                        }
                     }
-                    else if (data['code'] === 102) {
-                        alert("has single quote!")
-                    }
-                    else if (data['code'] === 200) {
-                        location.reload();
-                    }
-                    else {
-                        alert("wrong check code!!")
-                    }
-                }
-            })
-                ;
+                });
             }
+
+
         }
     </script>
 </head>

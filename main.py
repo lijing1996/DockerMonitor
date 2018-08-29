@@ -38,7 +38,7 @@ class Application(tornado.web.Application):
             (r"/permission", PermissionHandler),
             (r"/user", UserHandler),
             # (r"/doc", DocHandler),
-            (r"/discuss", DiscussHandler),
+            # (r"/discuss", DiscussHandler),
             (r"/gpu", GpuHandler),
             (r"/p40_gpu", P40GpuHandler)
         ]
