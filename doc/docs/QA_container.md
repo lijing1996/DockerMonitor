@@ -36,8 +36,8 @@ c.NotebookApp.port =30339  ## 这里填写自己的端口号， 保存退出�
 ```
 $ tmux
 $ ctrl-b $ ## 将屏幕分为左右两个部分
-$ ssh -CNfR 30339:0.0.0.0:30339 admin  ## 添加反向代理, 左边输入
-$ jupyter notebook --allow-root  ## 打开jupyter
+$ ssh -CNfR 30339:0.0.0.0:30339 admin  ## 添加反向代理, 屏幕左边输入
+$ jupyter notebook --allow-root  ## 屏幕右边打开jupyter
 ```
 * 最后我们可以在浏览器中通过访问  **10.19.124.11:30339**, 进入jupyter
 
@@ -47,7 +47,7 @@ $ jupyter notebook --allow-root  ## 打开jupyter
 $ pip install visdom
 ```
 * 打开visdom   
-通常情况下我们都是想要visdom一直在后台运行，所以需要打开tmux, 然后就是打开visdom指定端口。可在[网页端](http://10.19.124.11:8899/permission)查看端口权限。第一次打开visdom会比较慢，因为visdom需要自己下载一些脚本，主要指因为有墙！！！！
+通常情况下我们都是想要visdom一直在后台运行，所以需要打开tmux, 然后就是打开visdom指定端口。可在[网页端](http://10.19.124.11:8899/permission)查看端口权限。第一次打开visdom会比较慢，因为visdom需要自己下载一些脚本，主要是因为有墙！！！！
 
 ```
 $ tmux ## 进入tmux

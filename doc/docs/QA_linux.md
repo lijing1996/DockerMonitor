@@ -154,7 +154,7 @@ Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 12:04:33)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import torch
 >>> print(torch.__version__)
-0.4.0a0+200fb22
+0.4.0
 ```
 
 
@@ -214,10 +214,6 @@ ctrl-b + $  ## rename the session
 ctrl-b + $  ## creat new window
 ctrl-b + "  ## create left-right panel
 ctrl-b + %  ## create up-down panel
-ctrl-b + [  ## enter copy model (use esc to exit)
-ctrl-b + window-number ## enter correspond window
-ctrl-b + p  ## last window
-ctrl-b + n  ## next window
 ctrl-b + x  ## close pannel
 ctrl-b + &  ## close window
 tmux attach -t session-name  ## re-enter session
