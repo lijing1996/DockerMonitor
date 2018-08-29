@@ -120,7 +120,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 * 可以再次查看python路径
 ```
 $ which python
-/root/Anacondas/anacondas/bin/python
+/root/Anacondas/anaconda3/bin/python
 ```
 
 ## 如何查看pytorch版本? / tensorflow版本?
@@ -193,13 +193,37 @@ Mon Aug 27 12:10:25 2018
 +-----------------------------------------------------------------------------+
 ```
 
-## 如何开启jupyter?
-
-## 如何开启visdom?
-
 ## 如何创建python的虚拟环境?
 
 ## 如何配置和使用screen / tmux?
+### 配置tmux
+* 下载tmux
+```
+$ apt-get install tmux
+```
+* 修改tmux设置，使得可以用鼠标在不同panel切换。
+```
+$ vi .tmux.conf
+$ set-option -g mouse on  ## 保存退出
+```
+* tmux 常用快捷键
+```
+ctrl-b      ## to enter command mode.
+ctrl-b + d  ## detach the session
+ctrl-b + $  ## rename the session
+ctrl-b + $  ## creat new window
+ctrl-b + "  ## create left-right panel
+ctrl-b + %  ## create up-down panel
+ctrl-b + [  ## enter copy model (use esc to exit)
+ctrl-b + window-number ## enter correspond window
+ctrl-b + p  ## last window
+ctrl-b + n  ## next window
+ctrl-b + x  ## close pannel
+ctrl-b + &  ## close window
+tmux attach -t session-name  ## re-enter session
+```
+
+### 如何配置screen
 
 ## zsh是什么, 如何配置和使用zsh?
 
