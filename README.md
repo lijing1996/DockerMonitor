@@ -1,7 +1,7 @@
 # DockerMonitor
 打造属于Deep Learning / Computer Vision Researcher 自己的Cluster
-* [AI集群门户网站](10.19.124.11:8899)
-* [AI集官方文档](10.19.124.11:8898)
+* [AI集群门户网站](http://10.19.124.11:8899)
+* [AI集官方文档](http://10.19.124.11:8898)
 * [讨论区](https://github.com/piaozhx/DockerMonitor/issues)
 
 ### Overview
@@ -23,14 +23,14 @@
 * compute节点使用代理联网
 * admin节点使用ssh -Y 打开远程窗口
 * 使用markdown维护doc与index页面
+* 简单的管理页面
+* 讨论区
+* 使用文档
+* 科学上网
 
 
 ### 未完成功能
-* 简单的管理页面
 * 创建临时用户并到期自动删除
-* 讨论区
-* 使用文档
-* 提供科学上网的接口
 * 两个人共用一个home目录
 * 加入课题组功能
 
