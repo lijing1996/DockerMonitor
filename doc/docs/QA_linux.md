@@ -10,7 +10,8 @@ scp -r username@10.19.124.11:/home/username/project1/result.txt /home/username/r
 
 ## 如何查看GPU使用情况?
 NVIDIA驱动提供了一个简单的命令行工具`nvidia-smi`:
-```
+
+```bash
 # root @ piaozx.node01 in ~ [12:10:23]
 $ nvidia-smi
 Mon Aug 27 12:10:25 2018
@@ -43,6 +44,7 @@ Mon Aug 27 12:10:25 2018
 |    3     19563      C   python                                       636MiB |
 +-----------------------------------------------------------------------------+
 ```
+
 显然, 这个工具只能显示一些基本信息, 一些你更关心的信息(谁在跑程序? 跑了多久了?)可以从[AI集群GPU Status](http://10.19.124.11:8899/gpu)获取:
 ![](img/gpu_status.png)
 

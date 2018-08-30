@@ -3,6 +3,10 @@
 打造属于Deep Learning / Computer Vision Researcher 自己的Cluster
 ![](show/show.png)
 
+* [AI集群门户网站](10.19.124.11:8899)
+* [AI集官方文档](10.19.124.11:8898)
+* [讨论区](https://github.com/piaozhx/DockerMonitor/issues)
+
 ### Docker 管理相比于传统的权限管理的优势
 * 环境隔离, 不需要传统模式禁止sudo来维持环境
 * 每个人在container中都是root, 想干什么干什么

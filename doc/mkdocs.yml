@@ -1,4 +1,9 @@
 site_name: AI集群官方文档
+
+# Repository
+repo_name: 'piaozhx/DockerMonitor'
+repo_url: 'https://github.com/piaozhx/DockerMonitor'
+
 nav:
     - Home: index.md
     - Start: start.md
@@ -8,14 +13,27 @@ nav:
       - '容器配置相关': 'QA_container.md'
     - 道德准则: moral.md
     - About: about.md
+
 theme:
-  name: readthedocs
+  name: material
   highlightjs: true
   hljs_languages:
       - yaml
       - rust
       - bash
+  palette:
+    primary: 'teal'
+    accent: 'red'
+
+
 dev_addr: 0.0.0.0:8898
+
+
+markdown_extensions:
+  - codehilite:
+      linenums: true
+  - toc:
+      permalink: true
 
 extra:
     version: 1.0

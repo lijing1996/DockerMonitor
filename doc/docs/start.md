@@ -173,7 +173,7 @@ where the option `-X` enables X11 forwarding feature.
 Now you can feel free to run graphics applications, for example, you can try to run `matlab` and you will see matlab main window on your local PC.
 The ssh X11 forwarding can be chained, for example, it's possible to run GUI applications on nodes other than admin node.
 
-```bash
+```sh
 # on your local PC
 ssh -X username@10.19.124.11
 # on admin node
