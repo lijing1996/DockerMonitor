@@ -1,7 +1,7 @@
 # DockerMonitor
 打造属于Deep Learning / Computer Vision Researcher 自己的Cluster
-* [AI集群门户网站](http://10.19.124.11:8899)
-* [AI集官方文档](http://10.19.124.11:8898)
+* [AI集群门户网站(校园网)](http://10.19.124.11:8899)
+* [AI集官方文档(校园网)](http://10.19.124.11:8898)
 * [讨论区](https://github.com/piaozhx/DockerMonitor/issues)
 
 ### Overview
