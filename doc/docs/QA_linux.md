@@ -156,7 +156,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> print(torch.__version__)
 0.4.0
 ```
-
+## 如何指定程序在某张显卡运行:
+* CUDA 自带的命令
+```
+$ CUDA_VISIBLE_DEVICES=0,1,2 python xxx.py ## 数字代表显卡的index
+```
+* 利用zsh事先定义好的function来指定显卡:
+```
+$ set_gpu 0,1,2
+$ python xxx.py
+```
 
 ## 显存被看不见的进程占据怎么办?
 ```
