@@ -5,6 +5,8 @@
 
 import os
 import json
+import socket
+import sqlite3
 from multiprocessing import Pool
 
 
@@ -24,16 +26,13 @@ def get_user_name_and_run_time(pid):
         run_time = run_time.replace('-', '天')
         run_time += '秒'
 
-    if user_name == 'root':
-        user_name = os.popen(''' docker inspect --format '{{.Name}}' "$(cat /proc/%d/cgroup |head -n 1 |cut -d / -f 3)" | sed 's/^\///' ''' % pid).read()
-
     user_name = user_name.strip()
     run_time = run_time.strip()
 
     return user_name, run_time
 
 
-def main():
+def get_node_gpu_msg():
     gpu_msg_list = os.popen("gpustat -p -u --json").read()
     gpu_msg_list = json.loads(gpu_msg_list)
 
@@ -43,7 +42,23 @@ def main():
             process['username'] = user_name
             process['runtime'] = run_time
 
-    print(json.dumps(gpu_msg_list, ensure_ascii=False))
+    node_gpu_msg = json.dumps(gpu_msg_list, ensure_ascii=False)
+
+    hostname = socket.gethostname()
+    node_id = int(hostname[8:])
+
+    return node_id, node_gpu_msg
+
+
+def main():
+    while True:
+        node_id, node_gpu_msg = get_node_gpu_msg()
+
+        conn = sqlite3.connect('gpu.sqlite')
+        c = conn.cursor()
+
+        c.execute("UPDATE p40_gpu SET node_gpu_msg = '%s' WHERE node_id=%d" % (node_gpu_msg, node_id))
+        conn.commit()
 
 
 if __name__ == '__main__':

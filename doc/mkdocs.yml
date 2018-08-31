@@ -5,12 +5,13 @@ repo_name: 'piaozhx/DockerMonitor'
 repo_url: 'https://github.com/piaozhx/DockerMonitor'
 
 nav:
-    - Home: index.md
-    - Start: start.md
-    - QA:
-      - '集群管理相关': 'QA_cluster.md'
-      - 'Linux基础知识': 'QA_linux.md'
-      - '容器配置相关': 'QA_container.md'
+    - 首页: index.md
+    - 新手入门: start.md
+    - 集群架构: cluster.md
+    - 基础知识:
+      - '集群管理': 'QA_cluster.md'
+      - 'Linux基础': 'QA_linux.md'
+      - '容器配置': 'QA_container.md'
     - 道德准则: moral.md
     - About: about.md
 
@@ -30,8 +31,10 @@ dev_addr: 0.0.0.0:8898
 
 
 markdown_extensions:
+  - admonition
   - codehilite:
-      linenums: true
+#      guess_lang: false
+      linenums: false
   - toc:
       permalink: true
 

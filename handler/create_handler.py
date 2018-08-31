@@ -50,6 +50,12 @@ class CreateHandler(BaseHandler):
         container_name = '%s.admin' % cname
         print('open-port range:', port_range_str)
 
+        memory_size = os.popen('''free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''').read().strip()
+        memory_unit = memory_size[-1]
+        memory_size = int(memory_size[:-1])
+        shm_size = memory_size // 2
+        shm_size = str(shm_size) + memory_unit
+
         print('Creating user container on admin...')
         os.system("docker run "
                   "--name %s "
@@ -81,14 +87,15 @@ class CreateHandler(BaseHandler):
                   "--add-host node17:10.10.10.117 "
                   "--add-host node18:10.10.10.118 "
                   "--add-host admin:10.10.10.100 "
+                  "--shm-size=%s "
                   "-h %s "
                   "-d "
                   "-p %d:22 "
                   "-p %s:%s "
                   "deepo_plus "
                   "/usr/sbin/sshd -D" % (
-                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, container_port, port_range_str,
-                      port_range_str))
+                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size, container_name, container_port,
+                      port_range_str, port_range_str))
 
     def create_user_docker_dir(self, cname, container_port, port_range_str):
         self.log += 'Creating user docker dir...\n'
@@ -100,7 +107,7 @@ class CreateHandler(BaseHandler):
             return False
         else:
             print('Creating user docker dir...')
-            os.system("cp -r /public/docker/baseline-1 %s" % user_dir)
+            os.system("ssh str01 cp -r /public/docker/baseline-1 %s" % user_dir)
             os.system('''cat /dev/zero | ssh-keygen -q -N "" -f /public/docker/%s/root/.ssh/id_rsa''' % cname)
             os.system("cat /public/docker/%s/root/.ssh/id_rsa.pub >> /public/docker/%s/root/.ssh/authorized_keys" % (cname, cname))
             os.system('sed -i "s/user_port/%d/g" /public/docker/%s/root/.ssh/config' % (container_port, cname))

@@ -5,6 +5,12 @@
 
 from handler.base_handler import BaseHandler
 import os
+from multiprocessing import Pool
+
+
+def remove_container_on_remote(node_name, container_name):
+    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
+    print('close', container_name, 'done')
 
 
 class DeleteHandler(BaseHandler):
@@ -32,7 +38,7 @@ class DeleteHandler(BaseHandler):
         self.close_all_container(cname, uid)
 
         print('rm -rf /public/docker/%s...' % cname)
-        os.system('rm -rf /public/docker/%s' % cname)
+        os.system('ssh str01 rm -rf /public/docker/%s' % cname)
         print('delete account successfully!!!')
 
         self.db.delete_user(uid)
@@ -40,16 +46,18 @@ class DeleteHandler(BaseHandler):
         self.write(ret)
 
     def close_all_container(self, cname, uid):
-        node_list = list(range(1, 18 + 1))
+        node_list = list(range(0, 18 + 1))
+
+        p = Pool(20)
+        args_list = []
 
         for node_id in node_list:
-            container_name = '%s.node%.2d' % (cname, node_id)
-            os.system('ssh node%.2d "docker stop %s && docker rm %s"' % (node_id, container_name, container_name))
+            node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
+            container_name = '%s.%s' % (cname, node_name)
 
-            print('close', container_name, 'done')
+            args_list.append((node_name, container_name))
 
-        container_name = '%s.admin' % cname
-        os.system('docker stop %s && docker rm %s' % (container_name, container_name))
-        print('close', container_name, 'done')
+        p.starmap(remove_container_on_remote, args_list)
+        p.close()
 
         self.db.remove_user_permission(uid, [0] + node_list)

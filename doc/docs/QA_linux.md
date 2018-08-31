@@ -206,6 +206,31 @@ Mon Aug 27 12:10:25 2018
 
 ## 如何创建python的虚拟环境?
 
+
+## 如何让程序在后台运行?
+If you directly run come commands in your terminal, their processes will be termimated once you disconnect from AI cluster. In order to make your command stay alive after you close the terminal session, you have to make your command process run in background using `nohup command args &`. Optionally, you can specify the file where the [stdout](https://en.wikipedia.org/wiki/Standard_streams) will be redirected. Here are some examples:
+
+```sh
+# run a training scripts in the background and redirect stdout to file "out.txt"
+nohup python train.py --lr 0.1 --epochs 100 >> out.txt &
+```
+Then you can use `tailf out.txt` to monitor your script's output. You can safely use `CTRL-C` to terminate `tailf` command without effect on your script.
+If you want to terminate your command running in the background, you should first get the **process id(PID)** of your command. This can be done using `ps aux`, you will see a list of process running on the node. You can use `grep` to filter the output, like the following:
+
+```sh
+# find the PID of processes whose name containing key words "python"
+ps aux | grep python
+```
+
+You will only see all process whose command line contain key words `python`.
+Then, you can get your process PID in the corresponding column of the output. To terminate your command process, enter the following command:
+
+```sh
+kill -9 12345 23456
+```
+where `12345` and `23456` are PIDs of the processes you wish to terminate.
+
+
 ## 如何配置和使用screen / tmux?
 ### 配置tmux
 * 下载tmux
