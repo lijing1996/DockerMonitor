@@ -18,6 +18,7 @@ DB_HOST = '10.19.124.11'
 DB_USERNAME = 'root'
 DB_PASSWOED = 'piaozx123'
 DB_NAME = 'docker'
+WATCH_NODES_ID_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 28]
 
 
 def get_node_msg_list(sqlite_conn):
@@ -28,6 +29,28 @@ def get_node_msg_list(sqlite_conn):
     return res
 
 
+def check_and_restart_pbs_task():
+    # node status 'busy*' or 'free'
+    node_status_list = os.popen(" pestat | grep 'sist-gpu' | awk -F' ' '{print $2}' ").read().split()
+    node_status_list = [None] + node_status_list
+
+    # node run 'C' 'Q' 'R'
+    node_run_str_list = os.popen('''  qstat | grep 'sist-gpu' | awk -F' ' '{print $2 " " $5}'  ''').read().replace('sist-gpu', '').split()
+    node_run_list = ['C'] * 29
+
+    for i in range(len(node_run_str_list) // 2):
+        node_id = int(node_run_str_list[2 * i])
+        node_run = node_run_str_list[2 * i + 1]
+
+        node_run_list[node_id] = node_run
+
+    # restart cancelled task
+    for node_id in WATCH_NODES_ID_LIST:
+        status = node_status_list[node_id]
+        run = node_run_list[node_id]
+
+        if status == 'free' and run == 'C':
+            os.popen("qsub -N sist-gpu%.2d -q sist-gaoshh -l nodes=sist-gpu%.2d -o /dev/null -e /dev/null gpu.pb" % (node_id, node_id))
 
 
 def main():
@@ -36,10 +59,10 @@ def main():
 
     sqlite_conn = sqlite3.connect('gpu.sqlite')
 
-
     while True:
-        node_gpu_msg_list = get_node_msg_list(sqlite_conn)
 
+        node_gpu_msg_list = get_node_msg_list(sqlite_conn)
+        check_and_restart_pbs_task()
         try:
             print('-' * 20 + 'start' + '-' * 20)
             for node_id, node_gpu_msg in node_gpu_msg_list:
