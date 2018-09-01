@@ -22,9 +22,14 @@ WATCH_NODES_ID_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 
 
 def get_node_msg_list(sqlite_conn):
-    sqlite_cur = sqlite_conn.cursor()
-    res = sqlite_cur.execute('SELECT node_id, node_gpu_msg from p40_gpu where node_gpu_msg <> ""')
-    sqlite_conn.commit()
+    try:
+        sqlite_cur = sqlite_conn.cursor()
+        res = sqlite_cur.execute('SELECT node_id, node_gpu_msg from p40_gpu where node_gpu_msg <> ""')
+        sqlite_conn.commit()
+    except:
+        print('rollback')
+        sqlite_conn.rollback()
+        return get_node_msg_list(sqlite_conn)
 
     return res
 

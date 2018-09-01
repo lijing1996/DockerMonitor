@@ -51,14 +51,18 @@ def get_node_gpu_msg():
 
 
 def main():
+    conn = sqlite3.connect('gpu.sqlite')
+
     while True:
-        node_id, node_gpu_msg = get_node_gpu_msg()
+        try:
+            node_id, node_gpu_msg = get_node_gpu_msg()
+            c = conn.cursor()
 
-        conn = sqlite3.connect('gpu.sqlite')
-        c = conn.cursor()
-
-        c.execute("UPDATE p40_gpu SET node_gpu_msg = '%s' WHERE node_id=%d" % (node_gpu_msg, node_id))
-        conn.commit()
+            c.execute("UPDATE p40_gpu SET node_gpu_msg = '%s' WHERE node_id=%d" % (node_gpu_msg, node_id))
+            conn.commit()
+        except:
+            print('rollback')
+            conn.rollback()
 
 
 if __name__ == '__main__':
