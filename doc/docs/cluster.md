@@ -31,7 +31,7 @@
 ## 显卡性能概览
 深度学习对高性能GPU有非常大的需求, 而AI集群中又有各种版本的GPU, 故在此给出简单测试结果, 供大家参考.
 
-**测试环境**: CUDA9.0 + Pytorch0.4 + ResNet50 跑Cifar10  
+**测试环境**: CUDA9.0 + Pytorch0.4 + VGG16 跑Cifar10  
 **分数标准**: 以K80性能为一个基本单位, 可以简单地理解为运算速度, 如P40分数为11.57, 说明同样的网络K80跑一个epoch, P40可以跑11.57个epoch.
 
-![](img/gpu_test.pdf)
+![](img/gpu_test.png)
