@@ -11,18 +11,28 @@ import datetime
 import pymysql
 from config import *
 
-
-
 import sqlite3
 import socket
 
+
 def main():
-    hostname = socket.gethostname()
-    print(hostname)
+    node_list = range(1, 18 + 1)
+    name_to_node_dict = {}
 
+    for i in node_list:
+        with open('/public/nodes/%.2d.usr' % i, 'r') as f:
+            usr_list = f.read().split()
+            for usr in usr_list:
+                if usr not in name_to_node_dict.keys():
+                    name_to_node_dict[usr] = [i]
+                else:
+                    name_to_node_dict[usr].append(i)
 
+    for name, node_list in name_to_node_dict.items():
+        print('%s: %s' % (name, node_list))
+
+    print(len(name_to_node_dict))
 
 
 if __name__ == '__main__':
     main()
-
