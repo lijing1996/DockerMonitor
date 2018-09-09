@@ -1,10 +1,19 @@
 ## 如何联系管理员?
-* 微信群里
+* [推荐] 在[AI集群讨论区](https://github.com/piaozhx/DockerMonitor/issues) 提问
+* 微信群里@或者私戳
 
 ## 我的home目录到底是/root还是/home/name?
-* 是`/root`, 因为每个人在容器中都是root用户
+**short answer**:
+* 是`/root`
 
-* `/home/name`是用户之前的存储目录, 会临时挂载一个月, 2018年10月10日后会全部删除, 这段时间请大家主动迁移数据
+**details**:
+
+因为每个人在容器中都是`root`用户, 而`/root`是`root`用户的home文件夹, 本质上类似于`piaozx`用户的home文件夹是`/home/piaozx`.
+
+`/home/name`是用户之前
+
+
+## 添加环境变量应该写在~/.bashrc里面还是~/.zshrc里面?
 
 ## 忘记密码怎么办?
 
@@ -40,6 +49,12 @@ $ rm /root/trash/xxx   ## 定期删除文件
 ## root账号感觉很不安全, 能不能自己在容器里面创建一个子账号?
 
 ## 容器重启之后文件会消失吗?
+**short answer**: 
+
+除 `/bin`, `/etc`, `/lib`, `/lib64`, `/opt`, `/root`, `/sbin`, `/usr`之外的其他文件会消失, 所以情不在在这些文件夹之外创建文件夹, 注意`/home`也会消失.
+
+**details**:
+
 由于系统设计原因，请不要`/`在添加文件夹，这是个无效操作，即这一操作是不会被同步到集群中你的其他节点上的容器中的, 集群重新启动时除
 `/bin`, `/etc`, `/lib`, `/lib64`, `/opt`, `/root`, `/sbin`, `/usr`之外的其他文件会全部删除, `/home/name`作为数据盘临时挂载, 之后也会关闭.
 
