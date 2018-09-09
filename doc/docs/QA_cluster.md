@@ -1,5 +1,6 @@
 ## 如何联系管理员?
-* 微信群里
+* [推荐] 在[AI集群讨论区](https://github.com/piaozhx/DockerMonitor/issues) 提问
+* 微信群里@或者私戳
 
 ## 我的home目录到底是/root还是/home/name?
 是`/root`, 因为每个人在容器中都是root用户
