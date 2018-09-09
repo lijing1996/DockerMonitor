@@ -17,7 +17,7 @@ from config import DB_HOST, DB_NAME, DB_PASSWOED, DB_USERNAME
 
 
 def get_useful_gpu_msg(node_id):
-    gpu_msg = os.popen('''ssh node%.2d '/home/piaozx/anaconda3/bin/python /home/piaozx/DockerMonitor/gpu_tools/get_gpu_msg.py' ''' % node_id).read().strip()
+    gpu_msg = os.popen('''ssh node%.2d '/public/anaconda3/bin/python /public/DockerMonitor/gpu_tools/get_gpu_msg.py' ''' % node_id).read().strip()
 
     return gpu_msg
 

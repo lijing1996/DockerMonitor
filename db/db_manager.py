@@ -24,7 +24,7 @@ class DatabaseManager:
 
     def get_all_user_info(self):
         cursor = self.get_cursor()
-        cursor.execute("select uid, username,chinese_name,email, container_port, open_port_range from docker.user")
+        cursor.execute("select uid, username,chinese_name,email, container_port, open_port_range,advisor from docker.user")
         user_base_list = cursor.fetchall()
 
         user_info_list = []
@@ -35,6 +35,7 @@ class DatabaseManager:
                          'email': user_base[3],
                          'container_port': user_base[4],
                          'open_port_range': user_base[5],
+                         'advisor': user_base[6],
                          'permission': []
                          }
 
@@ -82,13 +83,14 @@ class DatabaseManager:
         self.commit()
         return uid
 
-    def add_user(self, username, container_port, open_port_range, email, chinese_name):
+    def add_user(self, username, container_port, open_port_range, email, chinese_name, advisor):
         '''
         add_user actually is update operator
         '''
         cursor = self.get_cursor()
-        cursor.execute("UPDATE docker.user SET container_port = %s, open_port_range = '%s', email = '%s', chinese_name = '%s' WHERE username = '%s'"
-                       % (container_port, open_port_range, email, chinese_name, username))
+        cursor.execute(
+            "UPDATE docker.user SET container_port = %s, open_port_range = '%s', email = '%s', chinese_name = '%s', advisor = '%s' WHERE username = '%s'"
+            % (container_port, open_port_range, email, chinese_name, advisor, username))
 
         self.commit()
 
@@ -167,7 +169,7 @@ class DatabaseManager:
     def get_node_msg_list(self):
         cursor = self.get_cursor()
 
-        cursor.execute("select node_gpu_msg from docker.gpu")
+        cursor.execute('''select node_gpu_msg from docker.gpu where node_gpu_msg <> "" ''')
         node_msg_list = cursor.fetchall()
         node_msg_list = map(lambda x: json.loads(x[0]), node_msg_list)
 

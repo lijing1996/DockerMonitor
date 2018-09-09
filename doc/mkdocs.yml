@@ -9,10 +9,11 @@ nav:
     - 新手入门: start.md
     - 集群架构: cluster.md
     - 基础知识:
-      - '集群管理': 'QA_cluster.md'
-      - 'Linux基础': 'QA_linux.md'
-      - '容器配置': 'QA_container.md'
-    - 道德准则: moral.md
+        - '集群管理': 'QA_cluster.md'
+        - 'Linux基础': 'QA_linux.md'
+        - '容器配置': 'QA_container.md'
+        - '注意事项': 'QA_cautions.md'
+    - 使用规范: moral.md
     - About: about.md
 
 theme:

@@ -5,7 +5,6 @@
 
 from handler.base_handler import BaseHandler
 
-
 class GpuHandler(BaseHandler):
     def get(self):
         node_gpu_msg_list = self.db.get_node_msg_list()

@@ -34,7 +34,7 @@ def get_user_name_and_run_time(pid):
 
 
 def main():
-    gpu_msg_list = os.popen("/home/piaozx/anaconda3/bin/gpustat -p -u --json").read()
+    gpu_msg_list = os.popen("/public/anaconda3/bin/gpustat -p -u --json").read()
     gpu_msg_list = json.loads(gpu_msg_list)
 
     for gpu_msg in gpu_msg_list['gpus']:

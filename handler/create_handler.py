@@ -19,10 +19,11 @@ class CreateHandler(BaseHandler):
         cname = self.get_argument('cname')
         chs_name = self.get_argument('chs_name')
         email = self.get_argument('email')
+        advisor = self.get_argument('advisor')
         ret_data = {'code': '', 'log': ''}
         self.log = ''
 
-        if cname == '' or chs_name == '' or email == '':
+        if cname == '' or chs_name == '' or email == '' or advisor == '':
             ret_data['code'] = 101
             self.write(ret_data)
             return
@@ -39,7 +40,7 @@ class CreateHandler(BaseHandler):
         each_user_port_num = 10
         port_range_str = '%d-%d' % (30000 + each_user_port_num * (uid - 1000), 30000 + each_user_port_num * (uid - 1000 + 1) - 1)
         self.create_user_docker_dir(cname, container_port, port_range_str)
-        self.db.add_user(cname, container_port, port_range_str, email, chs_name)
+        self.db.add_user(cname, container_port, port_range_str, email, chs_name, advisor)
         self.db.add_user_permission(uid, [0], 'yes', '', '', '')
 
         ret_data['code'] = 200
@@ -106,8 +107,18 @@ class CreateHandler(BaseHandler):
             self.log += "User docker dir exists!!!, just change user's permission\n"
             return False
         else:
+            prepare_root_path = '/public/docker/prepare_baseline-1'
+            prepare_dirname_list = sorted(os.listdir(prepare_root_path))
+
             print('Creating user docker dir...')
-            os.system("ssh str01 cp -r /public/docker/baseline-1 %s" % user_dir)
+            if len(prepare_dirname_list) == 0:
+                os.system("cp -r /public/docker/baseline-1 %s" % user_dir)
+            else:
+                prepare_dir = '%s/%s' % (prepare_root_path, prepare_dirname_list[0])
+                print("mv %s %s" % (prepare_dir, user_dir))
+                os.system("mv %s %s" % (prepare_dir, user_dir))
+
+            # build ssh-key
             os.system('''cat /dev/zero | ssh-keygen -q -N "" -f /public/docker/%s/root/.ssh/id_rsa''' % cname)
             os.system("cat /public/docker/%s/root/.ssh/id_rsa.pub >> /public/docker/%s/root/.ssh/authorized_keys" % (cname, cname))
             os.system('sed -i "s/user_port/%d/g" /public/docker/%s/root/.ssh/config' % (container_port, cname))

@@ -4,7 +4,7 @@
 # @Email   : piaozhx@shanghaitech.edu.cn
 
 from handler.base_handler import BaseHandler
-from config import WEBSITE_USERNAME, WEBSITE_PASSWORD
+from config import WEBSITE_ACCOUNT_LIST
 
 
 class LoginHandler(BaseHandler):
@@ -15,8 +15,10 @@ class LoginHandler(BaseHandler):
         super_username = self.get_argument('name')
         pwd = self.get_argument('pwd')
 
-        if super_username == WEBSITE_USERNAME and pwd == WEBSITE_PASSWORD:
-            self.set_secure_cookie("user", super_username)
-            self.write('yes')
-        else:
-            self.write('no')
+        for account in WEBSITE_ACCOUNT_LIST:
+            if super_username == account['username'] and pwd == account['passwd']:
+                self.set_secure_cookie("user", super_username)
+                self.write('yes')
+                return
+
+        self.write('no')
