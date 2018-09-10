@@ -23,6 +23,8 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/root:/root "
               "-v /public/docker/%s/sbin:/sbin "
               "-v /public/docker/%s/usr:/usr "
+              "--privileged=true "
+              "--restart unless-stopped "
               "--add-host node01:10.10.10.101 "
               "--add-host node02:10.10.10.102 "
               "--add-host node03:10.10.10.103 "
@@ -44,6 +46,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
+              
               "-d "
               "-p %d:22 "
               "%s "
