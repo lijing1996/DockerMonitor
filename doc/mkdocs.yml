@@ -28,7 +28,7 @@ theme:
     accent: 'red'
 
 
-dev_addr: 0.0.0.0:8898
+dev_addr: 10.19.124.11:8898
 
 
 markdown_extensions:
