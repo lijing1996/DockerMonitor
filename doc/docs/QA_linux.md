@@ -1,11 +1,14 @@
 ## 如何上传文件到集群? / 如何从集群下载文件?
-`scp`了解一下
-```
-# Copy local folder "/home/username/local-dir" to AI cluster directory "/home/username/" 
-scp -r /home/username/local-dir username@10.19.124.11:/home/username/
+`scp`了解一下(假设账户端口为12345)
 
-# Copy file "/home/username/project1/result.txt" from AI cluster to path "/home/username/results" on local PC
-scp -r username@10.19.124.11:/home/username/project1/result.txt /home/username/results/
+Copy local folder `/home/username/local-dir` to AI cluster directory `/home/username/`:
+```
+scp -P 12345 -r /home/username/local-dir root@10.19.124.11:/home/username/
+```
+
+Copy file `/home/username/project1/result.txt` from AI cluster to path `/home/username/results` on local PC:
+```
+scp -P 12345 root@10.19.124.11:/home/username/project1/result.txt /home/username/results/
 ```
 
 ## 如何查看GPU使用情况?

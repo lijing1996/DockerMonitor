@@ -1,6 +1,12 @@
 # Welcome to SIST AI Cluster
 这是一份简单的官方文档
 
+## 相关链接
+* [AI集群主页](http://10.19.124.11:8899)
+* [AI集群文档](http://10.19.124.11:8898)
+* [AI集群GPU监控系统](http://10.19.124.11:8899/gpu)
+* [P40集群GPU监控系统](http://10.19.124.11:8899/p40_gpu)
+
 ## 如果你是个新手
 包括但不限于:  
 1. 第一次使用linux系统, 只懂得简单的cd, ls指令  
@@ -19,6 +25,7 @@
 * [Linux基础](/QA_linux)
 * [容器配置](/QA_container)
 * [注意事项](/QA_cautions)
+
 如无法解决问题, 请到[讨论区](https://github.com/piaozhx/DockerMonitor/issues)搜索解决方案或提交issue
 
 

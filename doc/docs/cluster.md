@@ -13,7 +13,7 @@
 | 10.10.10.102 |  node02  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  |  251G  |   M40 x 4    |  计算节点 |
 | 10.10.10.103 |  node03  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  |  251G  |   M40 x 4    |  计算节点 |
 | 10.10.10.104 |  node04  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  |  251G  |   M40 x 4    |  计算节点 |
-| 10.10.10.105 |  node05  |    |    | GTX1080 x 4  | 计算节点 |
+| 10.10.10.105 |  node05  |  28 cores Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz   |  251G  | GTX1080 x 4  | 计算节点 |
 | 10.10.10.106 |  node06  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  |  188G  | GTX1080 x 4  | 计算节点 |
 | 10.10.10.107 |  node07  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  |  188G  | GTX1080 x 4  | 计算节点 |
 | 10.10.10.108 |  node08  |  28 cores  Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz  | 188G | GTX1080 x 4  | 计算节点 |
