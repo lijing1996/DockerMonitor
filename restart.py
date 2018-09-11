@@ -11,7 +11,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     os.system("ssh %s "
               "%s run "
               "--name %s "
-              "-v /home/%s:/home/%s:ro "
               "-v /public/docker/%s/bin:/bin "
               "-v /public/docker/%s/etc:/etc "
               "-v /public/docker/%s/lib:/lib "
@@ -48,7 +47,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "%s "
               "deepo_plus "
               "/usr/sbin/sshd -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
                   container_name, container_port, add_open_port_str))
 
     print("create container on %s successful!" % node_name)
@@ -69,7 +68,8 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-
+        if cname != 'piaozx':
+            continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
