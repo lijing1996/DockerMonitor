@@ -3,6 +3,9 @@
 # @Author  : Zhixin Piao 
 # @Email   : piaozhx@shanghaitech.edu.cn
 
+import sys
+sys.path.append('./')
+
 import os
 from db.db_manager import DatabaseManager
 
@@ -20,6 +23,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/sbin:/sbin "
               "-v /public/docker/%s/usr:/usr "
               "--privileged=true "
+              # "--volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro "
               "--restart unless-stopped "
               "--add-host node01:10.10.10.101 "
               "--add-host node02:10.10.10.102 "
