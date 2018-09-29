@@ -35,7 +35,7 @@ c.NotebookApp.port =30339  ## 这里填写自己的端口号， 保存退出�
 
 ```
 $ tmux
-$ ctrl-b $ ## 将屏幕分为左右两个部分
+$ ctrl-b % ## 将屏幕分为左右两个部分
 $ ssh -CNfR 30339:0.0.0.0:30339 admin  ## 添加反向代理, 屏幕左边输入
 $ jupyter notebook --allow-root  ## 屏幕右边打开jupyter
 ```
