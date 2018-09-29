@@ -18,6 +18,7 @@ from handler.login_handler import LoginHandler
 from handler.index_handler import IndexHandler
 from handler.permission_handler import PermissionHandler
 from handler.gpu_handler import GpuHandler, P40GpuHandler
+from handler.real_gpu_handler import RealGpuHandler
 
 from db.db_manager import DatabaseManager
 
@@ -36,7 +37,8 @@ class Application(tornado.web.Application):
             (r"/permission", PermissionHandler),
             (r"/user", UserHandler),
             (r"/gpu", GpuHandler),
-            (r"/p40_gpu", P40GpuHandler)
+            (r"/p40_gpu", P40GpuHandler),
+            (r"/real_gpu", RealGpuHandler)
         ]
 
         settings = dict(
