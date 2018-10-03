@@ -24,7 +24,8 @@ class DatabaseManager:
 
     def get_all_user_info(self):
         cursor = self.get_cursor()
-        cursor.execute("select uid, username,chinese_name,email, container_port, open_port_range,advisor from docker.user")
+        cursor.execute(
+            "select uid, username,chinese_name,email, container_port, open_port_range,advisor from docker.user")
         user_base_list = cursor.fetchall()
 
         user_info_list = []
@@ -40,7 +41,9 @@ class DatabaseManager:
                          }
 
             # query user permission
-            cursor.execute("select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info['uid'])
+            cursor.execute(
+                "select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info[
+                    'uid'])
             user_permission_list = cursor.fetchall()
 
             for user_permission in user_permission_list:
@@ -186,6 +189,17 @@ class DatabaseManager:
         self.commit()
         return node_msg_list
 
+    def get_courses_node_msg_list(self):
+        cursor = self.get_cursor()
+
+        cursor.execute('''select node_gpu_msg from docker.gpu where node_gpu_msg <> "" ''')
+        node_msg_list = cursor.fetchall()
+        node_msg_list = list(map(lambda x: json.loads(x[0]), node_msg_list))
+
+        self.commit()
+        selected_node = [12, 13, 23, 24, 25]
+        return [node_msg_list[node_id] for node_id in selected_node]
+
     '''
     for discuss
     '''
@@ -193,7 +207,8 @@ class DatabaseManager:
     def add_question(self, title, content, create_date):
         cursor = self.get_cursor()
 
-        cursor.execute("INSERT INTO docker.discuss(title, content, create_date) VALUES ('%s', '%s','%s')" % (title, content, create_date))
+        cursor.execute("INSERT INTO docker.discuss(title, content, create_date) VALUES ('%s', '%s','%s')" % (
+        title, content, create_date))
         self.commit()
 
     def add_answer(self, question_id, content, create_date):
@@ -207,7 +222,8 @@ class DatabaseManager:
             floor = max_floor + 1
 
         cursor.execute(
-            "INSERT INTO docker.answer(question_id, floor,content, create_date) VALUES (%d, %d, '%s','%s')" % (question_id, floor, content, create_date))
+            "INSERT INTO docker.answer(question_id, floor,content, create_date) VALUES (%d, %d, '%s','%s')" % (
+            question_id, floor, content, create_date))
         self.commit()
 
     def get_all_questions(self):
