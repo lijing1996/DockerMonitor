@@ -12,21 +12,21 @@ from db.db_manager import DatabaseManager
 
 
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
+
+
     os.system("ssh %s "
               "%s run "
               "--name %s "
-              "--network=host "
               "-v /home/%s:/home/%s "
-              "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
-              "-v /public/docker/%s/bin:/bin "
-              "-v /public/docker/%s/etc:/etc "
-              "-v /public/docker/%s/lib:/lib "
-              "-v /public/docker/%s/lib64:/lib64 "
-              "-v /public/docker/%s/opt:/opt "
-              "-v /public/docker/%s/root:/root "
-              "-v /public/docker/%s/sbin:/sbin "
-              "-v /public/docker/%s/usr:/usr "
+              "-v /p300/docker/%s/bin:/bin "
+              "-v /p300/docker/%s/etc:/etc "
+              "-v /p300/docker/%s/lib:/lib "
+              "-v /p300/docker/%s/lib64:/lib64 "
+              "-v /p300/docker/%s/opt:/opt "
+              "-v /p300/docker/%s/root:/root "
+              "-v /p300/docker/%s/sbin:/sbin "
+              "-v /p300/docker/%s/usr:/usr "
               "--privileged=true "
               # "--volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro "
               "--restart unless-stopped "
@@ -60,19 +60,18 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--shm-size=%s "
               "-h %s "
               "-d "
+              "-p %d:22 "
+              "%s "
               "deepo_plus "
-              "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
-                  container_name, container_port))
+              "/usr/sbin/sshd -D" % (
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
+                  container_name, container_port, add_open_port_str))
 
     print("create container on %s successful!" % node_name)
 
 
 def rm_container_on_remote(node_name, container_name):
-    container_name_with_dot = container_name.replace('-', '.')
-
     os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
-    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name_with_dot, container_name_with_dot))
     print('close', container_name, 'done')
 
 
@@ -86,13 +85,14 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['piaozx']:
+        if username not in ['yanshp']:
             continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
-            container_name = '%s-%s' % (username, node_name)
+
+            container_name = '%s.%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
@@ -103,9 +103,10 @@ def main():
             shm_size = str(shm_size) + memory_unit
 
             rm_container_on_remote(node_name, container_name)
-
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
+
             print("create container %s successfully." % container_name)
+
 
 
 if __name__ == '__main__':

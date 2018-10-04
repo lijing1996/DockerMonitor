@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2018/9/9 11:22 PM
+# @Time    : 2018/10/3 2:41 PM
 # @Author  : Zhixin Piao 
 # @Email   : piaozhx@shanghaitech.edu.cn
 
@@ -15,8 +15,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     os.system("ssh %s "
               "%s run "
               "--name %s "
-              "--network=host "
-              "-v /home/%s:/home/%s "
+              "-v /home/%s:/home/%s:ro "
               "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
@@ -59,6 +58,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
+              "--network=host "
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
@@ -86,7 +86,7 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['piaozx']:
+        if username not in ['zhangsy']:
             continue
 
         for permission_detail in user_info['permission']:

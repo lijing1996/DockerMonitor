@@ -46,9 +46,9 @@ class DeleteHandler(BaseHandler):
         self.write(ret)
 
     def close_all_container(self, cname, uid):
-        node_list = list(range(0, 18 + 1))
+        node_list = list(range(0, 26 + 1))
 
-        p = Pool(20)
+        p = Pool(27)
         args_list = []
 
         for node_id in node_list:

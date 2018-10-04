@@ -43,7 +43,7 @@ class RemoveHandler(BaseHandler):
             self.write(ret)
             return
 
-        p = Pool(20)
+        p = Pool(27)
         args_list = []
 
         for node_id in node_list:

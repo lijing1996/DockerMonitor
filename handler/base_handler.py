@@ -24,7 +24,7 @@ class BaseHandler(tornado.web.RequestHandler):
         if not isinstance(node_list, list) or len(node_list) == 0:
             return None
 
-        standard_node_list = list(range(0, 18 + 1))
+        standard_node_list = list(range(0, 26 + 1))
         for node_id in node_list:
             if node_id not in standard_node_list:
                 return None

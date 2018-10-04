@@ -16,3 +16,8 @@ class P40GpuHandler(BaseHandler):
     def get(self):
         node_gpu_msg_list = self.db.get_p40_node_msg_list()
         self.render('../html/p40_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())
+
+class CoursesGpuHandler(BaseHandler):
+    def get(self):
+        node_gpu_msg_list = self.db.get_courses_node_msg_list()
+        self.render('../html/courses_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())

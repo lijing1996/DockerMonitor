@@ -15,6 +15,8 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "%s run "
               "--name %s "
               "-v /home/%s:/home/%s "
+              "-v /p300/docker/%s:/p300 "
+              "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
               "-v /public/docker/%s/etc:/etc "
               "-v /public/docker/%s/lib:/lib "
@@ -43,16 +45,24 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host node16:10.10.10.116 "
               "--add-host node17:10.10.10.117 "
               "--add-host node18:10.10.10.118 "
+              "--add-host node19:10.10.10.119 "
+              "--add-host node20:10.10.10.120 "
+              "--add-host node21:10.10.10.121 "
+              "--add-host node22:10.10.10.122 "
+              "--add-host node23:10.10.10.123 "
+              "--add-host node24:10.10.10.124 "
+              "--add-host node25:10.10.10.125 "
+              "--add-host node26:10.10.10.126 "
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
-              
+
               "-d "
               "-p %d:22 "
               "%s "
               "deepo_plus "
               "/usr/sbin/sshd -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
                   container_name, container_port, add_open_port_str))
 
     print("create container on %s successful!" % node_name)
