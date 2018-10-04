@@ -93,16 +93,13 @@ def main():
         if receiver == 'test':
             continue
 
-        if username not in ['piaozx']:
-            continue
-
         node_name_list = [p['name'] for p in user_info['permission']]
         success = send_email(chs_name, receiver, username, 'plus', container_port, open_port_range, node_name_list)
 
         while not success:
             # count = 0
             time.sleep(10)
-            success = send_email(receiver, username, 'plus', container_port, open_port_range, node_name_list)
+            success = send_email(chs_name, receiver, username, 'plus', container_port, open_port_range, node_name_list)
 
         # count += 1
         #

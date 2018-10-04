@@ -14,6 +14,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     os.system("ssh %s "
               "%s run "
               "--name %s "
+              "--network=host "
               "-v /home/%s:/home/%s "
               "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
@@ -56,14 +57,11 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
-
               "-d "
-              "-p %d:22 "
-              "%s "
               "deepo_plus "
-              "/usr/sbin/sshd -D" % (
+              "/usr/sbin/sshd -p %d -D" % (
                   node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
-                  container_name, container_port, add_open_port_str))
+                  container_name, container_port))
 
     print("create container on %s successful!" % node_name)
 
@@ -153,7 +151,7 @@ class PermissionHandler(BaseHandler):
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            container_name = '%s.%s' % (cname, node_name)
+            container_name = '%s-%s' % (cname, node_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
 
         print('create', cname, 'done!', 'port: ', container_port)
