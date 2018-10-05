@@ -151,7 +151,7 @@ class PermissionHandler(BaseHandler):
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            container_name = '%s-%s' % (cname, node_name)
+            container_name = '%s_%s' % (cname, node_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
 
         print('create', cname, 'done!', 'port: ', container_port)

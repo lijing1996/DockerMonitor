@@ -11,7 +11,6 @@ import subprocess
 
 from handler.create_handler import CreateHandler
 from handler.delete_handler import DeleteHandler
-from handler.remove_handler import RemoveHandler
 from handler.user_handler import UserHandler
 from handler.system_handler import SystemHandler
 from handler.login_handler import LoginHandler
@@ -32,7 +31,6 @@ class Application(tornado.web.Application):
             (r"/login", LoginHandler),
             (r"/system", SystemHandler),
             (r"/create", CreateHandler),
-            (r"/remove", RemoveHandler),
             (r"/delete", DeleteHandler),
             (r"/permission", PermissionHandler),
             (r"/user", UserHandler),

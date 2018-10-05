@@ -48,7 +48,7 @@ class CreateHandler(BaseHandler):
         self.write(ret_data)
 
     def create_admin_container(self, cname, container_port, port_range_str):
-        container_name = '%s-admin' % cname
+        container_name = '%s_admin' % cname
         print('open-port range:', port_range_str)
 
         memory_size = os.popen('''free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''').read().strip()

@@ -69,10 +69,10 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
 
 
 def rm_container_on_remote(node_name, container_name):
-    container_name_with_dot = container_name.replace('-', '.')
+    container_name_with_minus = container_name.replace('_', '-')
 
     os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
-    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name_with_dot, container_name_with_dot))
+    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name_with_minus, container_name_with_minus))
     print('close', container_name, 'done')
 
 
@@ -86,13 +86,13 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['piaozx']:
+        if username in ['liuyf', 'liwei']:
             continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
-            container_name = '%s-%s' % (username, node_name)
+            container_name = '%s_%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
