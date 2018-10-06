@@ -30,37 +30,84 @@ class DatabaseManager:
 
         user_info_list = []
         for user_base in user_base_list:
-            user_info = {'uid': user_base[0],
-                         'username': user_base[1],
-                         'chinese_name': user_base[2],
-                         'email': user_base[3],
-                         'container_port': user_base[4],
-                         'open_port_range': user_base[5],
-                         'advisor': user_base[6],
-                         'permission': []
-                         }
 
-            # query user permission
-            cursor.execute(
-                "select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info[
-                    'uid'])
-            user_permission_list = cursor.fetchall()
-
-            for user_permission in user_permission_list:
-                node_id, longtime, start_date, end_date, reason = user_permission
-                if longtime == 0:
-                    start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
-                    end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
-
-                node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
-                             'longtime': longtime,
-                             'start_date': start_date,
-                             'end_date': end_date,
-                             'reason': reason
+            if 'cs280' not in user_base[1]:
+                user_info = {'uid': user_base[0],
+                             'username': user_base[1],
+                             'chinese_name': user_base[2],
+                             'email': user_base[3],
+                             'container_port': user_base[4],
+                             'open_port_range': user_base[5],
+                             'advisor': user_base[6],
+                             'permission': []
                              }
-                user_info['permission'].append(node_info)
 
-            user_info_list.append(user_info)
+                # query user permission
+                cursor.execute(
+                    "select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info[
+                        'uid'])
+                user_permission_list = cursor.fetchall()
+
+                for user_permission in user_permission_list:
+                    node_id, longtime, start_date, end_date, reason = user_permission
+                    if longtime == 0:
+                        start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
+                        end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
+
+                    node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
+                                 'longtime': longtime,
+                                 'start_date': start_date,
+                                 'end_date': end_date,
+                                 'reason': reason
+                                 }
+                    user_info['permission'].append(node_info)
+
+                user_info_list.append(user_info)
+
+        self.commit()
+        return user_info_list
+
+    def get_cs280_user_info(self):
+        cursor = self.get_cursor()
+        cursor.execute(
+            "select uid, username,chinese_name,email, container_port, open_port_range,advisor from docker.user")
+        user_base_list = cursor.fetchall()
+
+        user_info_list = []
+        for user_base in user_base_list:
+
+            if 'cs280' in user_base[1]:
+                user_info = {'uid': user_base[0],
+                             'username': user_base[1].replace('cs280-', ''),
+                             'chinese_name': user_base[2],
+                             'email': user_base[3],
+                             'container_port': user_base[4],
+                             'open_port_range': user_base[5],
+                             'advisor': user_base[6],
+                             'permission': []
+                             }
+
+                # query user permission
+                cursor.execute(
+                    "select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info[
+                        'uid'])
+                user_permission_list = cursor.fetchall()
+
+                for user_permission in user_permission_list:
+                    node_id, longtime, start_date, end_date, reason = user_permission
+                    if longtime == 0:
+                        start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
+                        end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
+
+                    node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
+                                 'longtime': longtime,
+                                 'start_date': start_date,
+                                 'end_date': end_date,
+                                 'reason': reason
+                                 }
+                    user_info['permission'].append(node_info)
+
+                user_info_list.append(user_info)
 
         self.commit()
         return user_info_list
