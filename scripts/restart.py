@@ -17,6 +17,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--name %s "
               "--network=host "
               "-v /home/%s:/home/%s "
+              "-v /home/charles:/home/charles "
               "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
@@ -30,6 +31,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--privileged=true "
               # "--volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro "
               "--restart unless-stopped "
+              "--add-host %s:127.0.0.1 "
               "--add-host node01:10.10.10.101 "
               "--add-host node02:10.10.10.102 "
               "--add-host node03:10.10.10.103 "
@@ -62,17 +64,16 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)
 
 
-def rm_container_on_remote(node_name, container_name):
-    container_name_with_dot = container_name.replace('-', '.')
+def rm_container_on_remote(node_name, container_name, username):
+    container_name_with_minus = '%s-%s' % (username, node_name)
 
     os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
-    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name_with_dot, container_name_with_dot))
     print('close', container_name, 'done')
 
 
@@ -86,13 +87,13 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['piaozx']:
+        if username not in ['xuyy']:
             continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
-            container_name = '%s-%s' % (username, node_name)
+            container_name = '%s_%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
@@ -102,7 +103,7 @@ def main():
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            rm_container_on_remote(node_name, container_name)
+            rm_container_on_remote(node_name, container_name, username)
 
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)

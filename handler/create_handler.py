@@ -48,7 +48,7 @@ class CreateHandler(BaseHandler):
         self.write(ret_data)
 
     def create_admin_container(self, cname, container_port, port_range_str):
-        container_name = '%s.admin' % cname
+        container_name = '%s_admin' % cname
         print('open-port range:', port_range_str)
 
         memory_size = os.popen('''free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''').read().strip()
@@ -60,9 +60,9 @@ class CreateHandler(BaseHandler):
         print('Creating user container on admin...')
         os.system("docker run "
                   "--name %s "
+                  "--network=host "
                   "-v /p300/docker/%s:/p300 "
                   "-v /p300/datasets:/datasets:ro "
-                  "-v /home/%s:/home/%s "
                   "-v /public/docker/%s/bin:/bin "
                   "-v /public/docker/%s/etc:/etc "
                   "-v /public/docker/%s/lib:/lib "
@@ -71,6 +71,7 @@ class CreateHandler(BaseHandler):
                   "-v /public/docker/%s/root:/root "
                   "-v /public/docker/%s/sbin:/sbin "
                   "-v /public/docker/%s/usr:/usr "
+                  "--add-host %s:127.0.0.1 "
                   "--add-host node01:10.10.10.101 "
                   "--add-host node02:10.10.10.102 "
                   "--add-host node03:10.10.10.103 "
@@ -101,12 +102,10 @@ class CreateHandler(BaseHandler):
                   "--shm-size=%s "
                   "-h %s "
                   "-d "
-                  "-p %d:22 "
-                  "-p %s:%s "
                   "deepo_plus "
-                  "/usr/sbin/sshd -D" % (
-                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size, container_name,
-                      container_port, port_range_str, port_range_str))
+                  "/usr/sbin/sshd -p %d -D" % (
+                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, container_name,
+                      container_port))
 
     def create_user_docker_dir(self, cname, container_port, port_range_str):
         self.log += 'Creating user docker dir...\n'

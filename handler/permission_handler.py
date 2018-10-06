@@ -14,7 +14,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     os.system("ssh %s "
               "%s run "
               "--name %s "
-              "-v /home/%s:/home/%s "
+              "--network=host "
               "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
@@ -27,6 +27,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/usr:/usr "
               "--privileged=true "
               "--restart unless-stopped "
+              "--add-host %s:127.0.0.1 "
               "--add-host node01:10.10.10.101 "
               "--add-host node02:10.10.10.102 "
               "--add-host node03:10.10.10.103 "
@@ -56,14 +57,11 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
-
               "-d "
-              "-p %d:22 "
-              "%s "
               "deepo_plus "
-              "/usr/sbin/sshd -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
-                  container_name, container_port, add_open_port_str))
+              "/usr/sbin/sshd -p %d -D" % (
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size,
+                  container_name, container_port))
 
     print("create container on %s successful!" % node_name)
 
@@ -153,7 +151,7 @@ class PermissionHandler(BaseHandler):
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            container_name = '%s.%s' % (cname, node_name)
+            container_name = '%s_%s' % (cname, node_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
 
         print('create', cname, 'done!', 'port: ', container_port)
