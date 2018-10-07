@@ -1,0 +1,136 @@
+StrictHostKeyChecking no
+
+Host admin
+    Hostname 10.10.10.100
+    Port user_port
+    User root
+
+Host node01
+    Hostname 10.10.10.101
+    Port user_port
+    User root
+
+Host node02
+    Hostname 10.10.10.102
+    Port user_port
+    User root
+
+Host node03
+    Hostname 10.10.10.103
+    Port user_port
+    User root
+
+Host node04
+    Hostname 10.10.10.104
+    Port user_port
+    User root
+
+Host node05
+    Hostname 10.10.10.105
+    Port user_port
+    User root
+
+Host node06
+    Hostname 10.10.10.106
+    Port user_port
+    User root
+
+Host node07
+    Hostname 10.10.10.107
+    Port user_port
+    User root
+
+Host node08
+    Hostname 10.10.10.108
+    Port user_port
+    User root
+
+Host node09
+    Hostname 10.10.10.109
+    Port user_port
+    User root
+
+Host node10
+    Hostname 10.10.10.110
+    Port user_port
+    User root
+
+Host node11
+    Hostname 10.10.10.111
+    Port user_port
+    User root
+
+Host node12
+    Hostname 10.10.10.112
+    Port user_port
+    User root
+
+Host node13
+    Hostname 10.10.10.113
+    Port user_port
+    User root
+
+Host node14
+    Hostname 10.10.10.114
+    Port user_port
+    User root
+
+Host node15
+    Hostname 10.10.10.115
+    Port user_port
+    User root
+
+Host node16
+    Hostname 10.10.10.116
+    Port user_port
+    User root
+
+Host node17
+    Hostname 10.10.10.117
+    Port user_port
+    User root
+
+Host node18
+    Hostname 10.10.10.118
+    Port user_port
+    User root
+
+Host node19
+    Hostname 10.10.10.119
+    Port user_port
+    User root
+
+Host node20
+    Hostname 10.10.10.120
+    Port user_port
+    User root
+
+Host node21
+    Hostname 10.10.10.121
+    Port user_port
+    User root
+
+Host node22
+    Hostname 10.10.10.122
+    Port user_port
+    User root
+
+Host node23
+    Hostname 10.10.10.123
+    Port user_port
+    User root
+
+Host node24
+    Hostname 10.10.10.124
+    Port user_port
+    User root
+
+Host node25
+    Hostname 10.10.10.125
+    Port user_port
+    User root
+
+Host node26
+    Hostname 10.10.10.126
+    Port user_port
+    User root

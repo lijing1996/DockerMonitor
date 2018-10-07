@@ -11,11 +11,13 @@ import subprocess
 
 from handler.create_handler import CreateHandler
 from handler.delete_handler import DeleteHandler
+from handler.remove_handler import RemoveHandler
 from handler.user_handler import UserHandler
 from handler.system_handler import SystemHandler
 from handler.login_handler import LoginHandler
 from handler.index_handler import IndexHandler
 from handler.permission_handler import PermissionHandler
+from handler.cs280_permission_handler import CS280PermissionHandler
 from handler.gpu_handler import GpuHandler, P40GpuHandler, CoursesGpuHandler
 from handler.real_gpu_handler import RealGpuHandler
 
@@ -31,8 +33,10 @@ class Application(tornado.web.Application):
             (r"/login", LoginHandler),
             (r"/system", SystemHandler),
             (r"/create", CreateHandler),
+            (r"/remove", RemoveHandler),
             (r"/delete", DeleteHandler),
             (r"/permission", PermissionHandler),
+            (r"/cs280_permission", CS280PermissionHandler),
             (r"/user", UserHandler),
             (r"/gpu", GpuHandler),
             (r"/p40_gpu", P40GpuHandler),

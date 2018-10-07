@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Start - AI集群官方文档</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Start";
+    var mkdocs_page_input_path = "start.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> AI集群官方文档</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Start</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#_1">申请集群账号及权限</a></li>
+    
+
+    <li class="toctree-l2"><a href="#ai">登录AI集群</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#how-to-find-out-gpu-usage">How to Find Out GPU Usage</a></li>
+        
+            <li><a class="toctree-l3" href="#how-to-make-command-running-in-the-background">How To Make Command Running in the Background</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#working-with-ai-cluster-the-best-practice">Working With AI Cluster The Best Practice</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#access-to-internet-or-other-nodes">Access to Internet or Other Nodes</a></li>
+        
+            <li><a class="toctree-l3" href="#request-for-sudo-privilege">Request For Sudo Privilege</a></li>
+        
+            <li><a class="toctree-l3" href="#the-best-practice-for-python-users">The Best Practice For Python Users</a></li>
+        
+            <li><a class="toctree-l3" href="#how-to-run-applications-with-gui">How to Run Applications With GUI</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">QA</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../QA_cluster/">集群管理相关</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../QA_container/">容器配置相关</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../moral/">道德准则</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">AI集群官方文档</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Start</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h3 id="_1">申请集群账号及权限</h3>
+<p>所有申请AI集群节点权限的学生需要<a href="mailto:wangjinlei@shanghaitech.edu.cn">发邮件给王金磊老师</a>并抄送你的导师, 邮件内容包括:</p>
+<ol>
+<li>你的名字</li>
+<li>上科大邮箱</li>
+<li>资源需求情况</li>
+<li>需要多长时间</li>
+<li>原因</li>
+</ol>
+<h3 id="ai">登录AI集群</h3>
+<p>申请成功后, 你会收到类似如下信息:</p>
+<pre><code>username: piaozx
+password: 123456
+port: 22100
+admin_open_port: 31000-31009
+</code></pre>
+
+<p>其中<code>username</code>为你的用户名(但是在登录时不会用到), <code>password</code>是你的初始登录密码, <code>port</code>是你登录用的端口号, <code>admin_open_port</code>是为开启网络服务预留的端口号(如<code>visdom</code>, <code>jupyter</code>)</p>
+<p>接下来我们用ssh登录即可(注意, 登录时用户名为<code>root</code>):</p>
+<pre><code>ssh root@10.19.124.11 -p 22100
+</code></pre>
+
+<p>windows上的cmd默认没有ssh, 在这里推荐使用<code>WSL</code>(Windows Subsystem for Linux), 具体网上教程用很多, 不再赘述.</p>
+<pre><code># piaozhx @ pzx-mbp in ~ [18:43:17]
+$ ssh root@10.19.124.11 -p 22100
+root@10.19.124.11's password:
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 3.10.0-514.16.1.el7.x86_64 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+  If you have any problem, go to AI server website
+  ADMIN OPEN PORT: 31000-31009
+ .............................................
+Last login: Mon Aug 27 10:30:35 2018 from 10.20.194.83
+
+# root @ piaozx.admin in ~ [12:01:43]
+$
+</code></pre>
+
+<p>Alternatively, you can <a href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">configure public key authentication</a> for fast login without password.</p>
+<p>{{&lt; admonition title="Note" type="note" &gt;}}
+You may be asked to change your initial password the first time you login.
+{{&lt; /admonition &gt;}}</p>
+<p>The prompt <code>(AI)username@admin:~$</code> means that you are now in the <code>admin</code> node of AI cluster. Admin node is an intermediate node where you can access all other nodes in the cluster. All other nodes is only accessable though admin node. For example, you can enter</p>
+<pre><code class="sh">ssh node01
+</code></pre>
+
+<p>to access node01 in the cluster.
+{{&lt; admonition title="Warnning" type="warnning" &gt;}}
+Users MUST NOT execute any compute-intensive applications directly on admin node.
+{{&lt; /admonition &gt;}}</p>
+<h4 id="how-to-find-out-gpu-usage">How to Find Out GPU Usage</h4>
+<p>NVIDIA provides command line tools <code>nvidia-smi</code> for users to monitor GPU usage. Just enter</p>
+<pre><code class="sh">nvidia-smi
+</code></pre>
+
+<p>in your terminal, then you will get output like following:</p>
+<pre><code>Fri Jun 30 13:22:13 2017
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 375.26                 Driver Version: 375.26                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1080    Off  | 0000:02:00.0     Off |                  N/A |
+| 27%   31C    P0    38W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 1080    Off  | 0000:03:00.0     Off |                  N/A |
+| 27%   34C    P0    38W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  GeForce GTX 1080    Off  | 0000:83:00.0     Off |                  N/A |
+| 27%   28C    P0    38W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  GeForce GTX 1080    Off  | 0000:84:00.0     Off |                  N/A |
+|  0%   29C    P0    34W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID  Type  Process name                               Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+</code></pre>
+
+<h4 id="how-to-make-command-running-in-the-background">How To Make Command Running in the Background</h4>
+<p>If you directly run come commands in your terminal, their processes will be termimated once you disconnect from AI cluster. In order to make your command stay alive after you close the terminal session, you have to make your command process run in background using <code>nohup command args &amp;</code>. Optionally, you can specify the file where the <a href="https://en.wikipedia.org/wiki/Standard_streams">stdout</a> will be redirected. Here are some examples:</p>
+<pre><code class="sh"># run a training scripts in the background and redirect stdout to file &quot;out.txt&quot;
+nohup python train.py --lr 0.1 --epochs 100 &gt;&gt; out.txt &amp;
+</code></pre>
+
+<p>Then you can use <code>tailf out.txt</code> to monitor your script's output. You can safely use <code>CTRL-C</code> to terminate <code>tailf</code> command without effect on your script.
+If you want to terminate your command running in the background, you should first get the <strong>process id(PID)</strong> of your command. This can be done using <code>ps aux</code>, you will see a list of process running on the node. You can use <code>grep</code> to filter the output, like the following:</p>
+<pre><code class="sh"># find the PID of processes whose name containing key words &quot;python&quot;
+ps aux | grep python
+</code></pre>
+
+<p>You will only see all process whose command line contain key words <code>python</code>.
+Then, you can get your process PID in the corresponding column of the output. To terminate your command process, enter the following command:</p>
+<pre><code class="sh">kill -9 12345 23456
+</code></pre>
+
+<p>where <code>12345</code> and <code>23456</code> are PIDs of the processes you wish to terminate.</p>
+<h3 id="working-with-ai-cluster-the-best-practice">Working With AI Cluster The Best Practice</h3>
+<h4 id="access-to-internet-or-other-nodes">Access to Internet or Other Nodes</h4>
+<p>Users should note that <strong>only admin node have internet access</strong>. Therefore if you want to download something from internet, you should download it on admin node. All nodes in the cluster <strong>share the same filesystem</strong>, which means that once you download something on admin node, you have it on all other nodes.
+There two kinds of networks in AI cluster: job network and IB network. The former is used in most cases (e.g. ssh login) while the later provides high speed communications between nodes. Hostnames <code>nodeXX</code> are resolved to the job network ip <code>10.10.10.1XX</code> and <code>inodeXX</code> are resolved to the IB network ip <code>12.12.12.1XX</code>. Users who need high speed communication between nodes are recommanded to use IB network.</p>
+<p>{{&lt; admonition title="Note" type="note" &gt;}}
+Because shared storage uses IB network, heavy usage of IB network may slow down I/O speed.
+{{&lt; /admonition &gt;}}</p>
+<h4 id="request-for-sudo-privilege">Request For Sudo Privilege</h4>
+<p><strong>All users should not request for sudo privilege in most situations</strong>. Users accustomed to work with their personal computers may like to use <code>sudo apt-get install blablabla</code> to install all softwares and liberaries, however, it is not necessary to use root privilege if you just install them in your own directories. All commonly used liberaries and softwares have already been installed in the system, all users who need extra softwares or libraries should firstly try to install them in their own directory and use environment variables like <code>PATH</code> and <code>LD_LIBRARY_PATH</code> to declare the new software executable file or libraries.</p>
+<h4 id="the-best-practice-for-python-users">The Best Practice For Python Users</h4>
+<p>We highly recommend python users to setup their own <a href="https://www.continuum.io/downloads">anaconda environment</a>. Their are plenty of advantages using anaconda:</p>
+<ol>
+<li>Easy to install new packages using <code>conda</code> or <code>pip</code> command, without requiring admin privilege.</li>
+<li>Making users' python environment seperated from system python environment.</li>
+<li>Some python packages just provide wrappers for some C++ libraries, hence needs underlying C++ liberaries to be installed. Anaconda will handle all these dependencies elegantly.</li>
+</ol>
+<p>If their are some reasons you really need system python environment and want to install some packages. You SHOULD install it into your home directory with the following command.</p>
+<pre><code class="sh">pip install package-name --user
+</code></pre>
+
+<h4 id="how-to-run-applications-with-gui">How to Run Applications With GUI</h4>
+<p>Some users may need to use softwares with GUI (e.g. matlab, pycharm), which is possible using ssh <a href="https://en.wikipedia.org/wiki/X_Window_System">X11</a> forwarding. AI cluster is configured to support X11 forwarding, but users need to add extra lines into their <code>.bashrc</code> file to make X11 forwarding run properly. In order to enable X11 forwarding feature, add the following lines into <code>.bashrc</code>:</p>
+<pre><code class="bash">export XAUTHORITY=/home/$(whoami)/.Xauthority
+if [ -f &quot;./DISPLAY&quot; ] &amp;&amp; [ &quot;$HOSTNAME&quot; != &quot;admin&quot; ]
+then
+        export DISPLAY=$(cat ./DISPLAY)
+        xauth add $(cat ./DISPLAYSESSION)
+fi
+</code></pre>
+
+<p>Then user should re-login AI cluster with</p>
+<pre><code class="bash">ssh -X username@10.19.124.11
+</code></pre>
+
+<p>where the option <code>-X</code> enables X11 forwarding feature.
+Now you can feel free to run graphics applications, for example, you can try to run <code>matlab</code> and you will see matlab main window on your local PC.
+The ssh X11 forwarding can be chained, for example, it's possible to run GUI applications on nodes other than admin node.</p>
+<pre><code class="bash"># on your local PC
+ssh -X username@10.19.124.11
+# on admin node
+ssh -X node01
+# then you can run GUI applications like matlab on node01
+matlab
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../QA_cluster/" class="btn btn-neutral float-right" title="集群管理相关">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../QA_cluster/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>容器配置相关 - AI集群官方文档</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u5bb9\u5668\u914d\u7f6e\u76f8\u5173";
+    var mkdocs_page_input_path = "QA_container.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> AI集群官方文档</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../start/">Start</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">QA</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../QA_cluster/">集群管理相关</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">容器配置相关</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">容器配置相关问题</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_2">如何上传文件到集群? / 如何从集群下载文件?</a></li>
+        
+            <li><a class="toctree-l4" href="#gpu">如何查看GPU使用情况?</a></li>
+        
+            <li><a class="toctree-l4" href="#nvidia-driver-cuda-cudnn">如何查看nvidia-driver版本? / cuda版本? / cudnn版本?</a></li>
+        
+            <li><a class="toctree-l4" href="#python-pytorch-tensorflow">如何查看python版本? / pytorch版本? / tensorflow版本?</a></li>
+        
+            <li><a class="toctree-l4" href="#_3">显存被看不见的进程占据怎么办?</a></li>
+        
+            <li><a class="toctree-l4" href="#jupyter">如何开启jupyter?</a></li>
+        
+            <li><a class="toctree-l4" href="#visdom">如何开启visdom?</a></li>
+        
+            <li><a class="toctree-l4" href="#python">如何创建python的虚拟环境?</a></li>
+        
+            <li><a class="toctree-l4" href="#screen-tmux">如何配置和使用screen / tmux?</a></li>
+        
+            <li><a class="toctree-l4" href="#zsh-zsh">zsh是什么, 如何配置和使用zsh?</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../moral/">道德准则</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">AI集群官方文档</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>QA &raquo;</li>
+        
+      
+    
+    <li>容器配置相关</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="_1">容器配置相关问题</h1>
+<h2 id="_2">如何上传文件到集群? / 如何从集群下载文件?</h2>
+<p><code>scp</code>了解一下</p>
+<pre><code># Copy local folder &quot;/home/username/local-dir&quot; to AI cluster directory &quot;/home/username/&quot; 
+scp -r /home/username/local-dir username@10.19.124.11:/home/username/
+
+# Copy file &quot;/home/username/project1/result.txt&quot; from AI cluster to path &quot;/home/username/results&quot; on local PC
+scp -r username@10.19.124.11:/home/username/project1/result.txt /home/username/results/
+</code></pre>
+
+<h2 id="gpu">如何查看GPU使用情况?</h2>
+<p>NVIDIA驱动提供了一个简单的命令行工具<code>nvidia-smi</code>:</p>
+<pre><code># root @ piaozx.node01 in ~ [12:10:23]
+$ nvidia-smi
+Mon Aug 27 12:10:25 2018
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 387.26                 Driver Version: 387.26                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla M40 24GB      Off  | 00000000:02:00.0 Off |                    0 |
+| N/A   56C    P0   175W / 250W |   2657MiB / 22939MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla M40 24GB      Off  | 00000000:03:00.0 Off |                    0 |
+| N/A   49C    P0   140W / 250W |    648MiB / 22939MiB |     91%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  Tesla M40 24GB      Off  | 00000000:83:00.0 Off |                    0 |
+| N/A   55C    P0   175W / 250W |   1126MiB / 22939MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  Tesla M40 24GB      Off  | 00000000:84:00.0 Off |                    0 |
+| N/A   46C    P0   142W / 250W |    648MiB / 22939MiB |     71%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0     28713      C   python                                      1317MiB |
+|    1     14924      C   python                                       636MiB |
+|    2     16059      C   python                                      1115MiB |
+|    3     19563      C   python                                       636MiB |
++-----------------------------------------------------------------------------+
+</code></pre>
+
+<p>显然, 这个工具只能显示一些基本信息, 一些你更关心的信息(谁在跑程序? 跑了多久了?)可以从<a href="http://10.19.124.11:8899/gpu">AI集群GPU Status</a>获取:
+<img alt="" src="../img/gpu_status.png" /></p>
+<h2 id="nvidia-driver-cuda-cudnn">如何查看nvidia-driver版本? / cuda版本? / cudnn版本?</h2>
+<h2 id="python-pytorch-tensorflow">如何查看python版本? / pytorch版本? / tensorflow版本?</h2>
+<h2 id="_3">显存被看不见的进程占据怎么办?</h2>
+<pre><code># root @ piaozx.node01 in ~ [12:10:23]
+$ nvidia-smi
+Mon Aug 27 12:10:25 2018
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 387.26                 Driver Version: 387.26                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla M40 24GB      Off  | 00000000:02:00.0 Off |                    0 |
+| N/A   56C    P0   175W / 250W |   2657MiB / 22939MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla M40 24GB      Off  | 00000000:03:00.0 Off |                    0 |
+| N/A   49C    P0   140W / 250W |    648MiB / 22939MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  Tesla M40 24GB      Off  | 00000000:83:00.0 Off |                    0 |
+| N/A   55C    P0   175W / 250W |   1126MiB / 22939MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  Tesla M40 24GB      Off  | 00000000:84:00.0 Off |                    0 |
+| N/A   46C    P0   142W / 250W |    648MiB / 22939MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|                                                                             |
+|                                                                             |
+|                                                                             |
+|                                                                             |
++-----------------------------------------------------------------------------+
+</code></pre>
+
+<h2 id="jupyter">如何开启jupyter?</h2>
+<h2 id="visdom">如何开启visdom?</h2>
+<h2 id="python">如何创建python的虚拟环境?</h2>
+<h2 id="screen-tmux">如何配置和使用screen / tmux?</h2>
+<h2 id="zsh-zsh">zsh是什么, 如何配置和使用zsh?</h2>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../moral/" class="btn btn-neutral float-right" title="道德准则">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../QA_cluster/" class="btn btn-neutral" title="集群管理相关"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../QA_cluster/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../moral/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
