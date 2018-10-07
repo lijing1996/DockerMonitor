@@ -63,7 +63,6 @@ class CreateHandler(BaseHandler):
                   "--network=host "
                   "-v /p300/docker/%s:/p300 "
                   "-v /p300/datasets:/datasets:ro "
-                  "-v /home/%s:/home/%s "
                   "-v /public/docker/%s/bin:/bin "
                   "-v /public/docker/%s/etc:/etc "
                   "-v /public/docker/%s/lib:/lib "
@@ -72,6 +71,7 @@ class CreateHandler(BaseHandler):
                   "-v /public/docker/%s/root:/root "
                   "-v /public/docker/%s/sbin:/sbin "
                   "-v /public/docker/%s/usr:/usr "
+                  "--add-host %s:127.0.0.1 "
                   "--add-host node01:10.10.10.101 "
                   "--add-host node02:10.10.10.102 "
                   "--add-host node03:10.10.10.103 "
@@ -104,7 +104,7 @@ class CreateHandler(BaseHandler):
                   "-d "
                   "deepo_plus "
                   "/usr/sbin/sshd -p %d -D" % (
-                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size, container_name,
+                      container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, container_name,
                       container_port))
 
     def create_user_docker_dir(self, cname, container_port, port_range_str):

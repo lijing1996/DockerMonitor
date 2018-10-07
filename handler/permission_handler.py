@@ -15,7 +15,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "%s run "
               "--name %s "
               "--network=host "
-              "-v /home/%s:/home/%s "
               "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
@@ -28,6 +27,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/usr:/usr "
               "--privileged=true "
               "--restart unless-stopped "
+              "--add-host %s:127.0.0.1 "
               "--add-host node01:10.10.10.101 "
               "--add-host node02:10.10.10.102 "
               "--add-host node03:10.10.10.103 "
@@ -60,7 +60,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, cname, shm_size,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)
