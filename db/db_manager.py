@@ -78,7 +78,7 @@ class DatabaseManager:
 
             if 'cs280' in user_base[1]:
                 user_info = {'uid': user_base[0],
-                             'username': user_base[1].replace('cs280-', ''),
+                             'username': user_base[1],
                              'chinese_name': user_base[2],
                              'email': user_base[3],
                              'container_port': user_base[4],
