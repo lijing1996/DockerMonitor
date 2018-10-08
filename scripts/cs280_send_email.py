@@ -2,10 +2,7 @@
 # @Time    : 2018/10/6 22:47
 # @Author  : Yongfei Liu
 # @Email   : liuyf3@shanghaitech.edu.cn
-# -*- coding: utf-8 -*-
-# @Time    : 2018/10/4 1:16 PM
-# @Author  : Zhixin Piao
-# @Email   : piaozhx@shanghaitech.edu.cn
+
 
 import sys
 
@@ -27,6 +24,7 @@ def send_email(chs_name, receiver, username, password, port, admin_open_port, no
     尊敬的AI-Courses集群用户%s: 
     
     AI-Courses-Cluster使用注意事项:
+    update: 新增登陆密码.
     
     1. 按照计划，为每位没有显卡资源的同学开通AI-Courses-Cluster的使用权限, 该GPU资源仅为课程作业以及课程project使用，切做其他用途。
     2. 由于资源有限，同一节点安排人数较多，请大家错峰使用，切勿恶意抢占资源。
@@ -34,12 +32,14 @@ def send_email(chs_name, receiver, username, password, port, admin_open_port, no
     4. 考虑大家会用jupyter来写课程作业，AI-Courses-Cluster jupyter 配置方法请参考文档(http://10.19.124.11:8898/QA_container/).
     5. 大家所有程序需要进入节点运行，切勿在Admin运行。
     6. 该资源仅作上课时间使用，课程结束后15日内，我们会删除所有课程账号，请及时保存好自己的文件。
+    7. 首次登陆后请大家修改登陆密码。
     
     
     用户信息小结:
     username: %s
     ssh port: %d
     admin_open_port: %s
+    password: plus
     node list: %s
 
     admin登录方式以及进入节点:
@@ -74,7 +74,7 @@ def send_email(chs_name, receiver, username, password, port, admin_open_port, no
 
 def main():
     db = DatabaseManager()
-    user_info_list = db.get_all_user_info()
+    user_info_list = db.get_cs280_user_info()
 
     count = 0
     for user_info in user_info_list:
@@ -88,7 +88,6 @@ def main():
             continue
 
         if 'cs280' in username:
-
             node_name_list = [p['name'] for p in user_info['permission']]
             success = send_email(chs_name, receiver, username, 'plus', container_port, open_port_range, node_name_list)
             while not success:
