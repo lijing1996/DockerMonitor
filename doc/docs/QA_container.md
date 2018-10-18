@@ -8,6 +8,17 @@ $ pip install ipython --upgrade
 $ pip install jupyter notebook
 ```
 
+### 配置ssh
+用vim打开/etc/ssh/sshd_config, 添加以下内容:
+```
+GatewayPorts yes
+```
+重启admin以及你需要开启jupyter的节点(如node13)的ssh服务:
+```
+service ssh restart
+```
+
+
 ### 配置远程访问jupyter
 
 * 生成密码

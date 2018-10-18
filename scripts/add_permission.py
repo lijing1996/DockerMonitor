@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2018/9/9 11:22 PM
+# @Time    : 2018/10/11 1:07 PM
 # @Author  : Zhixin Piao 
-# @Email   : piaozhx@shanghaitech.edu.cn
+# @Email   : piaozhx@shanghaitech.edu.cn\
 
 import sys
-
 sys.path.append('./')
 
 import os
@@ -12,15 +11,11 @@ from db.db_manager import DatabaseManager
 
 
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
-    addition_str = ""
-    if node_name == 'node26' and cname == 'liandz':
-        addition_str = "-v /new_disk:/new_disk"
-
     os.system("ssh %s "
               "%s run "
               "--name %s "
               "--network=host "
-              "-v /p300/docker/liuwen:/p300 "
+              "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
               "-v /public/docker/%s/etc:/etc "
@@ -62,44 +57,38 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host node26:10.10.10.126 "
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
-              "%s "
               "-h %s "
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)
 
 
-def rm_container_on_remote(node_name, container_name, username):
-    container_name_with_minus = '%s-%s' % (username, node_name)
-
-    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
-    print('close', container_name, 'done')
-
-
 def main():
     db = DatabaseManager()
     user_info_list = db.get_all_user_info()
+    new_node_list = [1, 2, 3, 4, 5, 19, 20, 21]
 
     for user_info in user_info_list:
+        uid = user_info['uid']
         username = user_info['username']
         cname = username
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
+        advisor = user_info['advisor']
 
-        if username not in ['liandz']:
+        if advisor != '高盛华':
             continue
 
-        for permission_detail in user_info['permission']:
-            node_name = permission_detail['name']
+        db.add_user_permission(uid, new_node_list, 'yes', '', '', '')
+
+        for node_id in new_node_list:
+            node_name = 'node%.2d' % node_id
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
             container_name = '%s_%s' % (username, node_name)
-
-            if node_name != 'node26':
-                continue
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
@@ -109,7 +98,7 @@ def main():
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            rm_container_on_remote(node_name, container_name, username)
+            # rm_container_on_remote(node_name, container_name, username)
 
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)

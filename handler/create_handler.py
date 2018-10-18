@@ -71,6 +71,8 @@ class CreateHandler(BaseHandler):
                   "-v /public/docker/%s/root:/root "
                   "-v /public/docker/%s/sbin:/sbin "
                   "-v /public/docker/%s/usr:/usr "
+                  "--privileged=true "
+                  "--restart unless-stopped "
                   "--add-host %s:127.0.0.1 "
                   "--add-host node01:10.10.10.101 "
                   "--add-host node02:10.10.10.102 "
