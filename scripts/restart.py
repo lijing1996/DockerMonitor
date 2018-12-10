@@ -20,7 +20,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "%s run "
               "--name %s "
               "--network=host "
-              "-v /p300/docker/liuwen:/p300 "
+              "-v /p300/docker/%s:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
               "-v /public/docker/%s/etc:/etc "
@@ -64,10 +64,13 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--shm-size=%s "
               "%s "
               "-h %s "
+              "-m 4G"
+              "--memory-swap 8G"
+              "--memory-reservation 2G"
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)

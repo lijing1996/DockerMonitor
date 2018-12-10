@@ -72,6 +72,9 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               --add-host admin:10.10.10.100 \
               --shm-size={shm_size} \
               {addition_str} \
+              -m "4G" \
+              --memory-swap "8G" \
+              --memory-reservation "2G" \
               -h {container_name} \
               -d \
               deepo_plus \
