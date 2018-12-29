@@ -52,6 +52,14 @@ Mon Aug 27 12:10:25 2018
 ![](img/gpu_status.png)
 
 
+## 如何解决显存被看不见的进程占用?
+用`fuser`查询是哪些进程占据了相应的显卡:
+```
+fuser -v /dev/nvidia*
+```
+之后kill掉那些进程就可以了, 多数情况都是`pytorch`的`dataloader`没有正常退出导致的
+
+
 ## 如何查看nvidia-driver版本? / cuda版本? / cudnn版本?
 目前nvidia-driver, cuda, cudnn都集成到cuda-toolkit中了, 装机时直接到[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载想要的版本即可
 

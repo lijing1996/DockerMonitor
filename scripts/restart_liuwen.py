@@ -18,7 +18,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "%s run "
               "--name %s "
               "--network=host "
-              "-v /p300/docker/%s:/p300 "
+              "-v /p300/docker/liuwen:/p300 "
               "-v /p300/datasets:/datasets:ro "
               "-v /public/docker/%s/bin:/bin "
               "-v /public/docker/%s/etc:/etc "
@@ -65,7 +65,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)
@@ -88,7 +88,7 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['hujh']:
+        if username not in ['piaozx']:
             continue
 
         for permission_detail in user_info['permission']:
@@ -104,11 +104,11 @@ def main():
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
+
             rm_container_on_remote(node_name, container_name, username)
 
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)
-
 
 
 if __name__ == '__main__':

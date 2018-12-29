@@ -134,3 +134,48 @@ Host node26
     Hostname 10.10.10.126
     Port user_port
     User root
+
+Host node27
+    Hostname 10.10.10.127
+    Port user_port
+    User root
+
+Host node28
+    Hostname 10.10.10.128
+    Port user_port
+    User root
+
+Host node29
+    Hostname 10.10.10.129
+    Port user_port
+    User root
+
+Host node30
+    Hostname 10.10.10.130
+    Port user_port
+    User root
+
+Host node31
+    Hostname 10.10.10.131
+    Port user_port
+    User root
+
+Host node32
+    Hostname 10.10.10.132
+    Port user_port
+    User root
+
+Host node33
+    Hostname 10.10.10.133
+    Port user_port
+    User root
+
+Host node34
+    Hostname 10.10.10.134
+    Port user_port
+    User root
+
+Host node35
+    Hostname 10.10.10.135
+    Port user_port
+    User root

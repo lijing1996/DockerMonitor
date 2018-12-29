@@ -6,6 +6,8 @@
 import tornado.web
 import os
 
+STANDARD_NODE_LIST = list(range(0, 35 + 1))
+
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -24,8 +26,7 @@ class BaseHandler(tornado.web.RequestHandler):
         if not isinstance(node_list, list) or len(node_list) == 0:
             return None
 
-        standard_node_list = list(range(0, 26 + 1))
         for node_id in node_list:
-            if node_id not in standard_node_list:
+            if node_id not in STANDARD_NODE_LIST:
                 return None
         return node_list

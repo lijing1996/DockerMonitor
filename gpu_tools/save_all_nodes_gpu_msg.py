@@ -14,8 +14,9 @@ import pymysql
 import time
 
 from config import DB_HOST, DB_NAME, DB_PASSWOED, DB_USERNAME
+from handler.base_handler import STANDARD_NODE_LIST
 
-NODE_LIST = range(1, 26 + 1)
+NODE_LIST = STANDARD_NODE_LIST[1:]
 
 
 def get_useful_gpu_msg(node_id):
@@ -34,7 +35,7 @@ def get_useful_gpu_msg(node_id):
 
 
 def main():
-    p = Pool(26)
+    p = Pool(len(NODE_LIST))
     args_list = [(i,) for i in NODE_LIST]
     p.starmap(get_useful_gpu_msg, args_list)
     p.close()

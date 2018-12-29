@@ -43,12 +43,12 @@ class RemoveHandler(BaseHandler):
             self.write(ret)
             return
 
-        p = Pool(27)
+        p = Pool(len(node_list))
         args_list = []
 
         for node_id in node_list:
             node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
-            container_name = '%s.%s' % (username, node_name)
+            container_name = '%s_%s' % (username, node_name)
             args_list.append((node_name, container_name))
 
         p.starmap(remove_container_on_remote, args_list)

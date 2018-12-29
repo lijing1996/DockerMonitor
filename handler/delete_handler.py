@@ -3,7 +3,7 @@
 # @Author  : Zhixin Piao 
 # @Email   : piaozhx@shanghaitech.edu.cn
 
-from handler.base_handler import BaseHandler
+from handler.base_handler import BaseHandler, STANDARD_NODE_LIST
 import os
 from multiprocessing import Pool
 
@@ -46,12 +46,10 @@ class DeleteHandler(BaseHandler):
         self.write(ret)
 
     def close_all_container(self, cname, uid):
-        node_list = list(range(0, 26 + 1))
-
-        p = Pool(27)
+        p = Pool(len(STANDARD_NODE_LIST))
         args_list = []
 
-        for node_id in node_list:
+        for node_id in STANDARD_NODE_LIST:
             node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
             container_name = '%s_%s' % (cname, node_name)
 
@@ -60,4 +58,4 @@ class DeleteHandler(BaseHandler):
         p.starmap(remove_container_on_remote, args_list)
         p.close()
 
-        self.db.remove_user_permission(uid, [0] + node_list)
+        self.db.remove_user_permission(uid, STANDARD_NODE_LIST)

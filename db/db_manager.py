@@ -112,6 +112,45 @@ class DatabaseManager:
         self.commit()
         return user_info_list
 
+
+    def get_user_detail_info_by_uid(self, uid):
+        cursor = self.get_cursor()
+        cursor.execute(
+            "select uid,username,chinese_name,email, container_port, open_port_range,advisor from docker.user where uid = %s" % uid)
+        user_base = cursor.fetchone()
+        user_info = {'uid': user_base[0],
+                     'username': user_base[1],
+                     'chinese_name': user_base[2],
+                     'email': user_base[3],
+                     'container_port': user_base[4],
+                     'open_port_range': user_base[5],
+                     'advisor': user_base[6],
+                     'permission': []
+                     }
+        # query user permission
+        cursor.execute(
+            "select node_id,longtime,start_date,end_date, reason from docker.permission where uid = %s" % user_info[
+                'uid'])
+        user_permission_list = cursor.fetchall()
+
+        for user_permission in user_permission_list:
+            node_id, longtime, start_date, end_date, reason = user_permission
+            if longtime == 0:
+                start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
+                end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
+
+            node_info = {'name': 'admin' if node_id == 0 else 'node%.2d' % node_id,
+                         'longtime': longtime,
+                         'start_date': start_date,
+                         'end_date': end_date,
+                         'reason': reason
+                         }
+            user_info['permission'].append(node_info)
+
+        self.commit()
+        return user_info
+
+
     def get_user_info_by_uid(self, uid):
         cursor = self.get_cursor()
         cursor.execute("select uid, username, container_port, open_port_range from docker.user where uid=%s" % uid)
@@ -221,7 +260,7 @@ class DatabaseManager:
 
         cursor.execute('''select node_gpu_msg from docker.gpu where node_gpu_msg <> "" ''')
         node_msg_list = cursor.fetchall()
-        node_msg_list = map(lambda x: json.loads(x[0]), node_msg_list)
+        node_msg_list = list(map(lambda x: json.loads(x[0]), node_msg_list))
 
         self.commit()
         return node_msg_list

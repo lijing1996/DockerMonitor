@@ -6,6 +6,7 @@
 from handler.base_handler import BaseHandler
 import datetime
 import time
+import json
 import os
 from multiprocessing import Pool
 
@@ -25,7 +26,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/root:/root "
               "-v /public/docker/%s/sbin:/sbin "
               "-v /public/docker/%s/usr:/usr "
-              "--privileged=true "
+              # "--privileged=true "
               "--restart unless-stopped "
               "--add-host %s:127.0.0.1 "
               "--add-host node01:10.10.10.101 "
@@ -54,6 +55,15 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host node24:10.10.10.124 "
               "--add-host node25:10.10.10.125 "
               "--add-host node26:10.10.10.126 "
+              "--add-host node27:10.10.10.127 "
+              "--add-host node28:10.10.10.128 "
+              "--add-host node29:10.10.10.129 "
+              "--add-host node30:10.10.10.130 "
+              "--add-host node31:10.10.10.131 "
+              "--add-host node32:10.10.10.132 "
+              "--add-host node33:10.10.10.133 "
+              "--add-host node34:10.10.10.134 "
+              "--add-host node35:10.10.10.135 "
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "-h %s "
@@ -68,9 +78,18 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
 
 class PermissionHandler(BaseHandler):
     def get(self):
-        user_info_list = self.db.get_all_user_info()
+        username = self.get_argument('username', default='')
 
-        self.render('../html/permission.html', user_info_list=user_info_list, cur_user=self.get_current_user())
+        if username == '':
+            user_info_list = self.db.get_all_user_info()
+            self.render('../html/permission.html', user_info_list=user_info_list, cur_user=self.get_current_user())
+        else:
+            uid = self.db.get_uid_by_username(username)
+            if not uid:
+                self.write('None')
+            else:
+                user_info = self.db.get_user_detail_info_by_uid(uid)
+                self.write(json.dumps(user_info))
 
     def post(self):
         """
