@@ -33,7 +33,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               --name {container_name} \
               -v /public/docker/{cname}/opt:/opt \
               -v /public/docker/{cname}/lib64:/lib64 \
-              -v /public/docker/{cname}/root:/root \
+              -v /public/docker/huangshy/root:/root \
               -v /public/docker/{cname}/lib:/lib \
               -v /public/docker/{cname}/etc:/etc \
               -v /public/docker/{cname}/bin:/bin \
@@ -89,6 +89,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
 
 
 
+
 def rm_container_on_remote(node_name, container_name):
     os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
     print('close', container_name, 'done')
@@ -105,12 +106,14 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        # if advisor!='何旭明':
-        #     continue
+        if advisor!='何旭明':
+            continue
         # if username not in ['yanshp']:
         #     continue
         # if username in ['zhangsy', 'lishl', 'zhoujl', 'maoym']:
         #     continue
+        if username!='test3':
+            continue
         import pdb;pdb.set_trace()
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
@@ -133,9 +136,9 @@ def main():
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
+            import pdb;pdb.set_trace()
             rm_container_on_remote(node_name, container_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
-
             print("create container %s successfully." % container_name)
 
 

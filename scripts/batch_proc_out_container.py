@@ -22,6 +22,14 @@ def solve_mismatch(container_name):
     os.system(cmd1)
     os.system(cmd2)
 
+def modify_sshconfig(container_name):
+    ssh_config = os.path.join(container_name, "etc/ssh/sshd_config")
+    cmd = f"echo 'GatewayPorts yes' >> {ssh_config}"
+    if DEBUG:
+        import pdb;pdb.set_trace()
+    os.system(cmd)
+
+
 if __name__ == '__main__':
     os.chdir("/public/docker")
     for i, container_name in enumerate(os.listdir()):
