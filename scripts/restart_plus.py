@@ -25,23 +25,26 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     """
 
     addition_str = """-v /p300/plus_group:/group \
-                      -v /p300/plus_group/readonly:/group/readonly:ro """
+                     -v /p300/plus_group/readonly:/group/readonly:ro """
+    if cname=="zhangxy" and node_name=="admin":
+        addition_str += " -v /public/docker/huangshy/root/huangshy/:/root/huangshy "
 
     command = f"""ssh {node_name} "{docker_type} run \
               --name {container_name} \
-              --network=host \
-              -v /p300/docker/{cname}:/p300 \
-              -v /p300/datasets:/datasets:ro \
-              -v /public/docker/{cname}/bin:/bin \
-              -v /public/docker/{cname}/etc:/etc \
-              -v /public/docker/{cname}/lib:/lib \
-              -v /public/docker/{cname}/lib64:/lib64 \
               -v /public/docker/{cname}/opt:/opt \
+              -v /public/docker/{cname}/lib64:/lib64 \
               -v /public/docker/{cname}/root:/root \
+              -v /public/docker/{cname}/lib:/lib \
+              -v /public/docker/{cname}/etc:/etc \
+              -v /public/docker/{cname}/bin:/bin \
               -v /public/docker/{cname}/sbin:/sbin \
               -v /public/docker/{cname}/usr:/usr \
-              --privileged=true \
+              -v /public/docker/{cname}/opt:/opt \
+              -v /p300/docker/{cname}:/p300 \
+              -v /p300/datasets:/datasets:ro \
               --restart unless-stopped \
+              --network=host \
+              --privileged=true \
               --add-host {container_name}:127.0.0.1 \
               --add-host node01:10.10.10.101 \
               --add-host node02:10.10.10.102 \
@@ -72,9 +75,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               --add-host admin:10.10.10.100 \
               --shm-size={shm_size} \
               {addition_str} \
-              -m "4G" \
-              --memory-swap "8G" \
-              --memory-reservation "2G" \
               -h {container_name} \
               -d \
               deepo_plus \
@@ -105,38 +105,29 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-
-        if advisor!='何旭明':
-            continue
-        if username not in ['lirongjie']:
-            continue
-        if username in ['yanshp', 'zhangsy', 'lishl', 'zhoujl', 'maoym', 'zhouds', 'wanbo', 'liuyf']:
-            continue
+        # if advisor!='何旭明':
+        #     continue
+        # if username not in ['yanshp']:
+        #     continue
+        # if username in ['zhangsy', 'lishl', 'zhoujl', 'maoym']:
+        #     continue
         import pdb;pdb.set_trace()
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
+
             if '30' in node_name or '25' in node_name:
                 continue
-            if 'node' not in node_name or int(node_name[-2:])<=25:
-                continue
-
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
 
-            container_name = '%s_%s' % (username, node_name)
+            container_name = '%s-%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
-            # try:
-            #     memory_size = os.popen('''ssh %s  free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''' % node_name).read().strip()
-            # except ValueError:
-            #     continue
             try:
                 memory_size = subprocess.check_output('''ssh %s  free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''' % node_name, shell=True).decode('utf-8').strip()
             except :
-                import pdb;pdb.set_trace()
                 print(f"{node_name} fails.")
                 continue
-
             memory_unit = memory_size[-1]
             memory_size = int(memory_size[:-1])
             shm_size = memory_size // 2
