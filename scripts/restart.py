@@ -62,6 +62,9 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--shm-size=%s "
               "%s "
               "-h %s "
+              "-m 4G"
+              "--memory-swap 8G"
+              "--memory-reservation 2G"
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
