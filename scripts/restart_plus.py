@@ -11,6 +11,7 @@ import os
 from db.db_manager import DatabaseManager
 import subprocess
 
+
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
     """
     
@@ -26,8 +27,14 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
 
     addition_str = """-v /p300/plus_group:/group \
                      -v /p300/plus_group/readonly:/group/readonly:ro """
-    if cname=="zhangxy" and node_name=="admin":
+    if cname == "zhangxy" and node_name == "admin":
         addition_str += " -v /public/docker/huangshy/root/huangshy/:/root/huangshy "
+
+    if node_name == 'admin':
+        addition_str += '-v /public/motd/admin_motd:/etc/motd '
+    else:
+        addition_str += '-v /public/motd/node_motd:/etc/motd '
+
 
     command = f"""ssh {node_name} "{docker_type} run \
               --name {container_name} \
@@ -88,8 +95,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
         print("Create container on %s Failed")
 
 
-
-
 def rm_container_on_remote(node_name, container_name):
     os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
     print('close', container_name, 'done')
@@ -106,7 +111,7 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if advisor!='何旭明':
+        if advisor != '何旭明':
             continue
         # if username not in ['yanshp']:
         #     continue
@@ -127,8 +132,9 @@ def main():
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
             try:
-                memory_size = subprocess.check_output('''ssh %s  free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''' % node_name, shell=True).decode('utf-8').strip()
-            except :
+                memory_size = subprocess.check_output('''ssh %s  free -h | head -n 2 | tail -n 1 | awk -F' ' '{print $2}' ''' % node_name, shell=True).decode(
+                    'utf-8').strip()
+            except:
                 print(f"{node_name} fails.")
                 continue
             memory_unit = memory_size[-1]
@@ -139,7 +145,6 @@ def main():
             rm_container_on_remote(node_name, container_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)
-            sys.exit(0)
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ class DeleteHandler(BaseHandler):
 
         for node_id in STANDARD_NODE_LIST:
             node_name = 'admin' if node_id == 0 else 'node%.2d' % node_id
-            container_name = '%s_%s' % (cname, node_name)
+            container_name = '%s-%s' % (cname, node_name)
 
             args_list.append((node_name, container_name))
 

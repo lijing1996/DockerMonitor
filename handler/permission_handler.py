@@ -12,6 +12,13 @@ from multiprocessing import Pool
 
 
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
+    addition_str = ""
+
+    if node_name == 'admin':
+        addition_str = '-v /public/motd/admin_motd:/etc/motd'
+    else:
+        addition_str = '-v /public/motd/node_motd:/etc/motd'
+
     os.system("ssh %s "
               "%s run "
               "--name %s "
@@ -66,11 +73,12 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host node35:10.10.10.135 "
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
+              "%s "
               "-h %s "
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
-                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size,
+                  node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
 
     print("create container on %s successful!" % node_name)
@@ -170,7 +178,7 @@ class PermissionHandler(BaseHandler):
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            container_name = '%s_%s' % (cname, node_name)
+            container_name = '%s-%s' % (cname, node_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
 
         print('create', cname, 'done!', 'port: ', container_port)

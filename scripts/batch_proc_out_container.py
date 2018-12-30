@@ -1,39 +1,53 @@
 import os
 
-DEBUG=1
+DEBUG = 0
 
-def solve_mismatch(container_name):
+
+def solve_mismatch(container_path):
     """Solve the issue https://github.com/piaozhx/DockerMonitor/issues/12
     :return:
     """
-    cudafiles = os.path.join(container_name, "usr/lib/x86_64-linux-gnu/libcuda*")
-    nvidiafiles = os.path.join(container_name, "usr/lib/x86_64-linux-gnu/libnvidia*")
+    cudafiles = os.path.join(container_path, "usr/lib/x86_64-linux-gnu/libcuda*")
+    nvidiafiles = os.path.join(container_path, "usr/lib/x86_64-linux-gnu/libnvidia*")
 
-    cmd1 = "mv " + "./" + cudafiles + f" /public/inbox/containers/{container_name}"
-    cmd2 = "mv " + "./" + nvidiafiles + f" /public/inbox/containers/{container_name}"
+    cmd1 = "rm " + cudafiles
+    cmd2 = "rm " + nvidiafiles
 
-    if DEBUG:
-        print("Before batch-processing, please think three times before executing!!!")
-        print(cmd1)
-        print(cmd2)
-        import pdb;
-        pdb.set_trace()
-    import pdb;pdb.set_trace()
+    print(cmd1)
+    print(cmd2)
+
     os.system(cmd1)
     os.system(cmd2)
 
-def modify_sshconfig(container_name):
-    ssh_config = os.path.join(container_name, "etc/ssh/sshd_config")
+
+def modify_sshconfig(container_path):
+    ssh_config = os.path.join(container_path, "etc/ssh/sshd_config")
     cmd = f"echo 'GatewayPorts yes' >> {ssh_config}"
-    if DEBUG:
-        import pdb;pdb.set_trace()
+    print(cmd)
     os.system(cmd)
 
 
+def get_all_container_path():
+    root_path = "/public/docker"
+    container_path_list = []
+    for i, container_name in enumerate(os.listdir(root_path)):
+        if container_name == 'prepare_baseline-1':
+            continue
+        container_path_list.append(os.path.join(root_path, container_name))
+
+    for container_name in os.listdir(os.path.join(root_path, 'prepare_baseline-1')):
+        container_path_list.append(os.path.join(root_path, 'prepare_baseline-1', container_name))
+
+    return container_path_list
+
+
+def main():
+    container_path_list = get_all_container_path()
+    for container_path in container_path_list:
+        print(container_path)
+        # solve_mismatch(container_path)
+        modify_sshconfig(container_path)
+
+
 if __name__ == '__main__':
-    os.chdir("/public/docker")
-    for i, container_name in enumerate(os.listdir()):
-        print(container_name)
-        solve_mismatch(container_name)
-
-
+    main()

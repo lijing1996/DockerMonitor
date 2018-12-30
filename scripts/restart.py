@@ -14,6 +14,11 @@ from db.db_manager import DatabaseManager
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
     addition_str = ""
 
+    if node_name == 'admin':
+        addition_str = '-v /public/motd/admin_motd:/etc/motd'
+    else:
+        addition_str = '-v /public/motd/node_motd:/etc/motd'
+
     os.system("ssh %s "
               "%s run "
               "--name %s "
@@ -58,13 +63,22 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--add-host node24:10.10.10.124 "
               "--add-host node25:10.10.10.125 "
               "--add-host node26:10.10.10.126 "
+              "--add-host node27:10.10.10.127 "
+              "--add-host node28:10.10.10.128 "
+              "--add-host node29:10.10.10.129 "
+              "--add-host node30:10.10.10.130 "
+              "--add-host node31:10.10.10.131 "
+              "--add-host node32:10.10.10.132 "
+              "--add-host node33:10.10.10.133 "
+              "--add-host node34:10.10.10.134 "
+              "--add-host node35:10.10.10.135 "
               "--add-host admin:10.10.10.100 "
               "--shm-size=%s "
               "%s "
               "-h %s "
-              "-m 4G"
-              "--memory-swap 8G"
-              "--memory-reservation 2G"
+              # "-m 4G "
+              # "--memory-swap 8G "
+              # "--memory-reservation 2G "
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
@@ -91,13 +105,11 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
-        if username not in ['hujh']:
-            continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
-            container_name = '%s_%s' % (username, node_name)
+            container_name = '%s-%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
@@ -111,7 +123,6 @@ def main():
 
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)
-
 
 
 if __name__ == '__main__':
