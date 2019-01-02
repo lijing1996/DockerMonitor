@@ -123,8 +123,9 @@ def main():
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
 
-            if '30' in node_name or '25' in node_name:
-                continue
+            # if '30' not in node_name and '25' not in node_name:
+            #     continue
+
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
 
             container_name = '%s-%s' % (username, node_name)

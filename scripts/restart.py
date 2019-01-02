@@ -105,6 +105,8 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
 
+        if cname not in ['huangkun']:
+            continue
 
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']

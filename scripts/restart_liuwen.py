@@ -14,6 +14,11 @@ from db.db_manager import DatabaseManager
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
     addition_str = ""
 
+    if node_name == 'admin':
+        addition_str = '-v /public/motd/admin_motd:/etc/motd'
+    else:
+        addition_str = '-v /public/motd/node_motd:/etc/motd'
+
     os.system("ssh %s "
               "%s run "
               "--name %s "
@@ -94,7 +99,7 @@ def main():
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
-            container_name = '%s_%s' % (username, node_name)
+            container_name = '%s-%s' % (username, node_name)
 
             add_open_port_str = "-p %s:%s" % (open_port_range, open_port_range) if node_name == 'admin' else ''
 
