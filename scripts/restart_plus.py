@@ -86,7 +86,8 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               -d \
               deepo_plus \
               /usr/sbin/sshd -p {container_port} -D" """
-    # print(command)
+    print(command)
+    import pdb;pdb.set_trace()
     # os.system(command)
     try:
         subprocess.call(command, shell=True)
@@ -119,7 +120,7 @@ def main():
         #     continue
         # if username!='huangshy':
         #     continue
-        import pdb;pdb.set_trace()
+
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
 
@@ -143,7 +144,7 @@ def main():
             shm_size = memory_size // 2
             shm_size = str(shm_size) + memory_unit
 
-            rm_container_on_remote(node_name, container_name)
+            # rm_container_on_remote(node_name, container_name)
             create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
             print("create container %s successfully." % container_name)
 

@@ -9,56 +9,11 @@ sys.path.append('./')
 
 import os
 from db.db_manager import DatabaseManager
+from utils import utils
 
-
-class ContainerAdditionStr:
-
-    def __init__(self, node_name, advisor, cname):
-        self.node_name = node_name
-        self.advisor = advisor
-        self.group_mapping = {
-            '何旭明': 'plus_group',
-            '高盛华': 'svip_group'
-        }
-        self.username = cname
-
-
-    def get_node_addition_str(self):
-        addition_str = ""
-        banned_users = ['yanshp']
-        if self.username not in banned_users:
-            if self.node_name == 'admin':
-                addition_str = ' -v /public/motd/admin_motd:/etc/motd:ro '
-            else:
-                addition_str = ' -v /public/motd/node_motd:/etc/motd:ro '
-        if self.node_name == 'admin':
-            addition_str +=  " -m 4G --memory-swap 8G --memory-reservation 2G "
-        return addition_str
-
-    def get_advisor_addition_str(self):
-        addition_str = ""
-        if self.advisor in self.group_mapping:
-            group_dir = f'/p300/{self.group_mapping[self.advisor]}'
-            readonly_dir = f'/p300/{self.group_mapping[self.advisor]}'
-            if not os.path.exists(group_dir):
-                os.makedirs(group_dir)
-            if not os.path.exists(readonly_dir):
-                os.makedirs(readonly_dir)
-            addition_str += f' -v {group_dir}:/group ' \
-                           f' -v {readonly_dir}:/group/readonly:ro '
-        return addition_str
-
-    def get_user_addition_str(self):
-        addition_str = ""
-        if self.username == "zhangxy" and self.node_name == "admin":
-            addition_str += " -v /public/docker/huangshy/root/huangshy/:/root/huangshy "
-        return addition_str
-
-    def get_additional_str(self):
-        return self.get_node_addition_str() + self.get_advisor_addition_str() + self.get_user_addition_str()
 
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str, advisor):
-    addition_str = ContainerAdditionStr(node_name, advisor, cname).get_additional_str()
+    addition_str = utils.ContainerAdditionStr(node_name, advisor, cname).get_additional_str()
 
     os.system("ssh %s "
               "%s run "
@@ -122,7 +77,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "/usr/sbin/sshd -p %d -D" % (
                   node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
-
     print("create container on %s successful!" % node_name)
 
 
@@ -143,9 +97,6 @@ def main():
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
         advisor = user_info['advisor']
-        if username != 'wanghz':
-            continue
-        import pdb;pdb.set_trace()
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
