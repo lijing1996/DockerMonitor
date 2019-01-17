@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/9/9 11:22 PM
-# @Author  : Zhixin Piao 
+# @Author  : Zhixin Piao
 # @Email   : piaozhx@shanghaitech.edu.cn
 
 import sys
@@ -14,15 +14,15 @@ import subprocess
 
 def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
     """
-    
-    :param node_name: 
-    :param docker_type: 
-    :param container_name: 
+
+    :param node_name:
+    :param docker_type:
+    :param container_name:
     :param cname: user name
-    :param shm_size: 
-    :param container_port: 
-    :param add_open_port_str: 
-    :return: 
+    :param shm_size:
+    :param container_port:
+    :param add_open_port_str:
+    :return:
     """
 
     addition_str = """-v /p300/plus_group:/group \
@@ -30,11 +30,11 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
     if cname == "zhangxy" and node_name == "admin":
         addition_str += " -v /public/docker/huangshy/root/huangshy/:/root/huangshy "
 
-    if node_name == 'admin':
-        addition_str += '-v /public/motd/admin_motd:/etc/motd '
-    else:
-        addition_str += '-v /public/motd/node_motd:/etc/motd '
-
+    if cname not in ['yanshp']:
+        if node_name == 'admin':
+            addition_str += '-v /public/motd/admin_motd:/etc/motd '
+        else:
+            addition_str += '-v /public/motd/node_motd:/etc/motd '
 
     command = f"""ssh {node_name} "{docker_type} run \
               --name {container_name} \
@@ -113,13 +113,13 @@ def main():
 
         if advisor != '何旭明':
             continue
-        # if username not in ['yanshp']:
-        #     continue
+        if username not in ['yanshp']:
+            continue
         # if username in ['zhangsy', 'lishl', 'zhoujl', 'maoym']:
         #     continue
         # if username!='huangshy':
         #     continue
-
+        import pdb;pdb.set_trace()
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
 
