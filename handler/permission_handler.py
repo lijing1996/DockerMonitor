@@ -9,16 +9,17 @@ import time
 import json
 import os
 from multiprocessing import Pool
+from utils import utils
 
+def rm_container_on_remote(node_name, container_name, username):
+    container_name_with_minus = '%s-%s' % (username, node_name)
 
-def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
-    addition_str = ""
+    os.system('ssh %s "docker stop %s && docker rm %s"' % (node_name, container_name, container_name))
+    print('close', container_name, 'done')
 
-    if node_name == 'admin':
-        addition_str = '-v /public/motd/admin_motd:/etc/motd'
-    else:
-        addition_str = '-v /public/motd/node_motd:/etc/motd'
+def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str, advisor):
 
+    addition_str = utils.ContainerAdditionStr(node_name, advisor, cname).get_additional_str()
     os.system("ssh %s "
               "%s run "
               "--name %s "
@@ -34,6 +35,7 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "-v /public/docker/%s/sbin:/sbin "
               "-v /public/docker/%s/usr:/usr "
               # "--privileged=true "
+              # "--volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro "
               "--restart unless-stopped "
               "--add-host %s:127.0.0.1 "
               "--add-host node01:10.10.10.101 "
@@ -80,7 +82,6 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "/usr/sbin/sshd -p %d -D" % (
                   node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
-
     print("create container on %s successful!" % node_name)
 
 
@@ -165,7 +166,7 @@ class PermissionHandler(BaseHandler):
 
     def add_user_container(self, uid, node_list):
         self.log = ''
-        uid, cname, container_port, open_port_range = self.db.get_user_info_by_uid(uid)
+        uid, cname, container_port, open_port_range, advisor = self.db.get_user_info_by_uid(uid)
 
         for node_id in node_list:
             docker_type = 'docker' if node_id == 0 else 'nvidia-docker'
@@ -179,7 +180,8 @@ class PermissionHandler(BaseHandler):
             shm_size = str(shm_size) + memory_unit
 
             container_name = '%s-%s' % (cname, node_name)
-            create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
+            rm_container_on_remote(node_name, container_name, cname)
+            create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str, advisor)
 
         print('create', cname, 'done!', 'port: ', container_port)
         self.log += 'Create %s done! port: %d\n' % (cname, container_port)

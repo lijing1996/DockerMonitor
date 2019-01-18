@@ -9,15 +9,11 @@ sys.path.append('./')
 
 import os
 from db.db_manager import DatabaseManager
+from utils import utils
 
 
-def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str):
-    addition_str = ""
-
-    if node_name == 'admin':
-        addition_str = '-v /public/motd/admin_motd:/etc/motd'
-    else:
-        addition_str = '-v /public/motd/node_motd:/etc/motd'
+def create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str, advisor):
+    addition_str = utils.ContainerAdditionStr(node_name, advisor, cname).get_additional_str()
 
     os.system("ssh %s "
               "%s run "
@@ -76,15 +72,11 @@ def create_container_on_remote(node_name, docker_type, container_name, cname, sh
               "--shm-size=%s "
               "%s "
               "-h %s "
-              # "-m 4G "
-              # "--memory-swap 8G "
-              # "--memory-reservation 2G "
               "-d "
               "deepo_plus "
               "/usr/sbin/sshd -p %d -D" % (
                   node_name, docker_type, container_name, cname, cname, cname, cname, cname, cname, cname, cname, cname, container_name, shm_size, addition_str,
                   container_name, container_port))
-
     print("create container on %s successful!" % node_name)
 
 
@@ -104,10 +96,7 @@ def main():
         cname = username
         container_port = user_info['container_port']
         open_port_range = user_info['open_port_range']
-
-        if cname not in ['huangkun']:
-            continue
-
+        advisor = user_info['advisor']
         for permission_detail in user_info['permission']:
             node_name = permission_detail['name']
             docker_type = 'docker' if node_name == 'admin' else 'nvidia-docker'
@@ -123,7 +112,7 @@ def main():
 
             rm_container_on_remote(node_name, container_name, username)
 
-            create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str)
+            create_container_on_remote(node_name, docker_type, container_name, cname, shm_size, container_port, add_open_port_str, advisor)
             print("create container %s successfully." % container_name)
 
 

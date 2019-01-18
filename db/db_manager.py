@@ -153,7 +153,7 @@ class DatabaseManager:
 
     def get_user_info_by_uid(self, uid):
         cursor = self.get_cursor()
-        cursor.execute("select uid, username, container_port, open_port_range from docker.user where uid=%s" % uid)
+        cursor.execute("select uid, username, container_port, open_port_range, advisor from docker.user where uid=%s" % uid)
         user_info = cursor.fetchone()
 
         self.commit()
