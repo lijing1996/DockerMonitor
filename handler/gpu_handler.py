@@ -5,6 +5,8 @@
 
 from handler.base_handler import BaseHandler
 import json
+import os
+
 
 class GpuHandler(BaseHandler):
     def get(self):
@@ -15,6 +17,15 @@ class GpuHandler(BaseHandler):
         else:
             node_gpu_msg_list = self.db.get_node_msg_list()
             self.write(json.dumps(node_gpu_msg_list))
+
+    def post(self):
+        ret = {'code': 200}
+
+        hostname = self.get_argument('hostname')
+        card_id = self.get_argument('card_id')
+        os.system("ssh %s fuser -k /dev/nvidia%s" % (hostname, card_id))
+
+        self.write(ret)
 
 
 class P40GpuHandler(BaseHandler):
