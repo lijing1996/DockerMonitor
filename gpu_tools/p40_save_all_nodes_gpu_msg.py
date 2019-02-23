@@ -19,6 +19,8 @@ DB_USERNAME = 'root'
 DB_PASSWOED = 'piaozx123'
 DB_NAME = 'docker'
 WATCH_NODES_ID_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+
+
 # WATCH_NODES_ID_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 
@@ -27,8 +29,9 @@ def get_node_msg_list(sqlite_conn):
         sqlite_cur = sqlite_conn.cursor()
         res = sqlite_cur.execute('SELECT node_id, node_gpu_msg from p40_gpu where node_gpu_msg <> ""')
         sqlite_conn.commit()
-    except:
-        print('rollback')
+    except Exception as e:
+        print(e)
+        print('sqlite_conn rollback')
         sqlite_conn.rollback()
         return get_node_msg_list(sqlite_conn)
 
@@ -82,7 +85,7 @@ def main():
             print('-' * 20 + 'end' + '-' * 20)
         except Exception as e:
             print(e)
-            print('rollback')
+            print('mysql rollback')
             conn.rollback()
         time.sleep(0.2)
 
