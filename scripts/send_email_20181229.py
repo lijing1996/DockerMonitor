@@ -60,7 +60,7 @@ AI集群运维团队
 
 def main():
     db = DatabaseManager()
-    user_info_list = db.get_all_user_info()
+    user_info_list = db.get_all_user_info() + db.get_cs280_user_info()
 
     count = 0
     for user_info in user_info_list:

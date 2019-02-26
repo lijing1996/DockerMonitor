@@ -11,7 +11,25 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="static/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="static/css/github-markdown.min.css">
-
+    <script>
+        function clear_card(hostname, card_id) {
+            document.getElementById("clear-btn-" + hostname + "-" + card_id).setAttribute("disabled", true);
+            $.ajax({
+                type: "POST",
+                url: "/gpu",
+                dataType: 'json',
+                data: {
+                    'hostname': hostname,
+                    'card_id': card_id
+                },
+                success: function (data) {
+                    // alert("clear " + card_id + " on " + hostname + " successful!!");
+                    document.getElementById("clear-btn-" + hostname + "-" + card_id).removeAttribute('disabled');
+                    location.reload();
+                }
+            });
+        }
+    </script>
     <style type="text/css">
         body {
             padding-bottom: 200px;
@@ -49,7 +67,9 @@
         .th-id {
             width: 18px;
         }
-
+        .th-clear {
+            width: 70px;
+        }
         .th-name {
             width: 180px;
         }
@@ -100,6 +120,13 @@
         .popover-content {
             padding: 1px 5px 4px;
         }
+
+        .btn-xs {
+            padding: 1px 5px;
+            font-size: 8px;
+            line-height: 1.2;
+            border-radius: 3px
+        }
     </style>
 </head>
 
@@ -107,7 +134,8 @@
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"><span
                 class="sr-only">Toggle navigation</span><span
                 class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
         <a class="navbar-brand" href="/">Home</a>
@@ -123,9 +151,9 @@
             <li>
                 <a href="/permission">User Permission</a>
             </li>
-            <li>
-                <a href="/cs280_permission">CS280 User Permission</a>
-            </li>
+            <!--<li>-->
+            <!--<a href="/cs280_permission">CS280 User Permission</a>-->
+            <!--</li>-->
             <li>
                 <a href="https://github.com/piaozhx/DockerMonitor/issues" target="_blank">Discuss</a>
             </li>
@@ -139,10 +167,10 @@
                 <a href="/p40_gpu">P40 GPU Status</a>
             </li>
             <li class="active">
-                <a href="/courses_gpu">Courses GPU Status</a>
+                <a href="/svip_gpu">SVIP GPU Status</a>
             </li>
             <li>
-                <a href="/plus_gpu">Courses GPU Status</a>
+                <a href="/plus_gpu">PLUS GPU Status</a>
             </li>
         </ul>
 
@@ -162,7 +190,7 @@
 
 <div class="container">
     <div class="row clearfix">
-        <h2>Courses Cluster (10.19.124.11)</h2>
+        <h2>SVIP AI Cluster (10.19.124.11)</h2>
 
         {% for node_gpu_msg in node_gpu_msg_list %}
 
@@ -173,29 +201,44 @@
         <table class="table table-striped table-condensed">
             <tr>
                 <th class="th-id">#</th>
+                {% if cur_user != None%}
+                <th class="th-clear">Clear</th>
+                {% end %}
                 <th class="th-name">Name</th>
                 <th class="th-mem">Memory</th>
                 <th class="th-usage">GPU</th>
-                <th class="th-processes"><span class="hidden-xs">Processes <span class="label label-default">pid@user (RAM)</span></span></th>
+                <th class="th-processes"><span class="hidden-xs">Processes <span class="label label-default">pid@user (RAM)</span></span>
+                </th>
             </tr>
             {% for gpu_msg in node_gpu_msg['gpus'] %}
             <tr>
                 <td>{%raw gpu_msg['index'] %}</td>
+                {% if cur_user != None%}
+                <td>
+                    <button type="button" class="btn btn-danger btn-xs"
+                            id="clear-btn-{%raw node_gpu_msg['hostname']%}-{%raw gpu_msg['index']%}"
+                            onclick="clear_card('{%raw node_gpu_msg['hostname']%}', '{%raw gpu_msg['index']%}')">Clear
+                    </button>
+                </td>
+                {% end %}
                 <td>
                     <span class="hidden-xs">{% raw gpu_msg['name'] %}</span>
                 </td>
                 <td>
                     <div class="progress progress-success" data-toggle="tooltip" data-placement="top"
                          title="{%raw str(gpu_msg['memory.used']) + '/' + str(gpu_msg['memory.total']) %}">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="11"
+                             aria-valuemin="0" aria-valuemax="100"
                              style="width: {% raw int(gpu_msg['memory.used'] / gpu_msg['memory.total'] * 100) %}%">
                             {% raw int(gpu_msg['memory.used'] / gpu_msg['memory.total'] * 100) %}%
                         </div>
                     </div>
                 </td>
                 <td>
-                    <div class="progress progress-danger" data-toggle="tooltip" data-placement="top" title="{% raw gpu_msg['temperature.gpu'] %} °C">
-                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"
+                    <div class="progress progress-danger" data-toggle="tooltip" data-placement="top"
+                         title="{% raw gpu_msg['temperature.gpu'] %} °C">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="92"
+                             aria-valuemin="0" aria-valuemax="100"
                              style="width: {% raw gpu_msg['utilization.gpu']%}%">
                             {% raw gpu_msg['utilization.gpu']%}%
                         </div>
@@ -204,7 +247,8 @@
                 <td>
                     {% for process in gpu_msg['processes'] %}
                     <span class="hidden-xs process-content">
-                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top" data-html="true"
+                        <span class="process label label-primary" data-toggle="tooltip" data-placement="top"
+                              data-html="true"
                               title="{% raw '(%s) Mem: %d Mib <br/> 运行时间: %s'%(process['command'], process['gpu_memory_usage'], process['runtime']) %}">{%raw process['pid'] %}@<span
                                 class="user">{%raw process['username'] %}</span> ({% raw int(process['gpu_memory_usage'] / gpu_msg['memory.total'] * 100)%}%)</span>
                                 </span>

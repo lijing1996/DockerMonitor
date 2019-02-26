@@ -16,11 +16,10 @@ import socket
 
 
 def main():
-    node_list = range(2, 36)
+    a = set([1,2,3])
+    b = set([2,3,4])
 
-    for node in node_list:
-        os.system('''ssh node%.2d "docker stop \$(docker ps -aq)"''' % node)
-        os.system('''ssh node%.2d "docker rm \$(docker ps -aq)"''' % node)
+    print(a - b)
 
 
 if __name__ == '__main__':

@@ -17,8 +17,8 @@ from handler.system_handler import SystemHandler
 from handler.login_handler import LoginHandler
 from handler.index_handler import IndexHandler
 from handler.permission_handler import PermissionHandler
-from handler.cs280_permission_handler import CS280PermissionHandler
-from handler.gpu_handler import GpuHandler, P40GpuHandler, CoursesGpuHandler
+
+from handler.gpu_handler import GpuHandler, P40GpuHandler, PLUSGpuHandler, SVIPGpuHandler
 from handler.real_gpu_handler import RealGpuHandler
 
 from db.db_manager import DatabaseManager
@@ -36,11 +36,12 @@ class Application(tornado.web.Application):
             (r"/remove", RemoveHandler),
             (r"/delete", DeleteHandler),
             (r"/permission", PermissionHandler),
-            (r"/cs280_permission", CS280PermissionHandler),
+            # (r"/cs280_permission", CS280PermissionHandler),
             (r"/user", UserHandler),
             (r"/gpu", GpuHandler),
             (r"/p40_gpu", P40GpuHandler),
-            (r"/courses_gpu", CoursesGpuHandler),
+            (r"/plus_gpu", PLUSGpuHandler),
+            (r"/svip_gpu", SVIPGpuHandler),
             (r"/real_gpu", RealGpuHandler)
         ]
 

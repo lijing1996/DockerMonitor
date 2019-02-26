@@ -7,6 +7,7 @@ import os
 import json
 import socket
 import sqlite3
+import time
 from multiprocessing import Pool
 
 
@@ -56,13 +57,18 @@ def main():
     while True:
         try:
             node_id, node_gpu_msg = get_node_gpu_msg()
+            print(node_gpu_msg)
             c = conn.cursor()
 
             c.execute("UPDATE p40_gpu SET node_gpu_msg = '%s' WHERE node_id=%d" % (node_gpu_msg, node_id))
             conn.commit()
-        except:
-            print('rollback')
+
+        except Exception as e:
+            print(e)
+            print('mysql rollback')
             conn.rollback()
+
+        time.sleep(0.5)
 
 
 if __name__ == '__main__':

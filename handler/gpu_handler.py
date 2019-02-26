@@ -37,8 +37,18 @@ class P40GpuHandler(BaseHandler):
         else:
             self.write(json.dumps(node_gpu_msg_list))
 
+#
+# class CoursesGpuHandler(BaseHandler):
+#     def get(self):
+#         node_gpu_msg_list = self.db.get_courses_node_msg_list()
+#         self.render('../html/courses_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())
 
-class CoursesGpuHandler(BaseHandler):
+class PLUSGpuHandler(BaseHandler):
     def get(self):
-        node_gpu_msg_list = self.db.get_courses_node_msg_list()
-        self.render('../html/courses_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())
+        node_gpu_msg_list = self.db.get_plus_node_msg_list()
+        self.render('../html/plus_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())
+
+class SVIPGpuHandler(BaseHandler):
+    def get(self):
+        node_gpu_msg_list = self.db.get_svip_node_msg_list()
+        self.render('../html/svip_gpu.html', node_gpu_msg_list=node_gpu_msg_list, cur_user=self.get_current_user())

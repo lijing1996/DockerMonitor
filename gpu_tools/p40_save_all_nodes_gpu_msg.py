@@ -74,6 +74,7 @@ def main():
 
         try:
             node_gpu_msg_list = get_node_msg_list(sqlite_conn)
+            print(node_gpu_msg_list[0])
             check_and_restart_pbs_task()
 
             print('-' * 20 + 'start' + '-' * 20)

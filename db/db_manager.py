@@ -6,6 +6,7 @@
 import pymysql
 from config import DB_HOST, DB_NAME, DB_PASSWOED, DB_USERNAME
 import json
+import numpy as np
 import datetime
 
 
@@ -286,6 +287,33 @@ class DatabaseManager:
         selected_node = [12, 13, 23, 24, 25]
         return [node_msg_list[node_id] for node_id in selected_node]
 
+    def get_plus_node_msg_list(self):
+        cursor = self.get_cursor()
+
+        cursor.execute('''select node_gpu_msg from docker.gpu where node_gpu_msg <> "" ''')
+        node_msg_list = cursor.fetchall()
+        node_msg_list = list(map(lambda x: json.loads(x[0]), node_msg_list))
+
+        self.commit()
+        selected_node_plus = [2,3,10,11,5,20,21,29,32,33]
+        public_node = [12, 13, 24, 22, 30, 31, 14, 15]
+        selected_node = selected_node_plus + public_node
+
+        return [node_msg_list[node_id] for node_id in selected_node]
+
+    def get_svip_node_msg_list(self):
+        cursor = self.get_cursor()
+
+        cursor.execute('''select node_gpu_msg from docker.gpu where node_gpu_msg <> "" ''')
+        node_msg_list = cursor.fetchall()
+        node_msg_list = list(map(lambda x: json.loads(x[0]), node_msg_list))
+
+        self.commit()
+        selected_node_svip = [0,1,4,16,17,18,19,23,27,28]
+        public_node = [12,13,24,22,30,31,14,15]
+        selected_node = selected_node_svip + public_node
+
+        return [node_msg_list[node_id] for node_id in selected_node]
     '''
     for discuss
     '''
